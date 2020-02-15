@@ -55,8 +55,8 @@ class SignIn extends React.Component<any, any> {
         <View style={{justifyContent: "center", alignItems: "center", paddingTop: 50}}>
           <Image source={require('./restaurantlogo250px.png')} style={{}}/>
           <Text>{"\n"}</Text>
-          <TextInput secureTextEntry={false} placeholder="Username" style={{fontSize: 35, borderBottomColor: "#CD212A", borderBottomWidth: 2, marginBottom: 10, minWidth: '80%'}}/>
-          <TextInput secureTextEntry={true} placeholder="Password" style={{fontSize: 35, borderBottomColor: "#CD212A", borderBottomWidth: 2, marginBottom: 10, minWidth: '80%'}}/>
+          <TextInput secureTextEntry={false} placeholder="Username" style={{fontSize: 32, borderBottomColor: "#CD212A", borderBottomWidth: 0.75, marginBottom: 10, minWidth: '80%'}}/>
+          <TextInput secureTextEntry={true} placeholder="Password" style={{fontSize: 32, borderBottomColor: "#CD212A", borderBottomWidth: 0.75, marginBottom: 10, minWidth: '80%'}}/>
           <Text style={{color: "blue"}}>{"\n"}New User?{"\n"}</Text>
           <Button title="Submit Login" onPress={this.handleBtnPress} color="#CD212A"/>
         </View>
@@ -89,9 +89,9 @@ function LogoTitle() {
   );
 }
 
-function HambugerButton() {
-  return <Ionicons name="md-menu" size={35} style={{paddingLeft: 15}} onPress={() => {}}/>
-}
+// function HambugerButton() {
+//   return <Ionicons name="md-menu" size={35} color="white" style={{paddingLeft: 15}} onPress={() => {}}/>
+// }
 
 // function App() {
 //   return (
@@ -107,10 +107,8 @@ function HambugerButton() {
 class App extends React.Component<any, any> {
   constructor(props) {
     super(props);
-  }
 
-  HambugerButton() {
-    return <Ionicons name="md-key" size={35} color="white" onPress={this.handleToggle()} />
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
   handleToggle = (): void => {
@@ -119,10 +117,14 @@ class App extends React.Component<any, any> {
     this.props.navigation.toggleDrawer();
   }
 
+  HambugerButton() {
+    return <Ionicons name="md-menu" size={35} color="white" style={{paddingLeft: 15}} onPress={this.handleToggle}/>
+  }
+
   render() {
     return (
       <NavigationContainer> 
-      <Stack.Navigator screenOptions={{headerLeft: HambugerButton, headerRight: null, headerTitle: "Uncle Luigi's Bistro", headerTitleStyle: {color: "white", textTransform: "uppercase", alignSelf: "center", textAlign: "center", flex: 1,}, headerStyle: {backgroundColor: "#008C45"}}}>
+      <Stack.Navigator screenOptions={{headerLeft: this.HambugerButton, headerRight: null, headerTitle: "Uncle Luigi's Bistro", headerTitleStyle: {color: "white", textTransform: "uppercase", alignSelf: "center", textAlign: "center", flex: 1,}, headerStyle: {backgroundColor: "#008C45"}}}>
         <Stack.Screen name="SignIn" component={SignIn} options={{headerShown: true}}/>
         <Stack.Screen name="NormalSignedIn" component={NormalSignedIn} />
       </Stack.Navigator>
