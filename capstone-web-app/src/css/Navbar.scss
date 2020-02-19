@@ -1,0 +1,61 @@
+/*========= NAVIGATION ============*/
+.navbar {
+    padding: 0.2rem 1rem !important;
+    text-transform: uppercase;
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .2rem;
+    transition: background-color .5s ease 0s;
+}
+
+#root a, a:hover {
+    text-decoration: none;
+}
+
+a, li {
+    text-decoration: none;
+}
+
+/*--- Fix for Fixed Navbar jumping on scroll --*/
+.fixed-top  {
+    -webkit-backface-visibility: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
+
+code {
+font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.navbar.navbar-expand-lg.fixed-top {
+    background-color: #f4f5f0;
+}
+
+.nav-item .nav-link {
+    color: #FF3836;
+}
+
+.nav-item .nav-link:hover, 
+.nav-item .nav-link:active {
+    color: rgb(182, 0, 0);
+}
+
+.nav-item .nav-link:focus {
+    outline: none;
+}
+
+.navbar-toggler {
+    color: #FF3836;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+}
+
+.navbar-brand img {
+    height: 3rem;
+}
