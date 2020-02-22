@@ -16,6 +16,10 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
         }
     }
 
+    public componentDidMount() {
+        
+    }
+
     public render() {
         return (
             <div>

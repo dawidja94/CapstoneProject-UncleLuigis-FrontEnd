@@ -46,3 +46,39 @@ body {
 .card-margin {
   margin: 20px;
 }
+
+div.card {
+  background-color: #f4f5f0 !important;
+}
+
+/* Landing/Home Component */
+
+.custom-carousel {
+  width: 100%;
+}
+
+.carousel-image {
+  min-width: 900px;
+}
+
+.footer-restaurant {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.footer-address {
+  color: rgb(182, 0, 0);
+  font-size: 12px;
+}
+
+/* Customer Component */
+
+/* Menu Component */
+
+.card-container {
+  margin: 10px;
+}
+
+.card-margin {
+  margin: 15px;
+}
