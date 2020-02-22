@@ -1,3 +1,7 @@
 export default interface ICustomerRegistrationState {
-    // Add state properties here.
+    firstName: string;
+    lastName:  string;
+    email:     string;
+    phoneNumber: string;
+    isFormValid: boolean;
 }

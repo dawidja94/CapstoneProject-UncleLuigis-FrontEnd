@@ -22,7 +22,7 @@
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "react-router-scroll-top": "^0.2.1",
-    "react-scripts": "3.4.0",
+    "react-scripts": "^3.4.0",
     "react-scroll": "^1.7.16",
     "typescript": "^3.7.5"
   },

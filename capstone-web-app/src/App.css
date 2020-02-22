@@ -42,3 +42,7 @@ body {
 }
 
 /* Customer Component */
+
+.card-margin {
+  margin: 20px;
+}
