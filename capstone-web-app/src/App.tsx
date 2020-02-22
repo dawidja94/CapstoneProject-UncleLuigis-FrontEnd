@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from './Components/Navbar';
+import CustomerRegistration from './Components/CustomerRegistration/CustomerRegistration';
 
 class App extends React.Component<any, any> {
 

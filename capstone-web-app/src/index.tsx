@@ -11,12 +11,14 @@ import {
     Switch,
     Route
   } from "react-router-dom";
+import CustomerRegistration from './Components/CustomerRegistration/CustomerRegistration';
 
 const routing = (
     <Router>
         <Switch>
             <ScrollToTop>
                 <Route exact path="/" component={App} />
+                <Route exact path="/Register" component={CustomerRegistration} />
             </ScrollToTop>
         </Switch>
     </Router>
