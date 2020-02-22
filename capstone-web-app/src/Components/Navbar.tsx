@@ -47,7 +47,7 @@ class Navbar extends React.Component<any, any> {
             <div>
             <nav className="navbar navbar-expand-lg fixed-top">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#home" onClick={this.linkClicked}>
+                    <a className="navbar-brand" href="/" onClick={this.linkClicked}>
                         <img src={require("../Images/restaurantlogo500px.png")} alt="logo" height={'500px'}/>
                     </a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" onClick={this.toggleMenu}>
@@ -58,29 +58,29 @@ class Navbar extends React.Component<any, any> {
                     <div className={"collapse navbar-collapse " + show} id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <SmoothLink to="home" href="#home" className="nav-link" spy={true} offset={0} smooth={true} onClick={this.linkClicked}>
+                                <Link to="" className="nav-link">
                                     Home
-                                </SmoothLink> 
+                                </Link> 
                             </li>
                             <li className="nav-item">
-                                <SmoothLink to="biography" href="#biography" className="nav-link" spy={true} offset={0} smooth={true} onClick={this.linkClicked}>
+                                <Link to="/Menu" className="nav-link">
                                     Menu
-                                </SmoothLink>
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <SmoothLink to="skills" href="#skills" className="nav-link" spy={true} offset={0} smooth={true} onClick={this.linkClicked}>
+                                <Link to="/Reservations" className="nav-link">
                                     Reservations
-                                </SmoothLink>
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <SmoothLink to="blog" href="#blog" className="nav-link" spy={true} offset={0} smooth={true} onClick={this.linkClicked}>
+                                <Link to="/CarryOut" className="nav-link">
                                     Carry Out
-                                </SmoothLink>
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <SmoothLink to="contact" href="#contact" className="nav-link" spy={true} offset={0} smooth={true} onClick={this.linkClicked}>
+                                <Link to="/Contact" className="nav-link">
                                     Contact
-                                </SmoothLink>
+                                </Link>
                             </li>
                             <li className="nav-item">
                                 { localStorage.getItem("FirstName") !== null ? 

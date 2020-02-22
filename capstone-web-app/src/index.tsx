@@ -12,6 +12,7 @@ import {
     Route
   } from "react-router-dom";
 import CustomerRegistration from './Components/CustomerRegistration/CustomerRegistration';
+import Menu from './Components/Menu/Menu';
 
 const routing = (
     <Router>
@@ -19,6 +20,7 @@ const routing = (
             <ScrollToTop>
                 <Route exact path="/" component={App} />
                 <Route exact path="/Register" component={CustomerRegistration} />
+                <Route exact path="/Menu" component={Menu} />
             </ScrollToTop>
         </Switch>
     </Router>
