@@ -12,6 +12,7 @@ import {
     Route
   } from "react-router-dom";
 import CustomerRegistration from './Components/CustomerRegistration/CustomerRegistration';
+import UserProfile from './Components/UserProfile/UserProfile';
 
 const routing = (
     <Router>
@@ -19,6 +20,7 @@ const routing = (
             <ScrollToTop>
                 <Route exact path="/" component={App} />
                 <Route exact path="/Register" component={CustomerRegistration} />
+                <Route exact path="/UserProfile" component={UserProfile} />
             </ScrollToTop>
         </Switch>
     </Router>
