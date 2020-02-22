@@ -41,4 +41,24 @@ body {
   background-color: #dedede;
 }
 
+/* Landing/Home Component */
+
+.custom-carousel {
+  width: 100%;
+}
+
+.carousel-image {
+  min-width: 900px;
+}
+
+.footer-restaurant {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.footer-address {
+  color: rgb(182, 0, 0);
+  font-size: 12px;
+}
+
 /* Customer Component */
