@@ -37,11 +37,13 @@ font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 
 .nav-item .nav-link {
     color: #FF3836;
+    color: rgb(182, 0, 0);
 }
 
 .nav-item .nav-link:hover, 
 .nav-item .nav-link:active {
     color: rgb(182, 0, 0);
+    color: #FF3836;
 }
 
 .nav-item .nav-link:focus {
