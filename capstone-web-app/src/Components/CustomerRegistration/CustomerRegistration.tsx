@@ -8,6 +8,10 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
         super(props);
     }
 
+    public componentDidMount() {
+        
+    }
+
     public render() {
         return (
             <div>

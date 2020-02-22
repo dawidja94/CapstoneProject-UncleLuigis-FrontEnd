@@ -1,4 +1,4 @@
 export default class ConstantStrings {
-    public static readonly baseDevURL = "put localhost dev here.";
-    public static readonly baseAzureURL = "put API url here.";
+    public static readonly baseDevURL = "https://localhost:44354/";
+    public static readonly baseAzureURL = "https://restaurantwebapi-lewiscapstone.azurewebsites.net/";
 }
