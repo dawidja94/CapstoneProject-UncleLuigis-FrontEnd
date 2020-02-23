@@ -40,7 +40,7 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                         <Carousel.Item>
                             <img
                             className="d-block w-100 carousel-image"
-                            src={'https://wallpaperaccess.com/full/1463534.jpg'}
+                            src={'/Images/Carousel/wallpaper1-fit.jpg'}
                             alt="First slide"
                             />
                             <Carousel.Caption>
@@ -48,13 +48,12 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                             <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                             </Carousel.Caption>
                         </Carousel.Item>
-                        {/* <Carousel.Item>
+                        <Carousel.Item>
                             <img
-                            className="d-block w-100"
-                            src="holder.js/800x400?text=Second slide&bg=282c34"
+                            className="d-block w-100 carousel-image"
+                            src={'/Images/Carousel/wallpaper5-fit.jpg'}
                             alt="Third slide"
                             />
-
                             <Carousel.Caption>
                             <h3>Second slide label</h3>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -62,16 +61,26 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                         </Carousel.Item>
                         <Carousel.Item>
                             <img
-                            className="d-block w-100"
-                            src="holder.js/800x400?text=Third slide&bg=20232a"
+                            className="d-block w-100 carousel-image"
+                            src={'/Images/Carousel/wallpaper3-fit.jpg'}
                             alt="Third slide"
                             />
-
                             <Carousel.Caption>
-                            <h3>Third slide label</h3>
-                            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                            <h3>Second slide label</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                             </Carousel.Caption>
-                        </Carousel.Item> */}
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img
+                            className="d-block w-100 carousel-image"
+                            src={'/Images/Carousel/wallpaper6-fit.jpg'}
+                            alt="Third slide"
+                            />
+                            <Carousel.Caption>
+                            <h3>Second slide label</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
                     </Carousel>
                     <div className="text-center">
                         <div>

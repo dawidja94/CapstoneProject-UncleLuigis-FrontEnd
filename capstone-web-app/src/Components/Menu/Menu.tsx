@@ -118,7 +118,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                         <div className="card">
                                             <div className="card-margin">
                                                 <div className="row">
-                                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                                    <div className="col-lg-4 col-md-6 col-sm-12">
                                                         <div className="card-right-section">
                                                             <br />
                                                             <h4>{item.name}</h4>

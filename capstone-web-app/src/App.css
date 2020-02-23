@@ -41,14 +41,29 @@ body {
   background-color: #dedede;
 }
 
+/* Customer Component */
+
+.card-margin {
+  margin: 20px;
+}
+
 div.card {
   background-color: #f4f5f0 !important;
+}
+
+.btn {
+  margin-bottom: 7px;
 }
 
 /* Landing/Home Component */
 
 .custom-carousel {
   width: 100%;
+}
+
+.carousel-inner > .item {
+  -webkit-backface-visibility: visible;
+          backface-visibility: visible;
 }
 
 .carousel-image {

@@ -48,7 +48,7 @@ class Navbar extends React.Component<any, any> {
             <nav className="navbar navbar-expand-lg fixed-top">
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/" onClick={this.linkClicked}>
-                        <img src={require("../../Images/restaurantlogo500px.png")} alt="logo" height={'500px'}/>
+                        <img src={require("../../Images/restaurantlogo-alt500px.png")} alt="logo" height={'500px'}/>
                     </a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" onClick={this.toggleMenu}>
                         <span className="custom-toggler-icon">
