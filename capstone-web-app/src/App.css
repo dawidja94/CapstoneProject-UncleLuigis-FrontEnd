@@ -76,3 +76,15 @@ div.card {
 .card-margin {
   margin: 15px;
 }
+
+.custom-card-image {
+  width: 350px;
+  height: 300px;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.card-img-top.custom {
+  height: 100%;
+  border: solid #d9d9d9 2px;
+}

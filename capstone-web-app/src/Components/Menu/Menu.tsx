@@ -49,7 +49,10 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                             <div className="row">
                                             <div className="col-6">
                                                 <h4>{item.name}</h4>
-                                                <img className="card-img-top" src={`/Images/Food/${item.imageURL}`}></img>
+                                                <div className="custom-card-image">
+                                                    <img className="card-img-top custom" src={`/Images/Food/${item.imageURL}`}></img>
+                                                </div>
+                                                <br />
                                             </div>
                                             <div className="col-6">
                                                 <br />
