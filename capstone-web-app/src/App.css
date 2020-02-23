@@ -67,8 +67,7 @@ div.card {
 
 /* Customer Component */
 
-/* Menu Component */
-
+/* Start Menu Component CSS */
 .card-container {
   margin: 10px;
 }
@@ -99,4 +98,20 @@ div.card {
 .form-control.quantity-custom {
   width: 80px;
   margin-bottom: 8px;
+}
+
+.text-center.menu-header {
+  text-transform: uppercase;
+  font-weight: lighter;
+}
+.
+/* End Menu Component CSS */
+
+/* Devices under 768px (md) */
+@media (max-width: 1000px) {
+
+  .menu-item-break {
+    display: none;
+  }
+
 }
