@@ -14,6 +14,12 @@ import {
 import CustomerRegistration from './Components/CustomerRegistration/CustomerRegistration';
 import UserProfile from './Components/UserProfile/UserProfile';
 import Menu from './Components/Menu/Menu';
+import MenuService from './Services/MenuService';
+
+
+const menuService = new MenuService();
+const foodMenuItems = menuService.getAllFoodMenuItems();
+const beverageMenuItems = menuService.getAllBeverageMenuItems();
 
 const routing = (
     <Router>
@@ -21,8 +27,9 @@ const routing = (
             <ScrollToTop>
                 <Route exact path="/" component={App} />
                 <Route exact path="/Register" component={CustomerRegistration} />
-                <Route exact path="/UserProfile/:id" component={UserProfile} />
-                <Route exact path="/Menu" component={Menu} />
+                <Route exact path="/UserProfile/:id" component={UserProfile}/>
+                {/* <Route exact path="/Menu" component={Menu} /> */}
+                <Route path="/Menu" render={(props) => <Menu {...props} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
             </ScrollToTop>
         </Switch>
     </Router>

@@ -16,35 +16,17 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     }
 
     public componentDidMount() {
-        fetch(`${ConstantStrings.baseAzureURL}Food/GetAllFood`)
-        .then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-        })
-        .then(data => {
+        this.props.foodItems.then(food => {
             this.setState({
-                foodItems: data
-            }, () => console.log(this.state.foodItems));
+                foodItems: food
+            }, () => {
+                this.props.beverageItems.then(beverages => {
+                    this.setState({
+                        beverageItems: beverages
+                    });
+                })
+            });
         })
-        .catch(reason => {
-            console.log("Error with /Food/GetAllFood api call.");
-        });
-
-        fetch(`${ConstantStrings.baseAzureURL}Beverage/GetAllBeverage`)
-        .then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-        })
-        .then(data => {
-            this.setState({
-                beverageItems: data
-            }, () => console.log(this.state.beverageItems));
-        })
-        .catch(reason => {
-            console.log("Error with /Food/GetAllFood api call.");
-        });
     }
 
     render() {
