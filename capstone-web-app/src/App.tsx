@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
-import Navbar from './Components/Navbar';
+//import Navbar from './Components/Navbar';
+import CustomerRegistration from './Components/CustomerRegistration/CustomerRegistration';
+import Landing from './Components/Landing/Landing';
 
 class App extends React.Component<any, any> {
 
@@ -11,8 +13,8 @@ class App extends React.Component<any, any> {
   render() {
       return (
           <div id="main">
-              <Navbar />
-              {/* <Landing /> */}
+              {/* <Navbar /> */}
+              <Landing />
               
           </div>
       );

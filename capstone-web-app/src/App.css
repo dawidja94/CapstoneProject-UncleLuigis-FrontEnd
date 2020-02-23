@@ -40,3 +40,69 @@
 body {
   background-color: #dedede;
 }
+
+/* Customer Component */
+
+.card-margin {
+  margin: 20px;
+}
+
+div.card {
+  background-color: #f4f5f0 !important;
+}
+
+/* Landing/Home Component */
+
+.custom-carousel {
+  width: 100%;
+}
+
+.carousel-image {
+  min-width: 900px;
+}
+
+.footer-restaurant {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.footer-address {
+  color: rgb(182, 0, 0);
+  font-size: 12px;
+}
+
+/* Customer Component */
+
+/* Menu Component */
+
+.card-container {
+  margin: 10px;
+}
+
+.card-margin {
+  margin: 15px;
+}
+
+.custom-card-image {
+  width: 350px;
+  height: 300px;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.card-img-top.custom {
+  height: 100%;
+  border: solid #d9d9d9 2px;
+  margin-right: 10px;
+  padding: 5px;
+}
+
+.card-right-section {
+  padding-top: 15px;
+  margin-left: 20px;
+}
+
+.form-control.quantity-custom {
+  width: 80px;
+  margin-bottom: 8px;
+}
