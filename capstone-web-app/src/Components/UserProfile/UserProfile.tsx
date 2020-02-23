@@ -2,7 +2,7 @@ import React from "react";
 import IUserProfileProps from "./IUserProfileProps";
 import IUserProfileState from "./IUserProfileState";
 import Navbar from "../Navbar";
-
+import ConstantStrings from "../../Constants/ConstantStrings";
 export default class UserProfile extends React.Component<IUserProfileProps, IUserProfileState> {
     constructor(props: any) {
         super(props);
@@ -44,7 +44,7 @@ export default class UserProfile extends React.Component<IUserProfileProps, IUse
                                             <label className="font-weight-bold">Confirm Password:</label>
                                             <input type="password" className="form-control" placeholder="Confirm Password" id="pswd"value={this.state.confirmPassword} onChange={(e) => this.confirmPasswordOnChange(e)}></input>
                                         </div>
-                                        <button type="button" className="btn btn-outline-danger">Submit</button>
+                                        <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger" >Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -84,11 +84,10 @@ export default class UserProfile extends React.Component<IUserProfileProps, IUse
         }, () => {
             if (this.state.isFormValid) {
                 const body = {
-                    
                 };
 
                 // Call to API would happen
-                fetch("url goes here", {method: "GET"}).then(response => {
+                fetch(`${ConstantStrings.baseAzureURL}User/GetUser/{string:username}`,).then(response => {
                     console.log(response.body);
                 });
             }

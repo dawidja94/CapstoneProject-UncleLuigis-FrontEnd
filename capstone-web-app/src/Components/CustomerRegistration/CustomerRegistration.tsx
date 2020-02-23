@@ -2,6 +2,7 @@ import React from "react";
 import ICustomerRegistrationProps from "./ICustomerRegistrationProps";
 import ICustomerRegistrationState from "./ICustomerRegistrationState";
 import Navbar from "../Navbar";
+import ConstantStrings from "../../Constants/ConstantStrings";
 
 export default class CustomerRegistration extends React.Component<ICustomerRegistrationProps, ICustomerRegistrationState> {
     constructor(props: any) {
@@ -52,7 +53,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                                             <label className="font-weight-bold">Phone:</label>
                                             <input type="tel" className="form-control" placeholder="Phone" id="tel" value={this.state.phoneNumber}onChange={(e) => this.phoneNumberChange(e)}></input>
                                         </div>
-                                        <button type="button" className="btn btn-outline-danger">Continue</button>
+                                        <button type="button" onClick={() => this.onFormSubmit()} className="btn btn-outline-danger">Continue</button>
                                     </div>
                                 </div>
                             </div>
@@ -86,24 +87,91 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
     }
 
     private onFormSubmit(): void {
+
+        console.log("Deadass");
         let valid: boolean = true;
-        let regEx = /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+))|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+        let response: any;
+        let regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        // Create another regEx to check for the phone number make it a specific format
+        // maybe: (630)-343-3434 something like that????
 
         if (!regEx.test(this.state.email)) {
             valid = false;
         }
+        else {
+            valid = true;
+        }
+        
+        console.log("Valid: " + valid);
 
         this.setState({
             isFormValid: valid
         }, () => {
-            if (this.state.isFormValid) {
-                const body = {
-                    
-                };
 
+            console.log("Hereerererere");
+            if (this.state.isFormValid) {
+                const requestBody = {
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    phoneNumber: this.state.phoneNumber
+                };
+                
                 // Call to API would happen
-                fetch("url goes here", {method: "GET"}).then(response => {
-                    console.log(response.body);
+                fetch(`${ConstantStrings.baseDevURL}Customer/GetCustomer`, {
+                    method: "POST",
+                    body: JSON.stringify(requestBody),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    console.log(response.json());
+                    console.log(response.status);
+
+                    if (response.status === 200) {
+                        
+                    }
+                    else if (response.status === 400) {
+                        // Need to make a call to create the customer.
+                        // Then store the customer object and pass to the next screen somehow.
+                        const requestBodyCreate = {
+                            firstName: this.state.firstName,
+                            lastName: this.state.lastName,
+                            dateOfBirth: null,
+                            phoneNumber: this.state.phoneNumber,
+                            memberSince: null,
+                            email: this.state.email
+                        };
+                        
+                        fetch(`${ConstantStrings.baseDevURL}Customer/CreateCustomer`, {
+                            method: "POST",
+                            body: JSON.stringify(requestBodyCreate),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            console.log("Create Customer status:" + response.status);
+
+                            // If it is 200, then it created the customer successfully. 
+                            if (response.status === 200) {
+                                // Redirect at this point in time to the next screen and pass
+                                // in the requestBodyCreate object (Customer) to that screen.
+
+
+                            }
+                        })
+                    }
+                })
+                .then(data => {
+                    //console.log(data);
+                    //response = data;
+
+                    
+                })
+                .catch(reason => {
+                    console.log("Error calling Customer/GetCustomer endpoint.");
+                    console.log(reason);
                 });
             }
             else {
