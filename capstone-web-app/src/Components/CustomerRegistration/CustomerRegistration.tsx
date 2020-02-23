@@ -3,7 +3,7 @@ import ICustomerRegistrationProps from "./ICustomerRegistrationProps";
 import ICustomerRegistrationState from "./ICustomerRegistrationState";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 export default class CustomerRegistration extends React.Component<ICustomerRegistrationProps, ICustomerRegistrationState> {
     constructor(props: any) {
@@ -95,7 +95,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
 
         console.log("Deadass");
         let valid: boolean = true;
-        let response: any;
+        //let response: any;
         let regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         // Create another regEx to check for the phone number make it a specific format
         // maybe: (630)-343-3434 something like that????

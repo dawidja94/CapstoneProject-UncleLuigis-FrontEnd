@@ -3,6 +3,7 @@ import IMenuProps from "./IMenuProps";
 import IMenuState from "./IMenuState";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
+import Footer from "../Footer/Footer";
 
 export default class Menu extends React.Component<IMenuProps, IMenuState> {
     constructor(props: any) {
@@ -70,7 +71,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                     <div className="col-lg-6 col-md-12 col-sm-12">
                                                         <h4>{item.name}</h4>
                                                         <div className="custom-card-image">
-                                                            <img className="card-img-top custom" src={`/Images/Food/${item.imageURL}`}></img>
+                                                            <img className="card-img-top custom" src={`/Images/Food/${item.imageURL}`} alt="Food"></img>
                                                         </div>
                                                         <br className="menu-item-break"/>
                                                     </div>
@@ -106,49 +107,43 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         </div>
                     </div>
                     <br />
-                    <div className="row">
-                        <div className="card beverage">
-                        <div className="col-lg-12 col-sm-12 col-md-12 justify-content-center">
-                                <br />
-                                <h2 className="text-center menu-header">Beverage Menu</h2>
-                                <hr />
-                                {this.state.beverageItems.map((item, key) => {
-                                    return (
-                                    <div className="card-container">
-                                        <div className="card">
-                                            <div className="card-margin">
-                                                <div className="row">
-                                                    <div className="col-lg-4 col-md-6 col-sm-12">
-                                                        <div className="card-right-section">
-                                                            <br />
-                                                            <h4>{item.name}</h4>
-                                                            <span><h6>Description: <i>{item.description}</i></h6></span>
-                                                            <span><h6>Price: ${item.price}</h6></span>
-                                                            <span>
-                                                                <h6>Quantity:</h6>
-                                                                <select className="form-control quantity-custom">
-                                                                    <option></option>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                    <option>5</option>
-                                                                </select>
-                                                            </span>
-                                                            <button className="btn btn-outline-danger">Add To Carry Out</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <div className="container card">
+                        <br />
+                        <h2 className="text-center menu-header-beverage">Beverage Menu</h2>
+                        <hr />
+                        <div className="row justify-content-md-center">
+                            {this.state.beverageItems.map((item, key) => {
+                                return (
+                                    <div className="card col-lg-4-custom">
+                                        <div className="card-margin">
+                                            <h4>{item.name}</h4>
+                                            <span><h6>Description: <i>{item.description}</i></h6></span>
+                                            <span><h6>Price: ${item.price}</h6></span>
+                                            <span>
+                                                <h6>Quantity:</h6>
+                                                <select className="form-control quantity-custom">
+                                                    <option></option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                </select>
+                                            </span>
+                                            <button className="btn btn-outline-danger">Add To Carry Out</button>
                                         </div>
-                                        <br />
-                                    </div>);
-                                })}
-                            </div>
+                                    </div>
+                                );
+                            })}
+                            <br />
+                            <br />
+                        </div>
+                        <div>
+                            &nbsp;
                         </div>
                     </div>
                 </div> : ""}
-                <br />
+                <Footer />
             </div>
         );
     }

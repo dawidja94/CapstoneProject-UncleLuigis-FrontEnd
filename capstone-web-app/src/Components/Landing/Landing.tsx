@@ -3,6 +3,7 @@ import ILandingProps from "./ILandingProps";
 import ILandingState from "./ILandingState";
 import Navbar from "../Navigation/Navbar";
 import Carousel from 'react-bootstrap/Carousel'
+import Footer from "../Footer/Footer";
 
 export default class Landing extends React.Component<ILandingProps, ILandingState> {
     public constructor(props: any) {
@@ -82,15 +83,7 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                             </Carousel.Caption>
                         </Carousel.Item>
                     </Carousel>
-                    <div className="text-center">
-                        <div>
-                            <label className="footer-restaurant">Uncle Luigi's Bistro &copy; {new Date().getFullYear()}</label>
-                        </div>
-                        <div>
-                            <label className="footer-address">1 University Pkwy, Romeoville, IL 60446</label>
-                        </div>
-                        <hr />
-                    </div>
+                    <Footer />
                 </div>
             </div>
         );

@@ -80,6 +80,11 @@ div.card {
   font-size: 12px;
 }
 
+.footer-authors {
+  font-weight: lighter;
+  font-size: 12px;
+}
+
 /* Customer Component */
 
 /* Start Menu Component CSS */
@@ -123,12 +128,41 @@ div.card {
   text-transform: uppercase;
   font-weight: lighter;
 }
+
+.text-center.menu-header-beverage {
+  margin-top: 25px;
+  text-transform: uppercase;
+  font-weight: lighter;
+}
+
+.col-lg-4-custom {
+	flex: 0 0 30.333333% !important;
+	max-width: 30.333333% !important;
+	margin: 6px;
+}
+
+.custom-card-deck-wrapper {
+  display: contents;
+  background-color: #f4f5f0 !important;
+}
 .
 /* End Menu Component CSS */
 
-/* Devices under 1000px (md) */
+/* Devices under 1000px */
 @media (max-width: 1000px) {
   .menu-item-break {
     display: none;
+  }
+}
+
+/* Devices under 800px*/
+@media (max-width: 800px) {
+  .menu-item-break {
+    display: none;
+  }
+
+  .col-lg-4-custom {
+    flex: 0 0 98.0% !important;
+    max-width: 98.0% !important;
   }
 }

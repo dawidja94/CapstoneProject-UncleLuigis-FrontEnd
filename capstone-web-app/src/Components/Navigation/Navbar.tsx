@@ -4,7 +4,6 @@ import * as icons from "@fortawesome/free-solid-svg-icons";
 import '../../css/Navbar.scss';
 import '../../css/Fixed.scss';
 import { Link } from 'react-router-dom';
-import { Link as SmoothLink } from "react-scroll";
 
 class Navbar extends React.Component<any, any> {
     constructor(props:any) {

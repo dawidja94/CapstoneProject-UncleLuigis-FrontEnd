@@ -18,7 +18,7 @@ a, li {
 
 /*--- Fix for Fixed Navbar jumping on scroll --*/
 .fixed-top  {
-    -webkit-backface-visibility: hidden;
+    // -webkit-backface-visibility: hidden;
     position: fixed;
     top: 0;
     right: 0;
@@ -33,6 +33,7 @@ font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 
 .navbar.navbar-expand-lg.fixed-top {
     background-color: #f4f5f0;
+    border-bottom: solid #d9d9d9 1.5px;
 }
 
 .nav-item .nav-link {
