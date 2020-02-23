@@ -1,7 +1,7 @@
 import React from "react";
 import ICustomerRegistrationProps from "./ICustomerRegistrationProps";
 import ICustomerRegistrationState from "./ICustomerRegistrationState";
-import Navbar from "../Navbar";
+import Navbar from "../Navigation/Navbar";
 
 export default class CustomerRegistration extends React.Component<ICustomerRegistrationProps, ICustomerRegistrationState> {
     constructor(props: any) {

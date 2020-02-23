@@ -1,7 +1,7 @@
 import React from "react";
 import ILandingProps from "./ILandingProps";
 import ILandingState from "./ILandingState";
-import Navbar from "../Navbar";
+import Navbar from "../Navigation/Navbar";
 import Carousel from 'react-bootstrap/Carousel'
 
 export default class Landing extends React.Component<ILandingProps, ILandingState> {

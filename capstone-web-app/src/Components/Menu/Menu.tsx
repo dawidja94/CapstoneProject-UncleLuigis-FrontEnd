@@ -1,7 +1,7 @@
 import React from "react";
 import IMenuProps from "./IMenuProps";
 import IMenuState from "./IMenuState";
-import Navbar from "../Navbar";
+import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
 
 export default class Menu extends React.Component<IMenuProps, IMenuState> {
@@ -9,7 +9,8 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         super(props);
 
         this.state = {
-            foodItems:  []
+            foodItems:  [],
+            beverageItems: []
         };
     }
 
@@ -28,6 +29,21 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         .catch(reason => {
             console.log("Error with /Food/GetAllFood api call.");
         });
+
+        fetch(`${ConstantStrings.baseAzureURL}Beverage/GetAllBeverage`)
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+        })
+        .then(data => {
+            this.setState({
+                beverageItems: data
+            }, () => console.log(this.state.beverageItems));
+        })
+        .catch(reason => {
+            console.log("Error with /Food/GetAllFood api call.");
+        });
     }
 
     render() {
@@ -37,12 +53,14 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                 <br />
                 <br />
                 <br />
+                {this.state.foodItems.length > 0 ? 
                 <div className="container">
                     <div className="row">
                         <div className="card">
                             <div className="col-lg-12 col-sm-12 col-md-12 justify-content-center">
                                 <br />
                                 <h2 className="text-center menu-header">Food Menu</h2>
+                                <hr />
                                 {this.state.foodItems.map((item, key) => {
                                     return (
                                     <div className="card-container">
@@ -81,12 +99,56 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                 </div>
                                             </div>
                                         </div>
+                                        <br />
                                     </div>);
                                 })}
                             </div>
                         </div>
                     </div>
-                </div>
+                    <br />
+                    <div className="row">
+                        <div className="card beverage">
+                        <div className="col-lg-12 col-sm-12 col-md-12 justify-content-center">
+                                <br />
+                                <h2 className="text-center menu-header">Beverage Menu</h2>
+                                <hr />
+                                {this.state.beverageItems.map((item, key) => {
+                                    return (
+                                    <div className="card-container">
+                                        <div className="card">
+                                            <div className="card-margin">
+                                                <div className="row">
+                                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                                        <div className="card-right-section">
+                                                            <br />
+                                                            <h4>{item.name}</h4>
+                                                            <span><h6>Description: <i>{item.description}</i></h6></span>
+                                                            <span><h6>Price: ${item.price}</h6></span>
+                                                            <span>
+                                                                <h6>Quantity:</h6>
+                                                                <select className="form-control quantity-custom">
+                                                                    <option></option>
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4</option>
+                                                                    <option>5</option>
+                                                                </select>
+                                                            </span>
+                                                            <button className="btn btn-outline-danger">Add To Carry Out</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                    </div>);
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div> : ""}
+                <br />
             </div>
         );
     }

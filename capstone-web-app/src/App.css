@@ -57,7 +57,7 @@ div.card {
 
 .footer-restaurant {
   margin-top: 15px;
-  font-weight: bold;
+  font-weight: lighter;
 }
 
 .footer-address {
@@ -70,6 +70,10 @@ div.card {
 /* Start Menu Component CSS */
 .card-container {
   margin: 10px;
+}
+
+.card.beverage {
+  width: 100%;
 }
 
 .card-margin {
@@ -107,11 +111,9 @@ div.card {
 .
 /* End Menu Component CSS */
 
-/* Devices under 768px (md) */
+/* Devices under 1000px (md) */
 @media (max-width: 1000px) {
-
   .menu-item-break {
     display: none;
   }
-
 }
