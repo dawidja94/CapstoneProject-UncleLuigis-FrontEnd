@@ -90,7 +90,7 @@ class Navbar extends React.Component<any, any> {
                                     </Link>
                                     :
                                     <Link to="/Login" className="nav-link" onClick={this.linkClicked}>
-                                        Login
+                                       <FontAwesomeIcon icon={icons.faUser} /> Login
                                     </Link>
                                 } 
                             </li>
