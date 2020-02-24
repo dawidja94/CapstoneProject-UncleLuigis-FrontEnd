@@ -46,9 +46,11 @@ class Navbar extends React.Component<any, any> {
             <div>
             <nav className="navbar navbar-expand-lg fixed-top">
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="/" onClick={this.linkClicked}>
-                        <img src={require("../../Images/restaurantlogo-alt500px.png")} alt="logo" height={'500px'}/>
-                    </a>
+                    {/* <a className="navbar-brand" href="" onClick={this.linkClicked}> */}
+                    <Link to="/">
+                        <img src={require("../../Images/restaurantlogo-alt500px.png")} alt="logo" height={'55px'}/>
+                    {/* </a> */}
+                    </Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" onClick={this.toggleMenu}>
                         <span className="custom-toggler-icon">
                             <FontAwesomeIcon icon={icons.faBars}></FontAwesomeIcon>
@@ -72,19 +74,19 @@ class Navbar extends React.Component<any, any> {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/CarryOut" className="nav-link">
-                                    Carry Out
-                                </Link>
-                            </li>
-                            <li className="nav-item">
                                 <Link to="/Contact" className="nav-link">
                                     Contact
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                { localStorage.getItem("FirstName") !== null ? 
+                                <Link to="/CarryOut" className="nav-link">
+                                    <FontAwesomeIcon icon={icons.faShoppingCart}/> Carry Out
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                { localStorage.getItem("First name") !== null ? 
                                     <Link to="/" onClick={this.logOut} className="nav-link">
-                                        Logout
+                                        <FontAwesomeIcon icon={icons.faUser} /> {localStorage.getItem("First name")} {localStorage.getItem("Last name")}
                                     </Link>
                                     :
                                     <Link to="/Login" className="nav-link" onClick={this.linkClicked}>

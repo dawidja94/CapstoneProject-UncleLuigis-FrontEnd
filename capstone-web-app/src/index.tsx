@@ -15,6 +15,7 @@ import CustomerRegistration from './Components/CustomerRegistration/CustomerRegi
 import UserProfile from './Components/UserProfile/UserProfile';
 import Menu from './Components/Menu/Menu';
 import MenuService from './Services/MenuService';
+import Login from './Components/Login/Login';
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
@@ -35,6 +36,7 @@ const routing = (
                 <Route exact path="/" component={App} />
                 <Route exact path="/Register" component={CustomerRegistration} />
                 <Route exact path="/UserProfile/:id" component={UserProfile}/>
+                <Route path="/Login" render={(props) => <Login {...props} />} />
                 {/* <Route exact path="/Menu" component={Menu} /> */}
                 <Route path="/Menu" render={(props) => <Menu {...props} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
             </ScrollToTop>

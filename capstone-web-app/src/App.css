@@ -145,8 +145,19 @@ div.card {
   display: contents;
   background-color: #f4f5f0 !important;
 }
-.
+
 /* End Menu Component CSS */
+
+/* Start Login Component CSS */
+#loginScreenBackground {
+  background-image: url("Images/ScreenBackgrounds/Login2.png");
+  background-size: cover;
+}
+
+.card.login-custom {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+/* End Login Component CSS */
 
 /* Devices under 1000px */
 @media (max-width: 1000px) {
