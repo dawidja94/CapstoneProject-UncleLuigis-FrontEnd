@@ -16,10 +16,17 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import Menu from './Components/Menu/Menu';
 import MenuService from './Services/MenuService';
 
-
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
 const beverageMenuItems = menuService.getAllBeverageMenuItems();
+
+let count: number = 0;
+
+function countUp(message: string) {
+    count++;
+    console.log("count: " + count);
+    console.log("message: " + message);
+}
 
 const routing = (
     <Router>
@@ -29,7 +36,7 @@ const routing = (
                 <Route exact path="/Register" component={CustomerRegistration} />
                 <Route exact path="/UserProfile/:id" component={UserProfile}/>
                 {/* <Route exact path="/Menu" component={Menu} /> */}
-                <Route path="/Menu" render={(props) => <Menu {...props} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
+                <Route path="/Menu" render={(props) => <Menu {...props} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
             </ScrollToTop>
         </Switch>
     </Router>

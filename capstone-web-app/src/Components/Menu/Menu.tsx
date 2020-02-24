@@ -2,7 +2,6 @@ import React from "react";
 import IMenuProps from "./IMenuProps";
 import IMenuState from "./IMenuState";
 import Navbar from "../Navigation/Navbar";
-import ConstantStrings from "../../Constants/ConstantStrings";
 import Footer from "../Footer/Footer";
 
 export default class Menu extends React.Component<IMenuProps, IMenuState> {
@@ -59,7 +58,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                     </div>
                                                     <div className="col-lg-6 col-md-12 col-sm-12">
                                                         <div className="card-right-section">
-                                                            <br />
+                                                            <hr />
                                                             <span><h6>Category: {item.type}</h6></span>
                                                             <span><h6>Gluten Free: {item.glutenFree ? "Yes" : "No"}</h6></span>
                                                             <span><h6>Vegan: {item.vegan ? "Yes" : "No"}</h6></span>
@@ -76,7 +75,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                                     <option>5</option>
                                                                 </select>
                                                             </span>
-                                                            <button className="btn btn-outline-danger">Add To Carry Out</button>
+                                                            <button className="btn btn-outline-danger" onClick={() => this.props.countUp(item.description)}>Add To Carry Out</button>
                                                         </div>
                                                     </div>
                                                 </div>
