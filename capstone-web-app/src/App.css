@@ -152,6 +152,7 @@ div.card {
 #loginScreenBackground {
   background-image: url("Images/ScreenBackgrounds/Login2.png");
   background-size: cover;
+  background-position: center right;
 }
 
 .card.login-custom {
