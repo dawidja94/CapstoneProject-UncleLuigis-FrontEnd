@@ -6,4 +6,5 @@ export default interface ICustomerRegistrationState {
     phoneNumber: string;
     isFormValid: boolean;
     navigateToNextScreen: boolean;
+    showModal: boolean;
 }

@@ -4,6 +4,9 @@ import ICustomerRegistrationState from "./ICustomerRegistrationState";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
 import { Redirect } from "react-router-dom";
+import Modal from 'react-bootstrap/Modal'
+import CustomModal from "../CustomModal/CustomModal";
+import Footer from "../Footer/Footer";
 
 export default class CustomerRegistration extends React.Component<ICustomerRegistrationProps, ICustomerRegistrationState> {
     constructor(props: any) {
@@ -14,9 +17,10 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
             lastName: "",
             email: "",
             phoneNumber: "",
-            isFormValid: false,
+            isFormValid: true,
             navigateToNextScreen: false,
-            createdCustomerId: 0
+            createdCustomerId: 0,
+            showModal: false
         };
     }
 
@@ -28,7 +32,11 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
         return (
             <div>
                 <Navbar />
-                <div>
+                <div id="registrationScreenBackground">
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                     <br />
                     <br />
                     <br />
@@ -37,7 +45,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                         <div className="row">
                             <div className="col-1"></div>
                             <div className="col-10">
-                                <div className="card">
+                                <div className="card login-custom">
                                     <h3 className="card-header text-center font-weight-bold"  >Customer Registration</h3>
                                     <div className="card-margin">
                                         <div className="form-group">
@@ -54,7 +62,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                                         </div>
                                         <div className="form-group">
                                             <label className="font-weight-bold">Phone:</label>
-                                            <input type="tel" className="form-control" placeholder="Phone" id="tel" value={this.state.phoneNumber}onChange={(e) => this.phoneNumberChange(e)}></input>
+                                            <input type="tel" className="form-control"  placeholder="Phone" id="tel" value={this.state.phoneNumber}onChange={(e) => this.phoneNumberChange(e)}></input>
                                         </div>
                                         <button type="button" onClick={() => this.onFormSubmit()} className="btn btn-outline-danger">Continue</button>
                                     </div>
@@ -63,11 +71,24 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                             <div className="col-1"></div>
                         </div>
                     </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                 </div>
+                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showModal} onCloseModal={this.closeModal} />}
                 {this.state.navigateToNextScreen ? <Redirect to={{pathname: `/UserProfile/${this.state.createdCustomerId}`, state: {id: this.state.createdCustomerId}}}/> : <div></div>}
+                <Footer />
             </div>
-            
         )
+    }
+
+    private closeModal = () => {
+        this.setState({
+            showModal: false
+        });
     }
 
     private firstNameOnChange(event: any): void {
@@ -110,7 +131,8 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
         console.log("Valid: " + valid);
 
         this.setState({
-            isFormValid: valid
+            isFormValid: valid,
+            showModal: true
         }, () => {
 
             console.log("Hereerererere");
@@ -122,7 +144,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                 };
                 
                 // Call to API would happen
-                fetch(`${ConstantStrings.baseDevURL}Customer/GetCustomer`, {
+                fetch(`${ConstantStrings.baseAzureURL}Customer/GetCustomer`, {
                     method: "POST",
                     body: JSON.stringify(requestBody),
                     headers: {
@@ -133,7 +155,9 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     console.log(response.status);
 
                     if (response.status === 200) {
-                        
+                        // If customer exists, pop-up a modal on top of center of screen alerting the user about them already existing
+                        // Grab this customer object and on the modal add a button to redirect them to the User Profile screen so that they set up a login
+
                     }
                     else if (response.status === 400) {
                         // Need to make a call to create the customer.
@@ -147,7 +171,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                             email: this.state.email
                         };
                         
-                        fetch(`${ConstantStrings.baseDevURL}Customer/CreateCustomer`, {
+                        fetch(`${ConstantStrings.baseAzureURL}Customer/CreateCustomer`, {
                             method: "POST",
                             body: JSON.stringify(requestBodyCreate),
                             headers: {
@@ -181,8 +205,8 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                 });
             }
             else {
-                // Do nothing here....
-                // In the HTML use ternary to conditionally display the Validation Modal Pop-up.
+                // Set the state, accordingly....
+                // Let’s display (*) around the input form controls in red, and display a modal message alerting them about the problem
             }
          });
 

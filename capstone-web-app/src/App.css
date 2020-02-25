@@ -41,6 +41,18 @@ body {
   background-color: #dedede;
 }
 
+/* General CSS Start */
+.modal-container { 
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  z-index: 100;
+  left: 0;
+}
+/* General CSS End */
+
 /* Customer Component */
 
 .card-margin {
@@ -85,7 +97,13 @@ div.card {
   font-size: 12px;
 }
 
-/* Customer Component */
+/* Start Customer Component */
+#registrationScreenBackground {
+  background-image: url("Images/ScreenBackgrounds/Login1.png");
+  background-size: cover;
+  background-position: center right;
+}
+/* End Customer Component */
 
 /* Start Menu Component CSS */
 .card-container {
