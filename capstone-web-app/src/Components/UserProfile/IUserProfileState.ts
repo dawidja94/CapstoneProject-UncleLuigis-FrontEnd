@@ -3,4 +3,5 @@ export default interface IUserProfileState {
     password: string;
     isFormValid: boolean;
     confirmPassword: string;
+    customerId: number;
 }

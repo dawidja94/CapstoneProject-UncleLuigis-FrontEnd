@@ -10,13 +10,18 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
             userName: "",
             password: "",
             isFormValid: false,
-            confirmPassword: ""
+            confirmPassword: "",
+            customerId: 0
         }
     }
 
     public componentDidMount() {
         console.log("Checking for created customer ID.");
         console.log(this.props.match.params.id);
+
+        this.setState({
+            customerId: this.props.match.params.id
+        });
         //this.props.match.params.id;
     }
 
@@ -83,23 +88,43 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
             valid = false;
         }
 
-        this.setState({
-            isFormValid: valid
-        }, () => {
-            if (this.state.isFormValid) {
-                const body = {
-                };
+        if (valid) {
+            const body = {
+            };
 
-                // Call to API would happen
-                fetch(`${ConstantStrings.baseAzureURL}User/GetUser/{string:username}`).then(response => {
-                    console.log(response.body);
-                });
-            }
-            else {
-                // Do nothing here....
-                // In the HTML use ternary to conditionally display the Validation Modal Pop-up.
-            }
-         });
+            console.log("Checking this.state.customerId");
+            console.log(this.state.customerId);
 
+            // // Call to API would happen
+            // fetch(`${ConstantStrings.baseAzureURL}User/GetUser/Samson`, {
+            //     method: "GET",
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     }
+            // })
+            // .then((response: any) => {
+            //     console.log("Did we get here?");
+            //     console.log(response);
+
+            //     return response.json();
+            // })
+            // .then(data => {
+            //     console.log("Checking response here in user profile");
+            //     console.log(data);
+
+                
+            // })
+            // .catch(reason => {
+            //     console.log(reason);
+            // });
+
+            // Create the user account and pass in the customer ID along with it.
+            // Create your API call here for CreateUser.
+            
         }
+        else {
+            // Do nothing here....
+            // In the HTML use ternary to conditionally display the Validation Modal Pop-up.
+        }
+    }
 }

@@ -20,7 +20,9 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
             isFormValid: true,
             navigateToNextScreen: false,
             createdCustomerId: 0,
-            showModal: false
+            foundCustomerId: 0,
+            showValidationModal: false,
+            showCustomerExistsModal: false
         };
     }
 
@@ -78,16 +80,16 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     <br />
                     <br />
                 </div>
-                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showModal} onCloseModal={this.closeModal} />}
-                {this.state.navigateToNextScreen ? <Redirect to={{pathname: `/UserProfile/${this.state.createdCustomerId}`, state: {id: this.state.createdCustomerId}}}/> : <div></div>}
+                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
+                {this.state.navigateToNextScreen ? <Redirect to={{pathname: `/UserProfile/${this.state.createdCustomerId === 0 ? this.state.foundCustomerId : this.state.createdCustomerId}`, state: {id: this.state.createdCustomerId}}}/> : <div></div>}
                 <Footer />
             </div>
         )
     }
 
-    private closeModal = () => {
+    private closeValidationModal = () => {
         this.setState({
-            showModal: false
+            showValidationModal: false
         });
     }
 
@@ -132,7 +134,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
 
         this.setState({
             isFormValid: valid,
-            showModal: true
+            showValidationModal: false
         }, () => {
 
             console.log("Hereerererere");
@@ -157,7 +159,10 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     if (response.status === 200) {
                         // If customer exists, pop-up a modal on top of center of screen alerting the user about them already existing
                         // Grab this customer object and on the modal add a button to redirect them to the User Profile screen so that they set up a login
+                        console.log("Inside 200 status");
+                        console.log(response);
 
+                        return response.json();
                     }
                     else if (response.status === 400) {
                         // Need to make a call to create the customer.
@@ -198,6 +203,18 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                             });
                         });
                     }
+                })
+                .then(data => {
+                    // This is the block of .then for when the customer is found as an already existing customer in the Db.
+                    console.log(data);
+
+                    this.setState({
+                        foundCustomerId: data.id,
+                        navigateToNextScreen: true
+                    }, () => {
+                        console.log("Checking this after setting the state when a customer was found.");
+                        console.log(this.state);
+                    });
                 })
                 .catch(reason => {
                     console.log("Error calling Customer/GetCustomer endpoint.");

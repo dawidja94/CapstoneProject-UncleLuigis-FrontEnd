@@ -48,7 +48,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                                             <label className="font-weight-bold">Password:</label>
                                             <input type="password" className="form-control" placeholder="Password" id="pswd"value={this.state.password} onChange={(e) => this.passwordOnChange(e)}></input>
                                         </div>
-                                        <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-danger" >Submit</button>
+                                        <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger" >Submit</button>
                                     </div>
                                 </div>
                             </div>
