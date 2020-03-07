@@ -4,7 +4,7 @@ import ICustomerRegistrationState from "./ICustomerRegistrationState";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
 import { Redirect } from "react-router-dom";
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
 import CustomModal from "../CustomModal/CustomModal";
 import Footer from "../Footer/Footer";
 
@@ -188,6 +188,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
 
                             // If it is 200, then it created the customer successfully. 
                             if (response.status === 200) {
+                                
                                 // Redirect at this point in time to the next screen and pass
                                 // in the requestBodyCreate object (Customer) to that screen.
                                 return response.json();

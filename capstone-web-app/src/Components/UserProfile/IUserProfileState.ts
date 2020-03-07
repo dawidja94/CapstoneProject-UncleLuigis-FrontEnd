@@ -4,4 +4,5 @@ export default interface IUserProfileState {
     isFormValid: boolean;
     confirmPassword: string;
     customerId: number;
+    navigateToHomeScreen: boolean;
 }

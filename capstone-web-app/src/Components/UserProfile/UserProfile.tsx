@@ -2,6 +2,8 @@ import React from "react";
 import IUserProfileState from "./IUserProfileState";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
+import { Redirect } from "react-router-dom";
+import TokenService from "../../Services/TokenService";
 export default class UserProfile extends React.Component<any, IUserProfileState> {
     constructor(props: any) {
         super(props);
@@ -11,7 +13,8 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
             password: "",
             isFormValid: false,
             confirmPassword: "",
-            customerId: 0
+            customerId: 0,
+            navigateToHomeScreen: false,
         }
     }
 
@@ -20,7 +23,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
         console.log(this.props.match.params.id);
 
         this.setState({
-            customerId: this.props.match.params.id
+            customerId: parseInt(this.props.match.params.id) as number 
         });
         //this.props.match.params.id;
     }
@@ -61,6 +64,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                         </div>
                     </div>
                 </div>
+                {this.state.navigateToHomeScreen ? <Redirect to={"/"}/>:<div></div>}np
             </div>
         )
     }
@@ -89,39 +93,89 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
         }
 
         if (valid) {
-            const body = {
+            // // Call to API would happen
+            //  fetch(`${ConstantStrings.baseAzureURL}User/GetUser/id`, {
+            //     method: "GET",
+            //      headers: {
+            //          'Content-Type': 'application/json'
+            //      }
+            //  })
+            //  .then((response: any) => {
+            //      console.log("Did we get here?");
+            //     console.log(response);
+
+            //      return response.json();
+            //  })
+            //  .then(data => {
+            //      console.log("Checking response here in user profile");
+            //      console.log(data);
+
+                
+            //  })
+            //  .catch(reason => {
+            //      console.log(reason);
+            //  });
+          
+            //  fetch(`${ConstantStrings.baseAzureURL}User/GetUser/id`, {
+            //      method: "POST",
+            //     body: JSON.stringify(body),
+            //      headers: {
+            //          'Content-Type': 'application/json'
+            //      }
+
+            //  })
+
+            // Create the user account and pass in the customer ID along with it.
+            // Create your API call here for CreateUser.
+            const requestBody = {
+                userName: this.state.userName,
+                password: this.state.password,
+                confirmPassword: this.state.confirmPassword,
+                email: "",
+                phoneNumber: "",
+                customerId: this.state.customerId
             };
 
             console.log("Checking this.state.customerId");
             console.log(this.state.customerId);
 
-            // // Call to API would happen
-            // fetch(`${ConstantStrings.baseAzureURL}User/GetUser/Samson`, {
-            //     method: "GET",
-            //     headers: {
-            //         'Content-Type': 'application/json'
-            //     }
-            // })
-            // .then((response: any) => {
-            //     console.log("Did we get here?");
-            //     console.log(response);
+            fetch(`${ConstantStrings.baseAzureURL}User/Register`, {
+                method: "POST",
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response =>{
+                console.log("Create User status:" + response.status);
 
-            //     return response.json();
-            // })
-            // .then(data => {
-            //     console.log("Checking response here in user profile");
-            //     console.log(data);
+                if (response.status === 200)
+                return response.json();
+                else{
+                    console.log("wtf");
+                }
+            })
+            .then(data => {
+                console.log(data);
+                let tokenService = new TokenService();
+    
+                const tokenBody = {
+                    // accessToken: data.authenticatedModel.accessToken,
+                    // refreshToken: data.authenticatedModel.refreshToken,
+                    // firstName: data.authenticatedModel.customer.firstName,
+                    // lastName: data.authenticatedModel.customer.lastName,
+                    // phoneNumber: data.authenticatedModel.customer.phoneNumber
 
-                
-            // })
-            // .catch(reason => {
-            //     console.log(reason);
-            // });
+                }
 
-            // Create the user account and pass in the customer ID along with it.
-            // Create your API call here for CreateUser.
+                this.setState({
+                    navigateToHomeScreen: true
+    
+                });
+            });
             
-        }
+
+        }  
         else {
             // Do nothing here....
             // In the HTML use ternary to conditionally display the Validation Modal Pop-up.
