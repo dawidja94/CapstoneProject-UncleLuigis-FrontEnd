@@ -160,13 +160,14 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                 let tokenService = new TokenService();
     
                 const tokenBody = {
-                    // accessToken: data.authenticatedModel.accessToken,
-                    // refreshToken: data.authenticatedModel.refreshToken,
-                    // firstName: data.authenticatedModel.customer.firstName,
-                    // lastName: data.authenticatedModel.customer.lastName,
-                    // phoneNumber: data.authenticatedModel.customer.phoneNumber
+                    accessToken: data.authenticatedModel.accessToken,
+                    refreshToken: data.authenticatedModel.refreshToken,
+                    firstName: data.authenticatedModel.customer.firstName,
+                    lastName: data.authenticatedModel.customer.lastName,
+                    phoneNumber: data.authenticatedModel.customer.phoneNumber
 
                 }
+                tokenService.handleAuthTokens(tokenBody); 
 
                 this.setState({
                     navigateToHomeScreen: true

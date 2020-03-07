@@ -122,19 +122,30 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
         let regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         // Create another regEx to check for the phone number make it a specific format
         // maybe: (630)-343-3434 something like that????
+        let reg = /^[2-9]\d{2}-\d{3}-\d{4}$/;
 
         if (!regEx.test(this.state.email)) {
+            valid = false;
+         
+        }
+        
+
+        else {
+            valid = true;
+        }
+        
+        if (!reg.test(this.state.phoneNumber)){
             valid = false;
         }
         else {
             valid = true;
         }
-        
         console.log("Valid: " + valid);
 
         this.setState({
             isFormValid: valid,
-            showValidationModal: false
+            showValidationModal: true
+
         }, () => {
 
             console.log("Hereerererere");
