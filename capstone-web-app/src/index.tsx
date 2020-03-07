@@ -22,11 +22,16 @@ const foodMenuItems = menuService.getAllFoodMenuItems();
 const beverageMenuItems = menuService.getAllBeverageMenuItems();
 
 let count: number = 0;
+let cart: any = [];
 
 function countUp(message: string) {
     count++;
     console.log("count: " + count);
     console.log("message: " + message);
+}
+
+function addItemToCarryOutCart(item: any, quantity: number) {
+    
 }
 
 const routing = (

@@ -5,6 +5,7 @@ import Navbar from "../Navigation/Navbar";
 import Footer from "../Footer/Footer";
 import Food from "../../Models/Food";
 import Beverage from "../../Models/Beverage";
+import CustomModal from "../CustomModal/CustomModal";
 
 export default class Menu extends React.Component<IMenuProps, IMenuState> {
     constructor(props: any) {
@@ -12,7 +13,8 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
 
         this.state = {
             foodItems:  [],
-            beverageItems: []
+            beverageItems: [],
+            showLoginModal: false
         };
     }
 
@@ -22,7 +24,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
 
             // Push in a new Food item for each index along with a quantity of zero for each.
             food.forEach((item: any) => {
-                foodList.push(new Food(item, 0));
+                foodList.push(new Food(item, 1));
             });
 
             this.setState({
@@ -33,7 +35,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
 
                     // Push in a new Food item for each index along with a quantity of zero for each.
                     beverages.forEach((item: any) => {
-                        beveragesList.push(new Beverage(item, 0));
+                        beveragesList.push(new Beverage(item, 1));
                     });
 
                     this.setState({
@@ -91,7 +93,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                                     <option>5</option>
                                                                 </select>
                                                             </span>
-                                                            <button className="btn btn-outline-danger" onClick={() => this.addToCart(item, 3)}>Add To Carry Out</button>
+                                                            <button className="btn btn-outline-danger" onClick={() => this.addToCart(item, item.quantity)}>Add To Carry Out</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -119,7 +121,6 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                             <span>
                                                 <h6>Quantity:</h6>
                                                 <select className="form-control quantity-custom" value={item.quantity} onChange={(e) => this.changeQuantityForBeverages(e, key)}>
-                                                    <option></option>
                                                     <option>1</option>
                                                     <option>2</option>
                                                     <option>3</option>
@@ -140,9 +141,16 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         </div>
                     </div>
                 </div> : ""}
+                {this.state.showLoginModal ? <CustomModal {...this.props} title={"Please Login!"} body={"Valued Customer, please login to add items to carry out order. Thank you!"} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
                 <Footer />
             </div>
         );
+    }
+
+    private closeLoginModal = () => {
+        this.setState({
+            showLoginModal: false
+        });
     }
     
     /**
@@ -190,6 +198,9 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         if (!localStorage.getItem("First name") && !localStorage.getItem("Last name"))
         {
             console.log("user is not logged in...");
+            this.setState({
+                showLoginModal: true
+            });
         }
     }
 }

@@ -4,6 +4,7 @@ import ICustomModalProps from "./ICustomModalProps";
 import ICustomModalState from "./ICustomModalState";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class CustomModal extends React.Component<ICustomModalProps, ICustomModalState> {
     constructor(props: any) {
@@ -37,6 +38,9 @@ export default class CustomModal extends React.Component<ICustomModalProps, ICus
                         </Modal.Body>
 
                         <Modal.Footer>
+                            <Link to="/Login" className="btn btn-outline-danger">
+                                Login
+                            </Link>
                             <button className="btn btn-outline-danger" onClick={() => this.onHideHandler()}>Close</button>
                         </Modal.Footer>
                     </Modal.Dialog>
