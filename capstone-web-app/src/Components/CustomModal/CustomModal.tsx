@@ -33,7 +33,16 @@ export default class CustomModal extends React.Component<ICustomModalProps, ICus
                         </Modal.Header>
 
                         <Modal.Body>
-                            <p>{this.props.body}</p>
+                            {this.props.useListOption ?  
+                                <div>
+                                    <ul>
+                                        {this.props.listMessages.map((item, key) => {
+                                            return (<li>{item}</li>)
+                                        })}
+                                    </ul>
+                                </div>
+                            :
+                            <p>{this.props.body}</p>}
                         </Modal.Body>
 
                         <Modal.Footer>

@@ -4,6 +4,8 @@ import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
 import { Redirect } from "react-router-dom";
 import TokenService from "../../Services/TokenService";
+import CustomModal from "../CustomModal/CustomModal";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 export default class UserProfile extends React.Component<any, IUserProfileState> {
     constructor(props: any) {
         super(props);
@@ -11,10 +13,17 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
         this.state = {
             userName: "",
             password: "",
-            isFormValid: false,
             confirmPassword: "",
             customerId: 0,
             navigateToHomeScreen: false,
+            useListOption: true,
+            passwordTooShortError: "Password must be longer than 6 characters.",
+            userExistsError: "This username already exists in our system.",
+            passwordsNotMatching: "Confirmed password did not match password",
+            validationMessages: [],
+            showValidationModal: false,
+            showCustomerExistsModal: false,
+            isFormValid: false,
         }
     }
 
@@ -56,6 +65,8 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                                             <label className="font-weight-bold">Confirm Password:</label>
                                             <input type="password" className="form-control" placeholder="Confirm Password" id="pswd"value={this.state.confirmPassword} onChange={(e) => this.confirmPasswordOnChange(e)}></input>
                                         </div>
+                                        {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.userExistsError} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
+                                        {/* Render the other CustomModal for the username duplication message here */}
                                         <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger" >Submit</button>
                                     </div>
                                 </div>
@@ -67,6 +78,12 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                 {this.state.navigateToHomeScreen ? <Redirect to={"/"}/>:<div></div>}np
             </div>
         )
+    }
+
+    private closeValidationModal = () => {
+        this.setState({
+            showValidationModal: false
+        });
     }
 
     private userNameOnChange(event: any): void{
@@ -86,100 +103,113 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
     }
     private onFormSubmit(): void {
         let valid: boolean = true;
+        let messages: string [] = [];
       
+        if (this.state.password.length < 6 ){
+            valid = false;
+            messages.push(this.state.passwordTooShortError)
+             
+            this.setState({
+                validationMessages: messages
+            });
 
+        }
         if (this.state.confirmPassword !== this.state.password) {
             valid = false;
-        }
-
-        if (valid) {
-            // // Call to API would happen
-            //  fetch(`${ConstantStrings.baseAzureURL}User/GetUser/id`, {
-            //     method: "GET",
-            //      headers: {
-            //          'Content-Type': 'application/json'
-            //      }
-            //  })
-            //  .then((response: any) => {
-            //      console.log("Did we get here?");
-            //     console.log(response);
-
-            //      return response.json();
-            //  })
-            //  .then(data => {
-            //      console.log("Checking response here in user profile");
-            //      console.log(data);
-
-                
-            //  })
-            //  .catch(reason => {
-            //      console.log(reason);
-            //  });
-          
-            //  fetch(`${ConstantStrings.baseAzureURL}User/GetUser/id`, {
-            //      method: "POST",
-            //     body: JSON.stringify(body),
-            //      headers: {
-            //          'Content-Type': 'application/json'
-            //      }
-
-            //  })
-
-            // Create the user account and pass in the customer ID along with it.
-            // Create your API call here for CreateUser.
-            const requestBody = {
-                userName: this.state.userName,
-                password: this.state.password,
-                confirmPassword: this.state.confirmPassword,
-                email: "",
-                phoneNumber: "",
-                customerId: this.state.customerId
-            };
-
-            console.log("Checking this.state.customerId");
-            console.log(this.state.customerId);
-
-            fetch(`${ConstantStrings.baseAzureURL}User/Register`, {
-                method: "POST",
-                body: JSON.stringify(requestBody),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response =>{
-                console.log("Create User status:" + response.status);
-
-                if (response.status === 200)
-                return response.json();
-                else{
-                    console.log("wtf");
-                }
-            })
-            .then(data => {
-                console.log(data);
-                let tokenService = new TokenService();
-    
-                const tokenBody = {
-                    accessToken: data.authenticatedModel.accessToken,
-                    refreshToken: data.authenticatedModel.refreshToken,
-                    firstName: data.authenticatedModel.customer.firstName,
-                    lastName: data.authenticatedModel.customer.lastName,
-                    phoneNumber: data.authenticatedModel.customer.phoneNumber
-
-                }
-                tokenService.handleAuthTokens(tokenBody); 
-
-                this.setState({
-                    navigateToHomeScreen: true
-    
-                });
+            messages.push(this.state.passwordsNotMatching)
+             
+            this.setState({
+                validationMessages: messages
             });
-            
-
-        }  
-        else {
-            // Do nothing here....
-            // In the HTML use ternary to conditionally display the Validation Modal Pop-up.
         }
+
+        this.setState({
+            isFormValid: valid,
+            showValidationModal: true
+        }, () => {
+            if (this.state.isFormValid) {
+                // At this point, the form has been validated for password length and matching fields.
+                // It is necessary to check if the username submitted by the user is already taken.
+                fetch(`${ConstantStrings.baseAzureURL}User/GetUser/${this.state.userName}`, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response: any) => {
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Checking response data here in user profile");
+                    // Here we should see either a JSON object with one property (username).
+                    // Either the property is equal to the username passed in in the URL (this means that the username is already taken.)
+                    // Or the username property returned is an empty string, (this means the username is not taken and is available.)
+                    console.log(data);
+
+                    if (data.username === "") {
+                        // // Create the user account and pass in the customer ID along with it.
+                        // // Create your API call here for CreateUser.
+                        const requestBody = {
+                            userName: this.state.userName,
+                            password: this.state.password,
+                            confirmPassword: this.state.confirmPassword,
+                            email: "",
+                            phoneNumber: "",
+                            customerId: this.state.customerId
+                        };
+
+                        console.log("Checking this.state.customerId");
+                        console.log(this.state.customerId);
+
+                        fetch(`${ConstantStrings.baseAzureURL}User/Register`, {
+                            method: "POST",
+                            body: JSON.stringify(requestBody),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response =>{
+                            console.log("Create User status:" + response.status);
+
+                            if (response.status === 200)
+                            return response.json();
+                            else{
+                                console.log("wtf");
+                            }
+                        })
+                        .then(data => {
+                            console.log(data);
+                            let tokenService = new TokenService();
+                
+                            const tokenBody = {
+                                accessToken: data.authenticatedModel.accessToken,
+                                refreshToken: data.authenticatedModel.refreshToken,
+                                firstName: data.authenticatedModel.customer.firstName,
+                                lastName: data.authenticatedModel.customer.lastName,
+                                phoneNumber: data.authenticatedModel.customer.phoneNumber
+
+                            }
+                            tokenService.handleAuthTokens(tokenBody); 
+
+                            this.setState({
+                                navigateToHomeScreen: true
+                
+                            });
+                        });
+                    }
+                    else {
+                        // Set the state such a manner that it triggers a modal that says "Warning! - This username has already been taken. Please try a different username."
+
+                    }
+                })
+                .catch(reason => {
+                    console.log(reason);
+                });
+            }  
+            else {
+                // Do nothing here....
+                // In the HTML use ternary to conditionally display the Validation Modal Pop-up.
+            }
+        });
     }
 }

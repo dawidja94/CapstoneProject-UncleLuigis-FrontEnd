@@ -22,7 +22,13 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
             createdCustomerId: 0,
             foundCustomerId: 0,
             showValidationModal: false,
-            showCustomerExistsModal: false
+            showCustomerExistsModal: false,
+            emptyFirstNameField: "First name field cannot be empty",
+            emptyLastNameField: "Last name field cannot be empty",
+            invalidEmail: "Invalid email format. Please use email@domain.com format.",
+            invalidPhoneNumber: "Invalid phone number format. Please use 630-123-1234 format.",
+            validationMessages: []
+            
         };
     }
 
@@ -50,21 +56,21 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                                 <div className="card login-custom">
                                     <h3 className="card-header text-center font-weight-bold"  >Customer Registration</h3>
                                     <div className="card-margin">
-                                        <div className="form-group">
+                                        <div className="form-group required">
                                             <label className="font-weight-bold">First Name:</label>
                                             <input type="text" className="form-control" placeholder="First Name" id="name" value={this.state.firstName} onChange={(e) => this.firstNameOnChange(e)}></input>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group required">
                                             <label className="font-weight-bold">Last Name:</label>
                                             <input type="text" className="form-control" placeholder="Last Name" id="name" value={this.state.lastName}onChange={(e) => this.lastNameOnChange(e)}></input>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group required">
                                             <label className="font-weight-bold">Email:</label>
-                                            <input type="email" className="form-control" placeholder="Email" id="email" value={this.state.email}onChange={(e) => this.emailOnChange(e)}></input>
+                                            <input type="email"  className="form-control" placeholder="Email" id="email" value={this.state.email}onChange={(e) => this.emailOnChange(e)}></input>
                                         </div>
                                         <div className="form-group">
                                             <label className="font-weight-bold">Phone:</label>
-                                            <input type="tel" className="form-control"  placeholder="Phone" id="tel" value={this.state.phoneNumber}onChange={(e) => this.phoneNumberChange(e)}></input>
+                                            <input type="text" className="form-control"  placeholder="Phone" id="tel" value={this.state.phoneNumber}onChange={(e) => this.phoneNumberChange(e)}></input>
                                         </div>
                                         <button type="button" onClick={() => this.onFormSubmit()} className="btn btn-outline-danger">Continue</button>
                                     </div>
@@ -80,7 +86,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     <br />
                     <br />
                 </div>
-                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
+                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.invalidEmail} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
                 {this.state.navigateToNextScreen ? <Redirect to={{pathname: `/UserProfile/${this.state.createdCustomerId === 0 ? this.state.foundCustomerId : this.state.createdCustomerId}`, state: {id: this.state.createdCustomerId}}}/> : <div></div>}
                 <Footer />
             </div>
@@ -115,31 +121,49 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
     }
 
     private onFormSubmit(): void {
-
+        let messages: string[] = [];
         console.log("Deadass");
         let valid: boolean = true;
         //let response: any;
-        let regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let regExEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         // Create another regEx to check for the phone number make it a specific format
-        // maybe: (630)-343-3434 something like that????
-        let reg = /^[2-9]\d{2}-\d{3}-\d{4}$/;
+        // Example: 630-343-3434.
+        let regExPhone = /^[2-9]\d{2}-\d{3}-\d{4}$/;
+        let emptyString = ""
 
-        if (!regEx.test(this.state.email)) {
+        if ( this.state.firstName === emptyString){
             valid = false;
-         
+            messages.push(this.state.emptyFirstNameField)
+             
+            this.setState({
+                validationMessages: messages
+            });
+        }
+        if ( this.state.lastName === emptyString){
+            valid = false;
+            messages.push(this.state.emptyLastNameField)
+             
+            this.setState({
+                validationMessages: messages
+            });
+        }
+        if (!regExEmail.test(this.state.email)) {
+            valid = false;
+            messages.push(this.state.invalidEmail);
+
+            this.setState({
+                validationMessages: messages
+            });
+        }
+        if (!regExPhone.test(this.state.phoneNumber)){
+            valid = false;
+            messages.push(this.state.invalidPhoneNumber);
+
+            this.setState({
+                validationMessages: messages
+            });
         }
         
-
-        else {
-            valid = true;
-        }
-        
-        if (!reg.test(this.state.phoneNumber)){
-            valid = false;
-        }
-        else {
-            valid = true;
-        }
         console.log("Valid: " + valid);
 
         this.setState({
@@ -220,6 +244,15 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     // This is the block of .then for when the customer is found as an already existing customer in the Db.
                     console.log(data);
 
+                    // Need another API call here. Because this customer exists. But we need to check if
+                    // they already have an user profile or not.
+                    // If they do not.... Then redirect them like below already coded.
+                    // Else need to pop-up a modal saying, hey my guy you already have a user profile.
+                    // Click ok and redirect to login screen...
+
+
+                    // This part below is for when they do not have a user profile, so you send them to
+                    // the next screen, the user profile screen!
                     this.setState({
                         foundCustomerId: data.id,
                         navigateToNextScreen: true
