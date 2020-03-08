@@ -35,7 +35,7 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar cartItemCount={0} />
                 <div className="custom-carousel">
                 <Carousel>
                         <Carousel.Item>

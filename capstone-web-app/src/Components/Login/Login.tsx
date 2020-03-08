@@ -23,7 +23,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
     public render() {
         return (
             <div>
-                <Navbar />
+                <Navbar cartItemCount={0} />
                 <div id="loginScreenBackground">
                     <br />
                     <br />
@@ -107,7 +107,8 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                 refreshToken: data.authenticatedModel.refreshToken,
                 firstName: data.authenticatedModel.customer.firstName,
                 lastName: data.authenticatedModel.customer.lastName,
-                phoneNumber: data.authenticatedModel.customer.phoneNumber
+                phoneNumber: data.authenticatedModel.customer.phoneNumber,
+                customerId: data.authenticatedModel.customer.id
             };
 
             tokenService.handleAuthTokens(tokenBody);

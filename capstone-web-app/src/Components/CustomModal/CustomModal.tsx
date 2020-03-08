@@ -38,9 +38,11 @@ export default class CustomModal extends React.Component<ICustomModalProps, ICus
                         </Modal.Body>
 
                         <Modal.Footer>
+                            {this.props.showLoginButton ?
                             <Link to="/Login" className="btn btn-outline-danger">
                                 Login
-                            </Link>
+                            </Link> : <label></label>
+                            }   
                             <button className="btn btn-outline-danger" onClick={() => this.onHideHandler()}>Close</button>
                         </Modal.Footer>
                     </Modal.Dialog>

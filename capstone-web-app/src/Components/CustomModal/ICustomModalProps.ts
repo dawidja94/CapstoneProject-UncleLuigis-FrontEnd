@@ -3,5 +3,6 @@ export default interface ICustomModalProps {
     body: string;
     buttontitle: string;
     show: boolean;
+    showLoginButton: boolean;
     onCloseModal: () => void;
 }

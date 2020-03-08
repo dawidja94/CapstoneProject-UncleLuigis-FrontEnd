@@ -33,7 +33,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
     public render() {
         return (
             <div>
-                <Navbar />
+                <Navbar cartItemCount={0} />
                 <div id="registrationScreenBackground">
                     <br />
                     <br />
@@ -80,7 +80,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     <br />
                     <br />
                 </div>
-                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
+                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
                 {this.state.navigateToNextScreen ? <Redirect to={{pathname: `/UserProfile/${this.state.createdCustomerId === 0 ? this.state.foundCustomerId : this.state.createdCustomerId}`, state: {id: this.state.createdCustomerId}}}/> : <div></div>}
                 <Footer />
             </div>

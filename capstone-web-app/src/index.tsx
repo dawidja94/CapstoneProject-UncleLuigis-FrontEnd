@@ -23,6 +23,9 @@ const beverageMenuItems = menuService.getAllBeverageMenuItems();
 
 let count: number = 0;
 let cart: any = [];
+let cartItemsCount: number = 0;
+
+
 
 function countUp(message: string) {
     count++;
@@ -30,8 +33,51 @@ function countUp(message: string) {
     console.log("message: " + message);
 }
 
-function addItemToCarryOutCart(item: any, quantity: number) {
-    
+function getCountInCustomerCart() {
+    menuService.getAllCarryOutsInCart(4)
+    .then(data => {
+        cartItemsCount = data.length;
+    });
+}
+
+function addItemToCarryOutCart(item: any, quantity: number, type: string) {
+    let customerIdFromLS = localStorage.getItem("Customer ID");
+    let customerId: number = 0;
+
+    if (customerIdFromLS !== null) {
+        customerId = parseInt(customerIdFromLS.toString());
+    }
+
+    let carryOutItem = {};
+
+    if (type === "food") {
+        carryOutItem = {
+            id: 0,
+            bundleId: 0,
+            customerId: customerId,
+            food: item,
+            foodQuantity: quantity,
+            beverage: null,
+            beverageQuantity: 0,
+            submissionTime: null
+        };
+    }
+    else if (type === "beverage") {
+        carryOutItem = {
+            id: 0,
+            bundleId: 0,
+            customerId: customerId,
+            food: null,
+            foodQuantity: 0,
+            beverage: item,
+            beverageQuantity: quantity,
+            submissionTime: null
+        };
+    }
+
+    menuService.addToCart(carryOutItem).then(() => {
+        getCountInCustomerCart();
+    });
 }
 
 const routing = (
@@ -43,7 +89,7 @@ const routing = (
                 <Route exact path="/UserProfile/:id" component={UserProfile}/>
                 <Route path="/Login" render={(props) => <Login {...props} />} />
                 {/* <Route exact path="/Menu" component={Menu} /> */}
-                <Route path="/Menu" render={(props) => <Menu {...props} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
+                <Route path="/Menu" render={(props) => <Menu {...props} cartItemCount={cartItemsCount} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
             </ScrollToTop>
         </Switch>
     </Router>

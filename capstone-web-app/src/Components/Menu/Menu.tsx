@@ -18,6 +18,14 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         };
     }
 
+    componentDidUpdate(prevProps: any) {
+        if(this.props.cartItemCount !== prevProps.cartItemCount) {
+          this.setState({
+              ...this.state
+          })
+        }
+    } 
+
     public componentDidMount() {
         this.props.foodItems.then(food => {
             let foodList: Food[] = [];
@@ -44,12 +52,14 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                 })
             });
         })
+
+        console.log(this.props.cartItemCount);
     }
 
     render() {
         return (
             <div>
-                <Navbar />
+                <Navbar cartItemCount={this.props.cartItemCount}/>
                 <br />
                 <br />
                 <br />
@@ -128,7 +138,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                     <option>5</option>
                                                 </select>
                                             </span>
-                                            <button className="btn btn-outline-danger">Add To Carry Out</button>
+                                            <button className="btn btn-outline-danger" onClick={() => this.addToCart(item, item.quantity)}>Add To Carry Out</button>
                                         </div>
                                     </div>
                                 );
@@ -141,7 +151,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         </div>
                     </div>
                 </div> : ""}
-                {this.state.showLoginModal ? <CustomModal {...this.props} title={"Please Login!"} body={"Valued Customer, please login to add items to carry out order. Thank you!"} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
+                {this.state.showLoginModal ? <CustomModal {...this.props} showLoginButton={true} title={"Valued Customer"} body={"Please login to add items to carry out order. Thank you!"} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
                 <Footer />
             </div>
         );
@@ -184,23 +194,27 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
 
         this.setState({
             beverageItems: beverageItems
-        }, () => console.log(this.state.beverageItems));
+        });
     }
 
     private addToCart = (item: any, quantity: number) => {
-        console.log("checking item");
-        console.log(item);
-
-        console.log("checking quantity");
-        console.log(quantity);
-
         // If we don't have a logged in user.
-        if (!localStorage.getItem("First name") && !localStorage.getItem("Last name"))
-        {
-            console.log("user is not logged in...");
+        if (!localStorage.getItem("First name") && !localStorage.getItem("Last name")) {
             this.setState({
                 showLoginModal: true
             });
+        }
+        else {
+            this.setState({
+                ...this.state
+            });
+
+            if (item.type === "food") {
+                this.props.addItem(item.food, quantity, item.type);
+            }
+            else if (item.type === "beverage") {
+                this.props.addItem(item.beverage, quantity, item.type);
+            }
         }
     }
 }

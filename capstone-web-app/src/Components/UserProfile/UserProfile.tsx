@@ -28,7 +28,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
     public render() {
         return (
             <div>
-                <Navbar />
+                <Navbar cartItemCount={0} />
                 <div>
                     <br />
                     <br />

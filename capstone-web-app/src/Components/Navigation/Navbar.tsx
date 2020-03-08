@@ -4,8 +4,9 @@ import * as icons from "@fortawesome/free-solid-svg-icons";
 import '../../css/Navbar.scss';
 import '../../css/Fixed.scss';
 import { Link } from 'react-router-dom';
+import INavbarProps from './INavbarProps';
 
-class Navbar extends React.Component<any, any> {
+class Navbar extends React.Component<INavbarProps, any> {
     constructor(props:any) {
         super(props);
 
@@ -18,6 +19,14 @@ class Navbar extends React.Component<any, any> {
         this.linkClicked = this.linkClicked.bind(this);
         this.logOut = this.logOut.bind(this);
     }
+
+    componentDidUpdate(prevProps: any) {
+        if(this.props.cartItemCount !== prevProps.cartItemCount) {
+          this.setState({
+              ...this.state
+          })
+        }
+    } 
 
     private toggleMenu() {
         this.setState({ 
@@ -80,7 +89,7 @@ class Navbar extends React.Component<any, any> {
                             </li>
                             <li className="nav-item">
                                 <Link to="/CarryOut" className="nav-link">
-                                    <FontAwesomeIcon icon={icons.faShoppingCart}/> Carry Out
+                                    <FontAwesomeIcon icon={icons.faShoppingCart}/> {this.props.cartItemCount > 0 ? `(${this.props.cartItemCount})`: ""} Carry Out
                                 </Link>
                             </li>
                             <li className="nav-item">
