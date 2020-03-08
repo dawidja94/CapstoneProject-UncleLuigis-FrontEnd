@@ -20,8 +20,6 @@ import Login from './Components/Login/Login';
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
 const beverageMenuItems = menuService.getAllBeverageMenuItems();
-let cartItemsCount: number = 0;
-menuService.getAllCarryOutsInCart(4).then((data) => {console.log("Hello")})
 
 let count: number = 0;
 
@@ -32,7 +30,21 @@ function countUp(message: string) {
 }
 
 function getCountInCustomerCart() {
-    
+    let customerIdFromLS = localStorage.getItem("Customer ID");
+    let customerId: number = 0;
+
+    if (customerIdFromLS !== null) {
+        customerId = parseInt(customerIdFromLS.toString());
+    }
+
+    menuService.getAllCarryOutsInCart(customerId)
+    .then((data: any) => {
+        let count = data.length ?? 0;
+        localStorage.setItem("cartCount", count);
+    })
+    .catch((reason) => {
+        console.log(reason);
+    });
 }
 
 function addItemToCarryOutCart(item: any, quantity: number, type: string) {
@@ -84,7 +96,7 @@ const routing = (
                 <Route exact path="/UserProfile/:id" component={UserProfile}/>
                 <Route path="/Login" render={(props) => <Login {...props} />} />
                 {/* <Route exact path="/Menu" component={Menu} /> */}
-                <Route path="/Menu" render={(props) => <Menu {...props} cartItemCount={cartItemsCount} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
+                <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
             </ScrollToTop>
         </Switch>
     </Router>

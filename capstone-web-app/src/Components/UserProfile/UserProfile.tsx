@@ -15,20 +15,10 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
         }
     }
 
-    public componentDidMount() {
-        console.log("Checking for created customer ID.");
-        console.log(this.props.match.params.id);
-
-        this.setState({
-            customerId: this.props.match.params.id
-        });
-        //this.props.match.params.id;
-    }
-
     public render() {
         return (
             <div>
-                <Navbar cartItemCount={0} />
+                <Navbar />
                 <div>
                     <br />
                     <br />

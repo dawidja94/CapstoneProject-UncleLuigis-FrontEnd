@@ -5,6 +5,8 @@ import '../../css/Navbar.scss';
 import '../../css/Fixed.scss';
 import { Link } from 'react-router-dom';
 import INavbarProps from './INavbarProps';
+import MenuService from '../../Services/MenuService';
+import Spinner from 'react-bootstrap/Spinner';
 
 class Navbar extends React.Component<INavbarProps, any> {
     constructor(props:any) {
@@ -12,7 +14,8 @@ class Navbar extends React.Component<INavbarProps, any> {
 
         this.state = {
             menu: false,
-            action: false
+            action: false,
+            cartItemsCount: 0
         };
 
         this.toggleMenu = this.toggleMenu.bind(this);
@@ -20,13 +23,9 @@ class Navbar extends React.Component<INavbarProps, any> {
         this.logOut = this.logOut.bind(this);
     }
 
-    componentDidUpdate(prevProps: any) {
-        if(this.props.cartItemCount !== prevProps.cartItemCount) {
-          this.setState({
-              ...this.state
-          })
-        }
-    } 
+    componentDidMount() {
+ 
+    }
 
     private toggleMenu() {
         this.setState({ 
@@ -89,7 +88,7 @@ class Navbar extends React.Component<INavbarProps, any> {
                             </li>
                             <li className="nav-item">
                                 <Link to="/CarryOut" className="nav-link">
-                                    <FontAwesomeIcon icon={icons.faShoppingCart}/> {this.props.cartItemCount > 0 ? `(${this.props.cartItemCount})`: ""} Carry Out
+                                    <FontAwesomeIcon icon={icons.faShoppingCart}/> {localStorage.getItem("cartCount") !== null && localStorage.getItem("cartCount") !== "0"  ? `(${localStorage.getItem("cartCount")})`: ""} Carry Out
                                 </Link>
                             </li>
                             <li className="nav-item">

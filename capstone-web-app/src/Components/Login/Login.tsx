@@ -5,8 +5,11 @@ import ILoginProps from "../UserProfile/IUserProfileProps";
 import ILoginState from "./ILoginState";
 import Footer from "../Footer/Footer";
 import TokenService from "../../Services/TokenService";
+import MenuService from "../../Services/MenuService";
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
+    private menuService: MenuService;
+
     constructor(props: any) {
         super(props);
 
@@ -14,16 +17,18 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             userName: "",
             password: ""
         }
+
+        this.menuService = new MenuService();
     }
 
     public componentDidMount() {
-
+    
     }
 
     public render() {
         return (
             <div>
-                <Navbar cartItemCount={0} />
+                <Navbar />
                 <div id="loginScreenBackground">
                     <br />
                     <br />
@@ -112,11 +117,22 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             };
 
             tokenService.handleAuthTokens(tokenBody);
+
+            let customerIdFromLS = localStorage.getItem("Customer ID");
+            let customerId: number = 0;
+        
+            if (customerIdFromLS !== null) {
+                customerId = parseInt(customerIdFromLS.toString());
+            }
+        
+            this.menuService.getAllCarryOutsInCart(customerId)
+            .then((data: any) => {
+                let count = data.length ?? 0;
+                localStorage.setItem("cartCount", count);
+            });
         })
         .catch(reason => {
             console.log(reason);
         })
-        
-
     }
 }

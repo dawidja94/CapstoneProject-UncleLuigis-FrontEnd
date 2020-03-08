@@ -14,17 +14,9 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         this.state = {
             foodItems:  [],
             beverageItems: [],
-            showLoginModal: false
+            showLoginModal: false,
         };
     }
-
-    componentDidUpdate(prevProps: any) {
-        if(this.props.cartItemCount !== prevProps.cartItemCount) {
-          this.setState({
-              ...this.state
-          })
-        }
-    } 
 
     public componentDidMount() {
         this.props.foodItems.then(food => {
@@ -52,14 +44,12 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                 })
             });
         })
-
-        console.log(this.props.cartItemCount);
     }
 
     render() {
         return (
             <div>
-                <Navbar cartItemCount={this.props.cartItemCount}/>
+                <Navbar/>
                 <br />
                 <br />
                 <br />
@@ -205,16 +195,22 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
             });
         }
         else {
-            this.setState({
-                ...this.state
-            });
-
             if (item.type === "food") {
                 this.props.addItem(item.food, quantity, item.type);
+
+                setTimeout(() => {
+                    this.forceUpdate();
+                }, 1200);
             }
             else if (item.type === "beverage") {
                 this.props.addItem(item.beverage, quantity, item.type);
+
+                setTimeout(() => {
+                    this.forceUpdate();
+                }, 1200);
             }
+
+            
         }
     }
 }

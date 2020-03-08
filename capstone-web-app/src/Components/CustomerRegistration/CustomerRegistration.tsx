@@ -33,7 +33,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
     public render() {
         return (
             <div>
-                <Navbar cartItemCount={0} />
+                <Navbar />
                 <div id="registrationScreenBackground">
                     <br />
                     <br />

@@ -46,7 +46,7 @@ export default class MenuService {
         let bearerToken = "Bearer " + tokenService.getAccessToken();
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseDevURL}CarryOut/AddToCart`, {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/AddToCart`, {
                 method: "POST",
                 body: JSON.stringify(requestBody),
                 headers: {
@@ -59,8 +59,11 @@ export default class MenuService {
                     resolve(true);
                 }
                 else {
-                    resolve(false);
+                    reject("Response Status: " + response.status);
                 }
+            })
+            .catch(reason => {
+                reject(reason);
             })
         });
 
@@ -73,7 +76,7 @@ export default class MenuService {
         let bearerToken = "Bearer " + tokenService.getAccessToken();
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseDevURL}CarryOut/GetAllCarryOutsInCart/${customerId}`, {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/GetAllCarryOutsInCart/${customerId}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,6 +86,9 @@ export default class MenuService {
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
+                }
+                else {
+                    reject("Response Status: " + response.status);
                 }
             })
             .then((data): any => {
