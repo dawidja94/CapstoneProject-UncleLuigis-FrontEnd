@@ -20,12 +20,10 @@ import Login from './Components/Login/Login';
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
 const beverageMenuItems = menuService.getAllBeverageMenuItems();
+let cartItemsCount: number = 0;
+menuService.getAllCarryOutsInCart(4).then((data) => {console.log("Hello")})
 
 let count: number = 0;
-let cart: any = [];
-let cartItemsCount: number = 0;
-
-
 
 function countUp(message: string) {
     count++;
@@ -34,10 +32,7 @@ function countUp(message: string) {
 }
 
 function getCountInCustomerCart() {
-    menuService.getAllCarryOutsInCart(4)
-    .then(data => {
-        cartItemsCount = data.length;
-    });
+    
 }
 
 function addItemToCarryOutCart(item: any, quantity: number, type: string) {
