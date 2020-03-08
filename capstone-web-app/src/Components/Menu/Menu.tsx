@@ -93,7 +93,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                                     <option>5</option>
                                                                 </select>
                                                             </span>
-                                                            <button className="btn btn-outline-danger" onClick={() => this.addToCart(item, item.quantity)}>Add To Carry Out</button>
+                                                            <button className="btn btn-outline-danger custom" onClick={() => this.addToCart(item, item.quantity)}>Add To Carry Out</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -128,7 +128,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                     <option>5</option>
                                                 </select>
                                             </span>
-                                            <button className="btn btn-outline-danger" onClick={() => this.addToCart(item, item.quantity)}>Add To Carry Out</button>
+                                            <button className="btn btn-outline-danger custom" onClick={() => this.addToCart(item, item.quantity)}>Add To Carry Out</button>
                                         </div>
                                     </div>
                                 );

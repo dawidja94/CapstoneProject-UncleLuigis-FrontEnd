@@ -164,6 +164,10 @@ div.card {
   background-color: #f4f5f0 !important;
 }
 
+.btn.btn-outline-danger.custom {
+  margin-top: 6px;
+}
+
 /* End Menu Component CSS */
 
 /* Start Login Component CSS */
