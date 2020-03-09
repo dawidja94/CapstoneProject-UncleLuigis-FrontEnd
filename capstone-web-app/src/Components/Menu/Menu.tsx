@@ -24,7 +24,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
 
             // Push in a new Food item for each index along with a quantity of zero for each.
             food.forEach((item: any) => {
-                foodList.push(new Food(item, 1));
+                foodList.push(new Food(item, 1, 0));
             });
 
             this.setState({
@@ -35,7 +35,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
 
                     // Push in a new Food item for each index along with a quantity of zero for each.
                     beverages.forEach((item: any) => {
-                        beveragesList.push(new Beverage(item, 1));
+                        beveragesList.push(new Beverage(item, 1, 0));
                     });
 
                     this.setState({

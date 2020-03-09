@@ -182,6 +182,20 @@ div.card {
 }
 /* End Login Component CSS */
 
+/* Start CarryOut Component CSS */
+h1.font-weight-lighter.custom {
+  color: #FF3836;
+  text-transform: uppercase;
+  font-weight: 100 !important;
+  /*background-color: #efefef;*/
+  padding: 10px;
+}
+
+.table-container {
+  overflow-x: scroll;
+}
+/* End CarryOut Component CSS */
+
 /* Devices under 1000px */
 @media (max-width: 1000px) {
   .menu-item-break {

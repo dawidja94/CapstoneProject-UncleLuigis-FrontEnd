@@ -16,6 +16,7 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import Menu from './Components/Menu/Menu';
 import MenuService from './Services/MenuService';
 import Login from './Components/Login/Login';
+import CarryOut from './Components/CarryOut/CarryOut';
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
@@ -97,6 +98,7 @@ const routing = (
                 <Route path="/Login" render={(props) => <Login {...props} />} />
                 {/* <Route exact path="/Menu" component={Menu} /> */}
                 <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
+                <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
             </ScrollToTop>
         </Switch>
     </Router>

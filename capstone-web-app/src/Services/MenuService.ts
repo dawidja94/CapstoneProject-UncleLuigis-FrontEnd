@@ -101,4 +101,33 @@ export default class MenuService {
 
         return promise;
     }
+
+    public removeFromCart(requestBody: any): Promise<any> {
+        let tokenService = new TokenService();
+        let bearerToken = "Bearer " + tokenService.getAccessToken();
+
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/RemoveFromCart`, {
+                method: "DELETE",
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    resolve(true);
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .catch(reason => {
+                reject(reason);
+            })
+        });
+
+        return promise;
+    }
 }
