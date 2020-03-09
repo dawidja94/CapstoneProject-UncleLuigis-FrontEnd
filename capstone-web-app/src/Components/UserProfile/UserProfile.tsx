@@ -17,9 +17,10 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
             customerId: 0,
             navigateToHomeScreen: false,
             useListOption: true,
-            passwordTooShortError: "Password must be longer than 6 characters.",
+            passwordTooShortError: "Password must be at least 6 characters.",
             userExistsError: "This username already exists in our system.",
             passwordsNotMatching: "Confirmed password did not match password",
+            userNameTooShort: "Username must be at least 4 characters.",
             validationMessages: [],
             showValidationModal: false,
             showCustomerExistsModal: false,
@@ -66,7 +67,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                                             <input type="password" className="form-control" placeholder="Confirm Password" id="pswd"value={this.state.confirmPassword} onChange={(e) => this.confirmPasswordOnChange(e)}></input>
                                         </div>
                                         {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.userExistsError} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
-                                        {/* Render the other CustomModal for the username duplication message here */}
+                                        {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.userExistsError} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
                                         <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger" >Submit</button>
                                     </div>
                                 </div>
@@ -75,7 +76,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                         </div>
                     </div>
                 </div>
-                {this.state.navigateToHomeScreen ? <Redirect to={"/"}/>:<div></div>}np
+                {this.state.navigateToHomeScreen ? <Redirect to={"/"}/>:<div></div>}
             </div>
         )
     }
@@ -104,6 +105,11 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
     private onFormSubmit(): void {
         let valid: boolean = true;
         let messages: string [] = [];
+
+        if (this.state.userName.length < 4 ){
+            valid = false;
+            messages.push(this.state.userNameTooShort)
+        }
       
         if (this.state.password.length < 6 ){
             valid = false;
@@ -198,9 +204,15 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                         });
                     }
                     else {
-                        // Set the state such a manner that it triggers a modal that says "Warning! - This username has already been taken. Please try a different username."
-
-                    }
+                            valid = false;
+                          messages.push(this.state.userExistsError)
+             
+                             this.setState({
+                                 isFormValid: valid,
+                             validationMessages: messages
+                            });
+                            // Set the state such a manner that it triggers a modal that says "Warning! - This username has already been taken. Please try a different username."
+                     }
                 })
                 .catch(reason => {
                     console.log(reason);

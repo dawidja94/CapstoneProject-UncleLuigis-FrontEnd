@@ -6,6 +6,7 @@ export default interface IUserProfileState {
     navigateToHomeScreen: boolean;
     passwordTooShortError: string;
     passwordsNotMatching: string;
+    userNameTooShort: string;
     userExistsError: string;
     useListOption: boolean;
     validationMessages: string[];

@@ -243,13 +243,27 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                 .then(data => {
                     // This is the block of .then for when the customer is found as an already existing customer in the Db.
                     console.log(data);
+                    // fetch(`${ConstantStrings.baseAzureURL}Customer/GetCustomer`,{
+                    //     method: "GET",
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     }
+                    // })
+                    // .then((response: any) => {
+                    //     return response.json();
+                    // })
+                    // .then(data =>{
+                    //     console.log(data);
 
+                    //     if (data.)
+                    // })
+                    
                     // Need another API call here. Because this customer exists. But we need to check if
                     // they already have an user profile or not.
                     // If they do not.... Then redirect them like below already coded.
                     // Else need to pop-up a modal saying, hey my guy you already have a user profile.
                     // Click ok and redirect to login screen...
-
+                    
 
                     // This part below is for when they do not have a user profile, so you send them to
                     // the next screen, the user profile screen!
