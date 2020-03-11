@@ -90,17 +90,16 @@ function addItemToCarryOutCart(item: any, quantity: number, type: string) {
 
 const routing = (
     <Router>
-        <Switch>
-            <ScrollToTop>
-                <Route exact path="/" component={App} />
-                <Route exact path="/Register" component={CustomerRegistration} />
-                <Route exact path="/UserProfile/:id" component={UserProfile}/>
-                <Route path="/Login" render={(props) => <Login {...props} />} />
-                {/* <Route exact path="/Menu" component={Menu} /> */}
-                <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
-                <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
-            </ScrollToTop>
-        </Switch>
+            <Switch>
+                <ScrollToTop>
+                    <Route exact path="/" component={App} />
+                    <Route exact path="/Register" component={CustomerRegistration} />
+                    <Route exact path="/UserProfile/:id" component={UserProfile}/>
+                    <Route path="/Login" render={(props) => <Login {...props} />} />
+                    <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
+                    <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
+                </ScrollToTop>
+            </Switch>
     </Router>
 )
 
