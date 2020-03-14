@@ -1,4 +1,8 @@
+import Food from "../../Models/Food";
+import Beverage from "../../Models/Beverage";
+
 export default interface IMenuState {
-    foodItems: any[];
-    beverageItems: any[];
+    foodItems: Food[];
+    beverageItems: Beverage[];
+    showLoginModal: boolean;
 }

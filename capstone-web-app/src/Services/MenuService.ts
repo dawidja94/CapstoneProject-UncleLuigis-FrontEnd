@@ -1,4 +1,5 @@
 import ConstantStrings from "../Constants/ConstantStrings";
+import TokenService from "./TokenService";
 
 export default class MenuService {
     public getAllFoodMenuItems(): Promise<any> {
@@ -34,6 +35,97 @@ export default class MenuService {
             .catch(reason => {
                 reject(reason);
             });
+        });
+
+        return promise;
+    }
+
+    // Requires Authorization Bearer Token.
+    public addToCart(requestBody: any): Promise<any> {
+        let tokenService = new TokenService();
+        let bearerToken = "Bearer " + tokenService.getAccessToken();
+
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/AddToCart`, {
+                method: "POST",
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    resolve(true);
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .catch(reason => {
+                reject(reason);
+            })
+        });
+
+        return promise;
+    }
+
+    // Requires Authorization Bearer Token.
+    public getAllCarryOutsInCart(customerId: number): Promise<any> {
+        let tokenService = new TokenService();
+        let bearerToken = "Bearer " + tokenService.getAccessToken();
+
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/GetAllCarryOutsInCart/${customerId}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .then((data): any => {
+                resolve(data);
+            })
+            .catch(reason => {
+                reject(reason);
+            });
+        });  
+
+        return promise;
+    }
+
+    public removeFromCart(requestBody: any): Promise<any> {
+        let tokenService = new TokenService();
+        let bearerToken = "Bearer " + tokenService.getAccessToken();
+
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/RemoveFromCart`, {
+                method: "DELETE",
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    resolve(true);
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .catch(reason => {
+                reject(reason);
+            })
         });
 
         return promise;

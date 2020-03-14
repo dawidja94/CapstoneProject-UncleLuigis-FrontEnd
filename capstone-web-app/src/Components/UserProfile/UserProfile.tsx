@@ -66,8 +66,8 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                                             <label className="font-weight-bold">Confirm Password:</label>
                                             <input type="password" className="form-control" placeholder="Confirm Password" id="pswd"value={this.state.confirmPassword} onChange={(e) => this.confirmPasswordOnChange(e)}></input>
                                         </div>
-                                        {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.userExistsError} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
-                                        {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.userExistsError} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
+                                        {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.userExistsError} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
+                                        {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.userExistsError} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
                                         <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger" >Submit</button>
                                     </div>
                                 </div>

@@ -5,8 +5,11 @@ import ILoginProps from "../UserProfile/IUserProfileProps";
 import ILoginState from "./ILoginState";
 import Footer from "../Footer/Footer";
 import TokenService from "../../Services/TokenService";
+import MenuService from "../../Services/MenuService";
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
+    private menuService: MenuService;
+
     constructor(props: any) {
         super(props);
 
@@ -14,10 +17,12 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             userName: "",
             password: ""
         }
+
+        this.menuService = new MenuService();
     }
 
     public componentDidMount() {
-
+    
     }
 
     public render() {
@@ -48,7 +53,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                                             <label className="font-weight-bold">Password:</label>
                                             <input type="password" className="form-control" placeholder="Password" id="pswd"value={this.state.password} onChange={(e) => this.passwordOnChange(e)}></input>
                                         </div>
-                                        <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger" >Submit</button>
+                                        <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -107,15 +112,27 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                 refreshToken: data.authenticatedModel.refreshToken,
                 firstName: data.authenticatedModel.customer.firstName,
                 lastName: data.authenticatedModel.customer.lastName,
-                phoneNumber: data.authenticatedModel.customer.phoneNumber
+                phoneNumber: data.authenticatedModel.customer.phoneNumber,
+                customerId: data.authenticatedModel.customer.id
             };
 
             tokenService.handleAuthTokens(tokenBody);
+
+            let customerIdFromLS = localStorage.getItem("Customer ID");
+            let customerId: number = 0;
+        
+            if (customerIdFromLS !== null) {
+                customerId = parseInt(customerIdFromLS.toString());
+            }
+        
+            this.menuService.getAllCarryOutsInCart(customerId)
+            .then((data: any) => {
+                let count = data.length ?? 0;
+                localStorage.setItem("cartCount", count);
+            });
         })
         .catch(reason => {
             console.log(reason);
         })
-        
-
     }
 }

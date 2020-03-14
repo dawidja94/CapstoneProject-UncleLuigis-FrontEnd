@@ -15,6 +15,7 @@ export default class TokenService {
         localStorage.setItem("First name", apiResponse.firstName);
         localStorage.setItem("Last name", apiResponse.lastName);
         localStorage.setItem("Phone number", apiResponse.phoneNumber);
+        localStorage.setItem("Customer ID", apiResponse.customerId);
 
         this.getAccessToken();
         this.getRefreshToken();

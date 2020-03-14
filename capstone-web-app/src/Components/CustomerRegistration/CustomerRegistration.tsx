@@ -86,7 +86,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     <br />
                     <br />
                 </div>
-                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} title={"Warning"} useListOption={true} listMessages={this.state.validationMessages} body={this.state.invalidEmail} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} />}
+                {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} useListOption={true} listMessages={this.state.validationMessages} />}
                 {this.state.navigateToNextScreen ? <Redirect to={{pathname: `/UserProfile/${this.state.createdCustomerId === 0 ? this.state.foundCustomerId : this.state.createdCustomerId}`, state: {id: this.state.createdCustomerId}}}/> : <div></div>}
                 <Footer />
             </div>

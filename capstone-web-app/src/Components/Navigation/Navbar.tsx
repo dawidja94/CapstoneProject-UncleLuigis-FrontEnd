@@ -4,19 +4,27 @@ import * as icons from "@fortawesome/free-solid-svg-icons";
 import '../../css/Navbar.scss';
 import '../../css/Fixed.scss';
 import { Link } from 'react-router-dom';
+import INavbarProps from './INavbarProps';
+import MenuService from '../../Services/MenuService';
+import Spinner from 'react-bootstrap/Spinner';
 
-class Navbar extends React.Component<any, any> {
+class Navbar extends React.Component<INavbarProps, any> {
     constructor(props:any) {
         super(props);
 
         this.state = {
             menu: false,
-            action: false
+            action: false,
+            cartItemsCount: 0
         };
 
         this.toggleMenu = this.toggleMenu.bind(this);
         this.linkClicked = this.linkClicked.bind(this);
         this.logOut = this.logOut.bind(this);
+    }
+
+    componentDidMount() {
+ 
     }
 
     private toggleMenu() {
@@ -80,7 +88,7 @@ class Navbar extends React.Component<any, any> {
                             </li>
                             <li className="nav-item">
                                 <Link to="/CarryOut" className="nav-link">
-                                    <FontAwesomeIcon icon={icons.faShoppingCart}/> Carry Out
+                                    <FontAwesomeIcon icon={icons.faShoppingCart}/> {localStorage.getItem("cartCount") !== null && localStorage.getItem("cartCount") !== "0"  ? `(${localStorage.getItem("cartCount")})`: ""} Carry Out
                                 </Link>
                             </li>
                             <li className="nav-item">

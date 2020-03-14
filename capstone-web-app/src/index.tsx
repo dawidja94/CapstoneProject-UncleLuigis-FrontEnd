@@ -16,6 +16,7 @@ import UserProfile from './Components/UserProfile/UserProfile';
 import Menu from './Components/Menu/Menu';
 import MenuService from './Services/MenuService';
 import Login from './Components/Login/Login';
+import CarryOut from './Components/CarryOut/CarryOut';
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
@@ -29,18 +30,76 @@ function countUp(message: string) {
     console.log("message: " + message);
 }
 
+function getCountInCustomerCart() {
+    let customerIdFromLS = localStorage.getItem("Customer ID");
+    let customerId: number = 0;
+
+    if (customerIdFromLS !== null) {
+        customerId = parseInt(customerIdFromLS.toString());
+    }
+
+    menuService.getAllCarryOutsInCart(customerId)
+    .then((data: any) => {
+        let count = data.length ?? 0;
+        localStorage.setItem("cartCount", count);
+    })
+    .catch((reason) => {
+        console.log(reason);
+    });
+}
+
+function addItemToCarryOutCart(item: any, quantity: number, type: string) {
+    let customerIdFromLS = localStorage.getItem("Customer ID");
+    let customerId: number = 0;
+
+    if (customerIdFromLS !== null) {
+        customerId = parseInt(customerIdFromLS.toString());
+    }
+
+    let carryOutItem = {};
+
+    if (type === "food") {
+        carryOutItem = {
+            id: 0,
+            bundleId: 0,
+            customerId: customerId,
+            food: item,
+            foodQuantity: quantity,
+            beverage: null,
+            beverageQuantity: 0,
+            submissionTime: null
+        };
+    }
+    else if (type === "beverage") {
+        carryOutItem = {
+            id: 0,
+            bundleId: 0,
+            customerId: customerId,
+            food: null,
+            foodQuantity: 0,
+            beverage: item,
+            beverageQuantity: quantity,
+            submissionTime: null
+        };
+    }
+
+    menuService.addToCart(carryOutItem).then(() => {
+        getCountInCustomerCart();
+    });
+}
+
 const routing = (
     <Router>
-        <Switch>
-            <ScrollToTop>
-                <Route exact path="/" component={App} />
-                <Route exact path="/Register" component={CustomerRegistration} />
-                <Route exact path="/UserProfile/:id" component={UserProfile}/>
-                <Route path="/Login" render={(props) => <Login {...props} />} />
-                {/* <Route exact path="/Menu" component={Menu} /> */}
-                <Route path="/Menu" render={(props) => <Menu {...props} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
-            </ScrollToTop>
-        </Switch>
+            <Switch>
+                <ScrollToTop>
+                    <Route exact path="/" component={App} />
+                    <Route exact path="/Register" component={CustomerRegistration} />
+                    <Route exact path="/UserProfile/:id" component={UserProfile}/>
+                    <Route path="/Login" render={(props) => <Login {...props} />} />
+                    <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
+                    <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
+                </ScrollToTop>
+            </Switch>
     </Router>
 )
 
