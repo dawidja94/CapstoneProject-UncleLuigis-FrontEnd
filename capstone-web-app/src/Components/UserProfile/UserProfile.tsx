@@ -134,94 +134,109 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
             showValidationModal: true
         }, () => {
             if (this.state.isFormValid) {
-                // At this point, the form has been validated for password length and matching fields.
-                // It is necessary to check if the username submitted by the user is already taken.
-                fetch(`${ConstantStrings.baseAzureURL}User/GetUser/${this.state.userName}`, {
+               // At this point, the form has been validated for password length and matching fields.
+               // It is necessary to check if the username submitted by the user is already taken.
+                fetch(`${ConstantStrings.baseAzureURL}User/GetUserProfileByCustomer/${this.state.customerId}`,{
                     method: "GET",
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Constant-Type': 'application/json'
                     }
                 })
                 .then((response: any) => {
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Checking response data here in user profile");
-                    // Here we should see either a JSON object with one property (username).
-                    // Either the property is equal to the username passed in in the URL (this means that the username is already taken.)
-                    // Or the username property returned is an empty string, (this means the username is not taken and is available.)
                     console.log(data);
 
-                    if (data.username === "") {
-                        // // Create the user account and pass in the customer ID along with it.
-                        // // Create your API call here for CreateUser.
-                        const requestBody = {
-                            userName: this.state.userName,
-                            password: this.state.password,
-                            confirmPassword: this.state.confirmPassword,
-                            email: "",
-                            phoneNumber: "",
-                            customerId: this.state.customerId
-                        };
-
-                        console.log("Checking this.state.customerId");
-                        console.log(this.state.customerId);
-
-                        fetch(`${ConstantStrings.baseAzureURL}User/Register`, {
-                            method: "POST",
-                            body: JSON.stringify(requestBody),
+                    // Then check that the username hasn't already been taken.
+                    if (data.length === 0 ){
+                        fetch(`${ConstantStrings.baseAzureURL}User/GetUser/${this.state.userName}`, {
+                            method: "GET",
                             headers: {
                                 'Content-Type': 'application/json'
                             }
                         })
-                        .then(response =>{
-                            console.log("Create User status:" + response.status);
-
-                            if (response.status === 200)
+                        .then((response: any) => {
                             return response.json();
-                            else{
-                                console.log("wtf");
-                            }
                         })
                         .then(data => {
+                            console.log("Checking response data here in user profile");
+                            // Here we should see either a JSON object with one property (username).
+                            // Either the property is equal to the username passed in in the URL (this means that the username is already taken.)
+                            // Or the username property returned is an empty string, (this means the username is not taken and is available.)
                             console.log(data);
-                            let tokenService = new TokenService();
-                
-                            const tokenBody = {
-                                accessToken: data.authenticatedModel.accessToken,
-                                refreshToken: data.authenticatedModel.refreshToken,
-                                firstName: data.authenticatedModel.customer.firstName,
-                                lastName: data.authenticatedModel.customer.lastName,
-                                phoneNumber: data.authenticatedModel.customer.phoneNumber
-
+        
+                            if (data.username === "") {
+                                // // Create the user account and pass in the customer ID along with it.
+                                // // Create your API call here for CreateUser.
+                                const requestBody = {
+                                    userName: this.state.userName,
+                                    password: this.state.password,
+                                    confirmPassword: this.state.confirmPassword,
+                                    email: "",
+                                    phoneNumber: "",
+                                    customerId: this.state.customerId
+                                };
+        
+                                console.log("Checking this.state.customerId");
+                                console.log(this.state.customerId);
+        
+                                fetch(`${ConstantStrings.baseAzureURL}User/Register`, {
+                                    method: "POST",
+                                    body: JSON.stringify(requestBody),
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                })
+                                .then(response =>{
+                                    console.log("Create User status:" + response.status);
+        
+                                    if (response.status === 200)
+                                        return response.json();
+                                  
+                                })
+                                .then(data => {
+                                    console.log(data);
+                                    let tokenService = new TokenService();
+                        
+                                    const tokenBody = {
+                                        accessToken: data.authenticatedModel.accessToken,
+                                        refreshToken: data.authenticatedModel.refreshToken,
+                                        firstName: data.authenticatedModel.customer.firstName,
+                                        lastName: data.authenticatedModel.customer.lastName,
+                                        phoneNumber: data.authenticatedModel.customer.phoneNumber
+        
+                                    }
+                                    tokenService.handleAuthTokens(tokenBody); 
+        
+                                    this.setState({
+                                        navigateToHomeScreen: true
+                        
+                                    });
+                                });
                             }
-                            tokenService.handleAuthTokens(tokenBody); 
-
-                            this.setState({
-                                navigateToHomeScreen: true
-                
-                            });
+                            else {
+                                    valid = false;
+                                  messages.push(this.state.userExistsError)
+                     
+                                     this.setState({
+                                         isFormValid: valid,
+                                     validationMessages: messages
+                                    });
+                                    // Set the state such a manner that it triggers a modal that says "Warning! - This username has already been taken. Please try a different username."
+                             }
+                        })
+                        .catch(reason => {
+                            console.log(reason);
                         });
+
                     }
                     else {
-                            valid = false;
-                          messages.push(this.state.userExistsError)
-             
-                             this.setState({
-                                 isFormValid: valid,
-                             validationMessages: messages
-                            });
-                            // Set the state such a manner that it triggers a modal that says "Warning! - This username has already been taken. Please try a different username."
-                     }
+                        // Display message saying that the customer already has an account.
+                        // Potentially later this logic will need to redirect them to forget user/forget password screen.
+                    }
                 })
-                .catch(reason => {
-                    console.log(reason);
-                });
             }  
-            else {
-                // Do nothing here....
-                // In the HTML use ternary to conditionally display the Validation Modal Pop-up.
-            }
         });
     }
 }

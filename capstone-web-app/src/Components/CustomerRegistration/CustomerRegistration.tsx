@@ -262,8 +262,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     // they already have an user profile or not.
                     // If they do not.... Then redirect them like below already coded.
                     // Else need to pop-up a modal saying, hey my guy you already have a user profile.
-                    // Click ok and redirect to login screen...
-                    
+                    // Click ok and redirect to login screen..
 
                     // This part below is for when they do not have a user profile, so you send them to
                     // the next screen, the user profile screen!
