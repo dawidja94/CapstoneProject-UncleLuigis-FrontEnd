@@ -6,4 +6,5 @@ export default interface ICarryOutState {
     beverageCartItems: Beverage[];
     cartItems: any[];
     foodAndBeverageCartItemsLoaded: boolean;
+    customerLoggedIn: boolean;
 }

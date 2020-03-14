@@ -20,7 +20,8 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             beverageCartItems: [],
             foodCartItems: [],
             cartItems: [],
-            foodAndBeverageCartItemsLoaded: false
+            foodAndBeverageCartItemsLoaded: false,
+            customerLoggedIn: true
         };
 
         this.menuService = new MenuService();
@@ -84,9 +85,14 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                                         <h1 className="font-weight-lighter custom"><FontAwesomeIcon icon={icons.faShoppingCart}/> Cart</h1>
                                         <br />
                                         { this.state.foodAndBeverageCartItemsLoaded ? this.renderFoodCart() : 
-                                        <Spinner animation="border" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </Spinner>
+                                            this.state.customerLoggedIn ?
+                                            <Spinner animation="border" role="status">
+                                                <span className="sr-only">Loading...</span>
+                                            </Spinner>
+                                            :
+                                            <span>
+                                                Your Cart Is Empty! Please login to add/view items in your cart!
+                                            </span>
                                         }
                                         <br />
                                         <br />
