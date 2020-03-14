@@ -141,7 +141,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         </div>
                     </div>
                 </div> : ""}
-                {this.state.showLoginModal ? <CustomModal {...this.props} showLoginButton={true} title={"Valued Customer"} body={"Please login to add items to carry out order. Thank you!"} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
+                {this.state.showLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={"Valued Customer"} body={"Please login to add items to carry out order. Thank you!"} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
                 <Footer />
             </div>
         );

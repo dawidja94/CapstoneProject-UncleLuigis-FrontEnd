@@ -9,4 +9,9 @@ export default interface ICustomerRegistrationState {
     navigateToNextScreen: boolean;
     showValidationModal: boolean;
     showCustomerExistsModal: boolean;
+    invalidEmail: string;
+    invalidPhoneNumber: string;
+    emptyFirstNameField: string;
+    emptyLastNameField: string;
+    validationMessages: string[];
 }

@@ -4,5 +4,7 @@ export default interface ICustomModalProps {
     buttontitle: string;
     show: boolean;
     showLoginButton: boolean;
+    useListOption: boolean;
+    listMessages: string [];
     onCloseModal: () => void;
 }
