@@ -65,7 +65,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                                             <input type="text" className="form-control" placeholder="Last Name" id="name" value={this.state.lastName}onChange={(e) => this.lastNameOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
-                                            <label className="font-weight-bold">Email:</label>
+                                            <label className="control-label">Email:</label>
                                             <input type="email"  className="form-control" placeholder="Email" id="email" value={this.state.email}onChange={(e) => this.emailOnChange(e)}></input>
                                         </div>
                                         <div className="form-group">
