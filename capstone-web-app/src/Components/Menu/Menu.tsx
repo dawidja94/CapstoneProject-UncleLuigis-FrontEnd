@@ -196,6 +196,8 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         }
         else {
             if (item.type === "food") {
+                console.log("checking quantity after click");
+                console.log(quantity);
                 this.props.addItem(item.food, quantity, item.type);
 
                 setTimeout(() => {
