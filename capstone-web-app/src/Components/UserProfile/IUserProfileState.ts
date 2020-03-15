@@ -12,6 +12,7 @@ export default interface IUserProfileState {
     validationMessages: string[];
     showValidationModal: boolean;
     showCustomerExistsModal: boolean;
-    isFormValid: boolean;
+    isFormValid: boolean,
+    accountExists: string;
     
 }

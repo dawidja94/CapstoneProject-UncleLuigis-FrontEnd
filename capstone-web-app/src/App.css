@@ -63,10 +63,14 @@ body {
 div.card {
   background-color: #f4f5f0 !important;
 }
-
-.form-group.required .control-label:after {
+.form-group.required .font-weight-bold:after {
   content:"*";
   color:red;
+}
+
+.text-muted:before {
+content: "*";
+color: red;
 }
 
 .btn {
