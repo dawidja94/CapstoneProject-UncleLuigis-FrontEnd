@@ -93,6 +93,7 @@ const routing = (
             <Switch>
                 <ScrollToTop>
                     <Route exact path="/" component={App} />
+                    <Route exact path="/Home" component={App} />
                     <Route exact path="/Register" component={CustomerRegistration} />
                     <Route exact path="/UserProfile/:id" component={UserProfile}/>
                     <Route path="/Login" render={(props) => <Login {...props} />} />

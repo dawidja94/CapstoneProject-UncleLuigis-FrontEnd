@@ -138,7 +138,7 @@ export default class MenuService {
         let bearerToken = "Bearer " + tokenService.getAccessToken();
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseDevURL}CarryOut/CreateCarryOut`, {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/CreateCarryOut`, {
                 method: "POST",
                 body: JSON.stringify(requestBody),
                 headers: {

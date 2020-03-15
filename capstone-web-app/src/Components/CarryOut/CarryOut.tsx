@@ -45,12 +45,16 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             customerId = parseInt(customerIdFromLS.toString());
         }
 
+
         // API call, get all the cart items for the current customer.
         this.menuService.getAllCarryOutsInCart(customerId)
         .then((data) => {
+            const loggedIn = localStorage.getItem("Customer ID") ? true : false;
+
             this.setState({
                 cartItems: data,
-                customerLoggedIn: false
+                customerLoggedIn: loggedIn,
+                showSpinner: true
             }, () => {
                 console.log("Carry Out Cart checking state");
                 console.log(this.state);
@@ -72,7 +76,6 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                     foodCartItems: foodItems,
                     beverageCartItems: beverageItems,
                     foodAndBeverageCartItemsLoaded: true,
-                    customerLoggedIn: true,
                     showSpinner: false
                 });
             });
@@ -151,29 +154,6 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
         });
     }
 
-    private renderSpinner(): JSX.Element {
-        console.log("renderSpinner");
-        console.log(this.state.foodAndBeverageCartItemsLoaded);
-        console.log(this.state.customerLoggedIn);
-
-        if (!(this.state.foodAndBeverageCartItemsLoaded) && !this.customerLoggedIn) {
-            return (
-                <div>
-                    <h5>Your cart is empty! Please login to add/view items in your cart!</h5>
-                </div>
-            );
-        }
-        else {
-            return (
-                <div>
-                    <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                </div>
-            );
-        }
-    }
-
     private renderFoodCart(): JSX.Element {
         if (this.state.foodCartItems.length > 0 && this.state.customerLoggedIn && !this.state.showSpinner) {
             return (
@@ -236,7 +216,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                 </div>
             );
         }
-        else if (!this.customerLoggedIn) {
+        else if (!this.customerLoggedIn && !this.state.showSpinner) {
             return (
                 <div>
                     <h5>Please login to add/view items in your cart!</h5>
@@ -249,21 +229,21 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             );
         }
         else {
-            if (this.customerLoggedIn && !this.state.showSpinner) {
+            if (this.state.showSpinner) {
                 return (
                     <div>
-                        <h5>{localStorage.getItem("First name")}, you have no items in your cart!</h5>
-                        <br />
-                        <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToMenu: true})}>View Menu</button>
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
                     </div>
                 );
             }
             else {
                 return (
                     <div>
-                        <Spinner animation="border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
+                        <h5>{localStorage.getItem("First name")}, you have no items in your cart!</h5>
+                        <br />
+                        <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToMenu: true})}>View Menu</button>
                     </div>
                 );
             }
