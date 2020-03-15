@@ -1,12 +1,11 @@
-import ICustomerRegistrationProps from "../CustomerRegistration/ICustomerRegistrationProps";
 import React from "react";
-import ICustomModalProps from "./ICustomModalProps";
-import ICustomModalState from "./ICustomModalState";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
+import IOrderConfirmationModalProps from "./IOrderConfirmationModalProps";
+import IOrderConfirmationModalState from "./IOrderConfirmationModalState";
 
-export default class CustomModal extends React.Component<ICustomModalProps, ICustomModalState> {
+export default class OrderConfirmationModal extends React.Component<IOrderConfirmationModalProps, IOrderConfirmationModalState> {
     constructor(props: any) {
         super(props);
 
@@ -17,6 +16,14 @@ export default class CustomModal extends React.Component<ICustomModalProps, ICus
 
     private onHideHandler() {
         this.props.onCloseModal();
+    }
+
+    private onSubmitOrderHandler() {
+        this.props.onSubmitOrderClick();
+    }
+
+    private onRemoveItemHandler() {
+        this.props.onRemoveItemClick();
     }
 
     render() {
@@ -34,25 +41,19 @@ export default class CustomModal extends React.Component<ICustomModalProps, ICus
                         </Modal.Header>
 
                         <Modal.Body>
-                            {this.props.useListOption ?  
-                                <div>
-                                    <ul>
-                                        {this.props.listMessages.map((item, key) => {
-                                            return (<li>{item}</li>)
-                                        })}
-                                    </ul>
-                                </div>
-                            :
-                            <p>{this.props.body}</p>}
+                            <p>{this.props.body}</p>
                         </Modal.Body>
 
                         <Modal.Footer>
-                            {this.props.showLoginButton ?
-                            <Link to="/Login" className="btn btn-outline-danger">
-                                Login
-                            </Link> : <label></label>
-                            }   
-                            <button className="btn btn-outline-danger" onClick={() => this.onHideHandler()}>{this.props.buttontitle}</button>
+                            {this.props.showSubmitOrderButton ?
+                            <button className="btn btn-outline-danger" onClick={() => this.onSubmitOrderHandler()}>Submit Order</button>
+                            : <label></label>
+                            }  
+                            {this.props.showRemoveItemButton ?
+                            <button className="btn btn-outline-danger" onClick={() => this.onRemoveItemHandler()}>Remove Item</button>
+                            : <label></label>
+                            }  
+                            <button className="btn btn-outline-danger" onClick={() => this.onHideHandler()}>Close</button>
                         </Modal.Footer>
                     </Modal.Dialog>
                 </div>

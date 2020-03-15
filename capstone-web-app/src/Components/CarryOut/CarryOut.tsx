@@ -10,6 +10,9 @@ import Beverage from "../../Models/Beverage";
 import Food from "../../Models/Food";
 import Spinner from "react-bootstrap/Spinner";
 import { Redirect } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
+import { timingSafeEqual } from "crypto";
 
 export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutState> {
     private menuService: MenuService;
@@ -26,7 +29,11 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             showSpinner: true,
             customerLoggedIn: false,
             redirectToLogin: false,
-            redirectToMenu: false
+            redirectToMenu: false,
+            showSubmitOrderConfirmationModal: false,
+            showThankYouModal: false,
+            showRemoveItemModal: false,
+            cartIdToRemove: 0
         };
 
         this.customerLoggedIn = false;
@@ -117,9 +124,24 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                 </div>
                 {this.state.redirectToLogin ? <Redirect to="/Login"/> : <div></div>}
                 {this.state.redirectToMenu ? <Redirect to="/Menu"/> : <div></div>}
+                {this.state.showSubmitOrderConfirmationModal ? <OrderConfirmationModal showRemoveItemButton={false} onRemoveItemClick={(this.submitOrder)} showSubmitOrderButton={true} title={"Order Confirmation"} body={"Please confirm your intent to submit this carry-out order."} buttontitle={"Close"} onSubmitOrderClick={this.submitOrder} show={this.state.showSubmitOrderConfirmationModal} onCloseModal={this.closeSubmitOrderConfirmationModal}></OrderConfirmationModal> : <div></div>}
+                {this.state.showThankYouModal ? <OrderConfirmationModal showRemoveItemButton={false} onRemoveItemClick={(this.submitOrder)} showSubmitOrderButton={false} title={"Thank You!"} body={"Thank you for your carry-out order!"} buttontitle={"Close"} onSubmitOrderClick={this.submitOrder} show={this.state.showThankYouModal} onCloseModal={this.closeThankYouModal}></OrderConfirmationModal> : <div></div>}
+                {this.state.showRemoveItemModal ? <OrderConfirmationModal onRemoveItemClick={this.removeItemFromCart} showRemoveItemButton={true} showSubmitOrderButton={false} title={"Remove Item"} body={"Are you sure you want to remove this item from your cart?"} buttontitle={"No"} onSubmitOrderClick={this.submitOrder} show={this.state.showRemoveItemModal} onCloseModal={this.closeRemoveItemFromCartModal}></OrderConfirmationModal> : <div></div>}
                 <Footer />
             </div>
         );
+    }
+
+    private closeThankYouModal = () => {
+        this.setState({
+            showThankYouModal: false
+        });
+    }
+
+    private closeSubmitOrderConfirmationModal = () => {
+        this.setState({
+            showSubmitOrderConfirmationModal: false
+        });
     }
 
     private getSubTotal(): number {
@@ -146,7 +168,13 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
         return total;
     }
 
-    private submitOrder(): void {
+    private onClickSubmitOrder = (): void => {
+        this.setState({
+            showSubmitOrderConfirmationModal: true
+        });
+    }
+
+    private submitOrder = (): void => {
         this.customerLoggedIn = localStorage.getItem("Customer ID") !== "" ? true : false; 
         let customerIdFromLS = localStorage.getItem("Customer ID");
         let customerId: number = 0;
@@ -171,7 +199,9 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                     beverageCartItems: [],
                     cartItems: [],
                     foodAndBeverageCartItemsLoaded: false,
-                    foodCartItems: []
+                    foodCartItems: [],
+                    showSubmitOrderConfirmationModal: false,
+                    showThankYouModal: true
                 });
             }
         })
@@ -191,7 +221,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                         <div><h5>Customer: {localStorage.getItem("First name")} {localStorage.getItem("Last name")}</h5></div>
                         <br />
                         <div>
-                            <button className="btn btn-danger" onClick={() => this.submitOrder()}>Submit Order</button>
+                            <button className="btn btn-danger" onClick={() => this.onClickSubmitOrder()}>Submit Order</button>
                         </div>
                         <div>
                             <label></label>
@@ -247,7 +277,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                                 return (
                                     <tr key={key}>
                                         <td>
-                                            <button className="btn btn-outline-danger" onClick={() => this.removeItemFromCart(item.carryOutRecordId)}>Remove</button>
+                                            <button className="btn btn-outline-danger" onClick={() => this.onClickRemoveItemFromCart(item.carryOutRecordId)}>Remove</button>
                                         </td>
                                         <td>
                                             {item.food.name}
@@ -268,7 +298,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                                 return (
                                     <tr key={key}>
                                         <td>
-                                            <button className="btn btn-outline-danger" onClick={() => this.removeItemFromCart(item.carryOutRecordId)}>Remove</button>
+                                            <button className="btn btn-outline-danger" onClick={() => this.onClickRemoveItemFromCart(item.carryOutRecordId)}>Remove</button>
                                         </td>
                                         <td>
                                             {item.beverage.name}
@@ -328,10 +358,20 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
         }
     }
 
-    private removeItemFromCart(cartId: number): void {
-        console.log("Checking cartId");
-        console.log(cartId);
+    private closeRemoveItemFromCartModal = (): void => {
+        this.setState({
+            showRemoveItemModal: false
+        });
+    }
 
+    private onClickRemoveItemFromCart = (cartId: number):void => {
+        this.setState({
+            showRemoveItemModal: true,
+            cartIdToRemove: cartId
+        });
+    }
+
+    private removeItemFromCart = (): void => {
         let customerIdFromLS = localStorage.getItem("Customer ID");
         let customerId: number = 0;
     
@@ -340,7 +380,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
         }
 
         const requestBody = {
-            carryOutId: cartId,
+            carryOutId: this.state.cartIdToRemove,
             customerId: customerId
         }
 
@@ -381,7 +421,8 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                             this.setState({
                                 foodCartItems: foodItems,
                                 beverageCartItems: beverageItems,
-                                foodAndBeverageCartItemsLoaded: true
+                                foodAndBeverageCartItemsLoaded: true,
+                                showRemoveItemModal: false
                             });
                         });
                     });
@@ -389,4 +430,6 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             }
         })
     }
+
+    
 }
