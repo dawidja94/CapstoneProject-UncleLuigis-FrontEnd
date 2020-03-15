@@ -19,8 +19,9 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
             useListOption: true,
             passwordTooShortError: "Password must be at least 6 characters.",
             userExistsError: "This username already exists in our system.",
-            passwordsNotMatching: "Confirmed password did not match password",
+            passwordsNotMatching: "Confirmed password did not match password.",
             userNameTooShort: "Username must be at least 4 characters.",
+            accountExists: "This account is already registered.",
             validationMessages: [],
             showValidationModal: false,
             showCustomerExistsModal: false,
@@ -218,12 +219,12 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                             else {
                                     valid = false;
                                   messages.push(this.state.userExistsError)
-                     
+                                    // Set the state such a manner that it triggers a modal that says a username like that exists
                                      this.setState({
                                          isFormValid: valid,
                                      validationMessages: messages
                                     });
-                                    // Set the state such a manner that it triggers a modal that says "Warning! - This username has already been taken. Please try a different username."
+                                    
                              }
                         })
                         .catch(reason => {
@@ -234,6 +235,13 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                     else {
                         // Display message saying that the customer already has an account.
                         // Potentially later this logic will need to redirect them to forget user/forget password screen.
+                        valid = false;
+                        messages.push(this.state.accountExists)
+                        
+                        this.setState({
+                            isFormValid: valid,
+                            validationMessages: messages
+                        });
                     }
                 })
             }  
