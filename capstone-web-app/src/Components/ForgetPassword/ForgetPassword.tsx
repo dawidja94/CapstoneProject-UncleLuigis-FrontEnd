@@ -28,6 +28,7 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
             passwordTooShortError: "Password must be at least 6 characters.",
             passwordsNotMatching: "Confirmed password did not match new password.",
             noMatchingAccount: "No matching account has been found, please review your form.",
+            validationMessages: []
         };
     }
 
@@ -95,5 +96,131 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
             </div>
         )
     }
+    
+    private userNameOnChange(event:any): void{
+        this.setState({
+            userName: event.target.value
+        });
+    }
+    private emailOnChange(event: any): void {
+        this.setState({
+            email: event.target.value
+        });
+    }
+    private phoneNumberOnChange(event: any): void {
+        this.setState({
+            phoneNumber: event.target.value
+        });
+    }
+    private newPasswordOnChange(event: any): void {
+        this.setState({
+            password: event.target.value
+        });
+    }
+    private confirmPasswordOnChange(event: any): void {
+        this.setState({
+            confirmPassword: event.target.value
+        });
+    }
 
+    private onFormSubmit(): void {
+        let messages: string[] = [];
+        let valid: boolean = true;
+        let emptyString = "";
+
+        if (this.state.userName === emptyString){
+            valid = false;
+            messages.push(this.state.emptyField)
+             
+            this.setState({
+                validationMessages: messages
+            });
+        }
+        if (this.state.email === emptyString){
+            valid = false;
+            messages.push(this.state.emptyField)
+             
+            this.setState({
+                validationMessages: messages
+            });
+        }
+        if (this.state.phoneNumber === emptyString){
+            valid = false;
+            messages.push(this.state.emptyField)
+             
+            this.setState({
+                validationMessages: messages
+            });
+        }
+        if (this.state.password.length < 6 ){
+            valid = false;
+            messages.push(this.state.passwordTooShortError)
+             
+            this.setState({
+                validationMessages: messages
+            });
+        }
+
+        if (this.state.confirmPassword !== this.state.password){
+            valid = false;
+            messages.push(this.state.passwordsNotMatching)
+             
+            this.setState({
+                validationMessages: messages
+            });
+        }
+        console.log("Valid" + valid);
+
+        this.setState({
+            isFormValid: valid,
+            showValidationModal: true
+        }, () => {
+
+            console.log("we got here");
+            if (this.state.isFormValid){
+                const requestBody = {
+                    userName: this.state.userName,
+                    email: this.state.email,
+                    phoneNumber: this.state.phoneNumber,
+                    password: this.state.password,
+                    confirmPassword: this.state.confirmPassword
+                };
+
+                //Call to API
+                fetch(`${ConstantStrings.baseAzureURL}User/ForgetPassword`, {
+                    method: "POST",
+                    body: JSON.stringify(requestBody),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                //response taken from API call
+                .then(response => {
+                    console.log(response.status);
+                    //found matching account, password is changed
+                    if(response.status === 200){
+
+                        return response.json();
+                    }
+                    else if (response.status === 400) {
+                        //no matching data found, display modal with error
+                        console.log(response.status)
+                    }
+                })
+                .then(data => {
+
+                    console.log(data);
+                    this.setState({
+
+                    })
+
+                })
+            }
+            else {
+
+            }
+
+
+        })
+    }
 }

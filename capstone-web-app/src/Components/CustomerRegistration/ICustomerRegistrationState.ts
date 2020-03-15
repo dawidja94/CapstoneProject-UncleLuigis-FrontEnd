@@ -14,4 +14,5 @@ export default interface ICustomerRegistrationState {
     emptyFirstNameField: string;
     emptyLastNameField: string;
     validationMessages: string[];
+    isNewCustomer: boolean;
 }

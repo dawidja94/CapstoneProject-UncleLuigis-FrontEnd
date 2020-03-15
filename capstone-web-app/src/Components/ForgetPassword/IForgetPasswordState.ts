@@ -11,5 +11,6 @@ export default interface IForgetPasswordState {
     passwordTooShortError: string;
     passwordsNotMatching: string;
     noMatchingAccount: string;
+    validationMessages: string[];
     
 }

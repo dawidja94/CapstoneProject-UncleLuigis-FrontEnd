@@ -27,7 +27,8 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
             emptyLastNameField: "Last name field cannot be empt.",
             invalidEmail: "Invalid email format. Please use email@domain.com format.",
             invalidPhoneNumber: "Invalid phone number format. Please use US phone number format (ex. 630-123-1234).",
-            validationMessages: []
+            validationMessages: [],
+            isNewCustomer: true
         };
     }
 
@@ -88,17 +89,30 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     <br />
                 </div>
                 {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} useListOption={true} listMessages={this.state.validationMessages} />}
-                {this.state.showCustomerExistsModal ? <div></div> : <CustomModal {...this.props} showLoginButton={true} title={"Warning"} body={"This account already exists, please finish registration or log in."} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} useListOption={false} listMessages={[]} />}
+                {this.state.isNewCustomer ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"This account already exists, please finish registration or log in."} buttontitle={"Ok"} show={this.state.showCustomerExistsModal} onCloseModal={this.navigateToRegister} useListOption={false} listMessages={[]} />}
                 {this.state.navigateToNextScreen ? <Redirect to={{pathname: `/UserProfile/${this.state.createdCustomerId === 0 ? this.state.foundCustomerId : this.state.createdCustomerId}`, state: {id: this.state.createdCustomerId}}}/> : <div></div>}
                 <Footer />
             </div>
         )
     }
 
+     private navigateToRegister = () => {
+
+        this.setState({
+            showCustomerExistsModal: false,
+            navigateToNextScreen: true,
+        });
+       
+    }
     private closeValidationModal = () => {
         this.setState({
             showValidationModal: false,
             
+        });
+    }
+    private closeCustomerExistsModal = () => {
+        this.setState({
+            showCustomerExistsModal: false,
         });
     }
     private firstNameOnChange(event: any): void {
@@ -131,7 +145,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
         // Create another regEx to check for the phone number make it a specific format
         // Example: 630-343-3434.
         let regExPhone = /^[2-9]\d{2}-\d{3}-\d{4}$/;
-        let emptyString = ""
+        let emptyString = "";
 
         if ( this.state.firstName === emptyString){
             valid = false;
@@ -249,9 +263,11 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     // This is the block of .then for when the customer is found as an already existing customer in the Db.
                     
                     this.setState({
+
+                        isNewCustomer: false,  
                         showCustomerExistsModal: true,
                         foundCustomerId: data.id,
-                        navigateToNextScreen: true,
+                        //navigateToNextScreen: true,
                     
 
                     }, () => {
