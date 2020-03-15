@@ -192,6 +192,17 @@ color: red;
 }
 /* End Login Component CSS */
 
+/* Start Portal Component CSS */
+.options-container {
+  display: grid;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+/* End Portal Component CSS */
+
 /* Start CarryOut Component CSS */
 h1.font-weight-lighter.custom {
   color: #FF3836;
