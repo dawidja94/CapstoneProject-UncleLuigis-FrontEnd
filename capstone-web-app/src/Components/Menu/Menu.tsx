@@ -117,7 +117,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                         <div className="card-margin">
                                             <h4>{item.beverage.name}</h4>
                                             <span><h6>Description: <i>{item.beverage.description}</i></h6></span>
-                                            <span><h6>Price: ${item.beverage.price}</h6></span>
+                                            <span><h6>Price: ${item.beverage.price.toFixed()}</h6></span>
                                             <span>
                                                 <h6>Quantity:</h6>
                                                 <select className="form-control quantity-custom" value={item.quantity} onChange={(e) => this.changeQuantityForBeverages(e, key)}>
@@ -209,8 +209,6 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                     this.forceUpdate();
                 }, 1200);
             }
-
-            
         }
     }
 }

@@ -6,6 +6,7 @@ import ILoginState from "./ILoginState";
 import Footer from "../Footer/Footer";
 import TokenService from "../../Services/TokenService";
 import MenuService from "../../Services/MenuService";
+import { Redirect } from "react-router-dom";
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
     private menuService: MenuService;
@@ -15,7 +16,8 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
         this.state = {
             userName: "",
-            password: ""
+            password: "",
+            redirectToHome: false
         }
 
         this.menuService = new MenuService();
@@ -67,6 +69,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                     <br />
                     <br />
                 </div>
+                {this.state.redirectToHome ? <Redirect to="/"/> : <div></div>}
                 <Footer />
             </div>
         )
@@ -129,6 +132,10 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             .then((data: any) => {
                 let count = data.length ?? 0;
                 localStorage.setItem("cartCount", count);
+
+                this.setState({
+                    redirectToHome: true
+                });
             });
         })
         .catch(reason => {
