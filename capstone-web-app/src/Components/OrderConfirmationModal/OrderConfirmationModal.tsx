@@ -22,6 +22,10 @@ export default class OrderConfirmationModal extends React.Component<IOrderConfir
         this.props.onSubmitOrderClick();
     }
 
+    private onRemoveItemHandler() {
+        this.props.onRemoveItemClick();
+    }
+
     render() {
         if (this.props.show) {
             return (
@@ -44,7 +48,11 @@ export default class OrderConfirmationModal extends React.Component<IOrderConfir
                             {this.props.showSubmitOrderButton ?
                             <button className="btn btn-outline-danger" onClick={() => this.onSubmitOrderHandler()}>Submit Order</button>
                             : <label></label>
-                            }   
+                            }  
+                            {this.props.showRemoveItemButton ?
+                            <button className="btn btn-outline-danger" onClick={() => this.onRemoveItemHandler()}>Remove Item</button>
+                            : <label></label>
+                            }  
                             <button className="btn btn-outline-danger" onClick={() => this.onHideHandler()}>Close</button>
                         </Modal.Footer>
                     </Modal.Dialog>

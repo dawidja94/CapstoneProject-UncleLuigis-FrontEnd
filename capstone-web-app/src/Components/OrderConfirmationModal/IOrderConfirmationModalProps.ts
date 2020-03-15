@@ -4,6 +4,8 @@ export default interface IOrderConfirmationModalProps {
     buttontitle: string;
     show: boolean;
     showSubmitOrderButton: boolean;
+    showRemoveItemButton: boolean;
     onSubmitOrderClick: () => void;
+    onRemoveItemClick: () => void;
     onCloseModal: () => void;
 }

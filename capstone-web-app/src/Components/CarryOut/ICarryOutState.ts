@@ -5,6 +5,7 @@ export default interface ICarryOutState {
     foodCartItems: Food[];
     beverageCartItems: Beverage[];
     cartItems: any[];
+    cartIdToRemove: number;
     foodAndBeverageCartItemsLoaded: boolean;
     customerLoggedIn: boolean;
     showSpinner: boolean;
@@ -12,4 +13,5 @@ export default interface ICarryOutState {
     redirectToLogin: boolean;
     showSubmitOrderConfirmationModal: boolean;
     showThankYouModal: boolean;
+    showRemoveItemModal: boolean;
 }
