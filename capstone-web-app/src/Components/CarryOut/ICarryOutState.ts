@@ -10,4 +10,6 @@ export default interface ICarryOutState {
     showSpinner: boolean;
     redirectToMenu: boolean;
     redirectToLogin: boolean;
+    showSubmitOrderConfirmationModal: boolean;
+    showThankYouModal: boolean;
 }

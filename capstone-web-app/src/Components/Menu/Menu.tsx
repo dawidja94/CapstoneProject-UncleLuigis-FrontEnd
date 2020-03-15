@@ -15,6 +15,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
             foodItems:  [],
             beverageItems: [],
             showLoginModal: false,
+            showAddtoCartModal: false
         };
     }
 
@@ -142,6 +143,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                     </div>
                 </div> : ""}
                 {this.state.showLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={"Valued Customer"} body={"Please login to add items to carry out order. Thank you!"} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
+                {this.state.showAddtoCartModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={"Added To Cart"} body={"Item added to cart!"} buttontitle={"Close"} show={this.state.showAddtoCartModal} onCloseModal={this.closeAddToCartModal} /> : <div></div>}
                 <Footer />
             </div>
         );
@@ -150,6 +152,12 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     private closeLoginModal = () => {
         this.setState({
             showLoginModal: false
+        });
+    }
+
+    private closeAddToCartModal = () => {
+        this.setState({
+            showAddtoCartModal: false
         });
     }
     
@@ -201,15 +209,21 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                 this.props.addItem(item.food, quantity, item.type);
 
                 setTimeout(() => {
-                    this.forceUpdate();
-                }, 1200);
+                    //this.forceUpdate();
+                    this.setState({
+                        showAddtoCartModal: true
+                    });
+                }, 300);
             }
             else if (item.type === "beverage") {
                 this.props.addItem(item.beverage, quantity, item.type);
 
                 setTimeout(() => {
-                    this.forceUpdate();
-                }, 1200);
+                    //this.forceUpdate();
+                    this.setState({
+                        showAddtoCartModal: true
+                    });
+                }, 300);
             }
         }
     }

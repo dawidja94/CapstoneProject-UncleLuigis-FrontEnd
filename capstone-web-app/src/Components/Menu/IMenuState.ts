@@ -5,4 +5,5 @@ export default interface IMenuState {
     foodItems: Food[];
     beverageItems: Beverage[];
     showLoginModal: boolean;
+    showAddtoCartModal: boolean;
 }
