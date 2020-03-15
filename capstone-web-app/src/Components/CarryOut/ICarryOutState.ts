@@ -8,4 +8,6 @@ export default interface ICarryOutState {
     foodAndBeverageCartItemsLoaded: boolean;
     customerLoggedIn: boolean;
     showSpinner: boolean;
+    redirectToMenu: boolean;
+    redirectToLogin: boolean;
 }

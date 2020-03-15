@@ -9,6 +9,7 @@ import * as icons from "@fortawesome/free-solid-svg-icons";
 import Beverage from "../../Models/Beverage";
 import Food from "../../Models/Food";
 import Spinner from "react-bootstrap/Spinner";
+import { Redirect } from "react-router-dom";
 
 export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutState> {
     private menuService: MenuService;
@@ -23,7 +24,9 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             cartItems: [],
             foodAndBeverageCartItemsLoaded: false,
             showSpinner: true,
-            customerLoggedIn: false
+            customerLoggedIn: false,
+            redirectToLogin: false,
+            redirectToMenu: false
         };
 
         this.customerLoggedIn = false;
@@ -107,6 +110,8 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                         </div>
                     </div>
                 </div>
+                {this.state.redirectToLogin ? <Redirect to="/Login"/> : <div></div>}
+                {this.state.redirectToMenu ? <Redirect to="/Menu"/> : <div></div>}
                 <Footer />
             </div>
         );
@@ -231,90 +236,39 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                 </div>
             );
         }
-        else if (this.customerLoggedIn) {
-            return (
-                <div>
-                    <h5>{localStorage.getItem("First name")}, you have no items in your cart!</h5>
-                    <br />
-                    <button className="btn btn-outline-danger">View Menu</button>
-                </div>
-            );
-        }
         else if (!this.customerLoggedIn) {
             return (
                 <div>
                     <h5>Please login to add/view items in your cart!</h5>
                     <br />
-                    <button className="btn btn-outline-danger">Login</button>
+                    <span>
+                        <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToLogin: true})}>{"Login"}</button> &nbsp;
+                        <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToMenu: true})}>View Menu</button>
+                    </span>
                 </div>
             );
         }
         else {
-            return (
-                <div>
-                    <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                </div>
-            );
+            if (this.customerLoggedIn && !this.state.showSpinner) {
+                return (
+                    <div>
+                        <h5>{localStorage.getItem("First name")}, you have no items in your cart!</h5>
+                        <br />
+                        <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToMenu: true})}>View Menu</button>
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div>
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </div>
+                );
+            }
         }
     }
-
-    // private totalIdenticalItems(): void {
-    //     const food: any[] = [];
-    //     const beverage: any[] = [];
-
-    //     const foodCartItems = this.state.foodCartItems;
-    //     const beverageCartItems = this.state.beverageCartItems;
-
-    //     foodCartItems.forEach(cartItem => {
-    //         let foundFood = food.find(foodItem => {
-    //             if (cartItem.food.name === foodItem.food.name) {
-    //                 return foodItem;
-    //             }
-    //         });
-
-    //         // Food item not found previously
-    //         if (!foundFood) {
-    //             food.push(cartItem);
-    //         }
-    //         else if (foundFood) {
-    //             food.forEach((value, index) => {
-    //                 if (value.food.name === cartItem.food.name) {
-    //                     value.quantity += cartItem.quantity;
-    //                 }
-    //             });
-    //         }
-
-    //         console.log("checking food");
-    //         console.log(food);
-    //     });
-
-    //     beverageCartItems.forEach(cartItem => {
-    //         let foundBeverage = beverage.find(beverageItem => {
-    //             if (cartItem.beverage.name === beverageItem.beverage.name) {
-    //                 return beverageItem;
-    //             }
-    //         });
-
-    //         // Food item not found previously
-    //         if (!foundBeverage) {
-    //             beverage.push(cartItem);
-    //         }
-    //         else if (foundBeverage) {
-    //             beverage.forEach((value, index) => {
-    //                 if (value.beverage.name === cartItem.beverage.name) {
-    //                     value.quantity += cartItem.quantity;
-    //                 }
-    //             });
-    //         }
-
-    //         console.log("checking food");
-    //         console.log(food);
-    //         console.log("checking beverage");
-    //         console.log(beverage);
-    //     });
-    // }
 
     private removeItemFromCart(cartId: number): void {
         console.log("Checking cartId");
