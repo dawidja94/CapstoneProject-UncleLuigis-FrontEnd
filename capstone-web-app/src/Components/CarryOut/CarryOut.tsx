@@ -34,10 +34,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
     }
 
     componentDidMount() {
-        console.log("constructor");
-        console.log(localStorage.getItem("Customer ID"));
         this.customerLoggedIn = localStorage.getItem("Customer ID") !== "" ? true : false; 
-
         let customerIdFromLS = localStorage.getItem("Customer ID");
         let customerId: number = 0;
     
@@ -45,45 +42,51 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             customerId = parseInt(customerIdFromLS.toString());
         }
 
-
-        // API call, get all the cart items for the current customer.
-        this.menuService.getAllCarryOutsInCart(customerId)
-        .then((data) => {
-            const loggedIn = localStorage.getItem("Customer ID") ? true : false;
-
-            this.setState({
-                cartItems: data,
-                customerLoggedIn: loggedIn,
-                showSpinner: true
-            }, () => {
-                console.log("Carry Out Cart checking state");
-                console.log(this.state);
-
-                let cartItems = this.state.cartItems;
-                let foodItems: Food[] = [];
-                let beverageItems: Beverage[] = [];
-                
-                cartItems.forEach(item => {
-                    if (item.food) {
-                        foodItems.push(new Food(item.food, item.foodQuantity, item.id));
-                    }
-                    else if (item.beverage) {
-                        beverageItems.push(new Beverage(item.beverage, item.beverageQuantity, item.id));
-                    }
-                });
+        if (localStorage.getItem("Customer ID")) {
+            // API call, get all the cart items for the current customer.
+            this.menuService.getAllCarryOutsInCart(customerId)
+            .then((data) => {
+                const loggedIn = localStorage.getItem("Customer ID") ? true : false;
 
                 this.setState({
-                    foodCartItems: foodItems,
-                    beverageCartItems: beverageItems,
-                    foodAndBeverageCartItemsLoaded: true,
-                    showSpinner: false
+                    cartItems: data,
+                    customerLoggedIn: loggedIn,
+                    showSpinner: true
+                }, () => {
+                    console.log("Carry Out Cart checking state");
+                    console.log(this.state);
+
+                    let cartItems = this.state.cartItems;
+                    let foodItems: Food[] = [];
+                    let beverageItems: Beverage[] = [];
+                    
+                    cartItems.forEach(item => {
+                        if (item.food) {
+                            foodItems.push(new Food(item.food, item.foodQuantity, item.id));
+                        }
+                        else if (item.beverage) {
+                            beverageItems.push(new Beverage(item.beverage, item.beverageQuantity, item.id));
+                        }
+                    });
+
+                    this.setState({
+                        foodCartItems: foodItems,
+                        beverageCartItems: beverageItems,
+                        foodAndBeverageCartItemsLoaded: true,
+                        showSpinner: false
+                    });
                 });
             });
-        });
+        }
+        else {
+            this.setState({
+                showSpinner: false,
+                customerLoggedIn: false
+            })
+        }
     }
 
     render() {
-        console.log(this.state);
         return (
             <div>
                 <Navbar />
@@ -216,7 +219,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                 </div>
             );
         }
-        else if (!this.customerLoggedIn && !this.state.showSpinner) {
+        else if (!this.state.customerLoggedIn && !this.state.showSpinner) {
             return (
                 <div>
                     <h5>Please login to add/view items in your cart!</h5>
@@ -229,7 +232,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             );
         }
         else {
-            if (this.state.showSpinner) {
+            if (this.state.showSpinner && !this.state.customerLoggedIn) {
                 return (
                     <div>
                         <Spinner animation="border" role="status">
