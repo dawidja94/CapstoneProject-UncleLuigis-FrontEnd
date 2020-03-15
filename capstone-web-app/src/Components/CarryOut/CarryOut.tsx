@@ -34,10 +34,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
     }
 
     componentDidMount() {
-        console.log("constructor");
-        console.log(localStorage.getItem("Customer ID"));
         this.customerLoggedIn = localStorage.getItem("Customer ID") !== "" ? true : false; 
-
         let customerIdFromLS = localStorage.getItem("Customer ID");
         let customerId: number = 0;
     
@@ -45,45 +42,51 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             customerId = parseInt(customerIdFromLS.toString());
         }
 
-
-        // API call, get all the cart items for the current customer.
-        this.menuService.getAllCarryOutsInCart(customerId)
-        .then((data) => {
-            const loggedIn = localStorage.getItem("Customer ID") ? true : false;
-
-            this.setState({
-                cartItems: data,
-                customerLoggedIn: loggedIn,
-                showSpinner: true
-            }, () => {
-                console.log("Carry Out Cart checking state");
-                console.log(this.state);
-
-                let cartItems = this.state.cartItems;
-                let foodItems: Food[] = [];
-                let beverageItems: Beverage[] = [];
-                
-                cartItems.forEach(item => {
-                    if (item.food) {
-                        foodItems.push(new Food(item.food, item.foodQuantity, item.id));
-                    }
-                    else if (item.beverage) {
-                        beverageItems.push(new Beverage(item.beverage, item.beverageQuantity, item.id));
-                    }
-                });
+        if (localStorage.getItem("Customer ID")) {
+            // API call, get all the cart items for the current customer.
+            this.menuService.getAllCarryOutsInCart(customerId)
+            .then((data) => {
+                const loggedIn = localStorage.getItem("Customer ID") ? true : false;
 
                 this.setState({
-                    foodCartItems: foodItems,
-                    beverageCartItems: beverageItems,
-                    foodAndBeverageCartItemsLoaded: true,
-                    showSpinner: false
+                    cartItems: data,
+                    customerLoggedIn: loggedIn,
+                    showSpinner: true
+                }, () => {
+                    console.log("Carry Out Cart checking state");
+                    console.log(this.state);
+
+                    let cartItems = this.state.cartItems;
+                    let foodItems: Food[] = [];
+                    let beverageItems: Beverage[] = [];
+                    
+                    cartItems.forEach(item => {
+                        if (item.food) {
+                            foodItems.push(new Food(item.food, item.foodQuantity, item.id));
+                        }
+                        else if (item.beverage) {
+                            beverageItems.push(new Beverage(item.beverage, item.beverageQuantity, item.id));
+                        }
+                    });
+
+                    this.setState({
+                        foodCartItems: foodItems,
+                        beverageCartItems: beverageItems,
+                        foodAndBeverageCartItemsLoaded: true,
+                        showSpinner: false
+                    });
                 });
             });
-        });
+        }
+        else {
+            this.setState({
+                showSpinner: false,
+                customerLoggedIn: false
+            })
+        }
     }
 
     render() {
-        console.log(this.state);
         return (
             <div>
                 <Navbar />
@@ -96,18 +99,17 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                         <div className="col-12">
                             <div className="card custom">
                                 <div className="container-fluid">
-                                    <br />
-                                    <div className="text-right">
-                                        <button className="btn btn-outline-danger" onClick={() => this.submitOrder()}>Submit Order</button>
-                                    </div>
-                                    <div className="text-center">
+                                <div className="text-center">
                                         <hr />
                                         <h1 className="font-weight-lighter custom"><FontAwesomeIcon icon={icons.faShoppingCart}/> Cart</h1>
-                                        <br />
-                                        {this.renderFoodCart()}
-                                        <br />
-                                        <br />
+                                        <hr />
                                     </div>
+                                    <br />
+                                    {this.renderSummary()}
+                                    {this.renderFoodCart()}
+                                    <br />
+                                    <br />
+                                    <br />
                                 </div>
                             </div>
                         </div>
@@ -118,6 +120,30 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                 <Footer />
             </div>
         );
+    }
+
+    private getSubTotal(): number {
+        let subTotal = 0.0;
+
+        this.state.foodCartItems.forEach(item => {
+            subTotal += (item.food.price * item.quantity); 
+        });
+
+        this.state.beverageCartItems.forEach(item => {
+            subTotal += (item.beverage.price * item.quantity);
+        });
+
+        return subTotal;
+    }
+
+    private getTotal(): number {
+        let total = this.getSubTotal();
+        let salesTax = 0.0725;
+
+        let taxableAmount = total * salesTax;
+        total += taxableAmount;
+
+        return total;
     }
 
     private submitOrder(): void {
@@ -154,6 +180,54 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
         });
     }
 
+    private renderSummary(): JSX.Element {
+        if (this.state.foodCartItems.length > 0 && this.state.customerLoggedIn && !this.state.showSpinner) {
+            return (
+                <div className="row">
+                    <div className="col-lg-6 col-sm-6">
+                        <h3>Pickup Location</h3>
+                        <div><h5>1 University Pkwy,</h5></div>
+                        <div><h5>Romeoville, IL 60446</h5></div>
+                        <div><h5>Customer: {localStorage.getItem("First name")} {localStorage.getItem("Last name")}</h5></div>
+                        <br />
+                        <div>
+                            <button className="btn btn-danger" onClick={() => this.submitOrder()}>Submit Order</button>
+                        </div>
+                        <div>
+                            <label></label>
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-sm-6">
+                        <h3 className="text-left">Order Summary</h3>
+                        <table className="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>Sub-Total: </td>
+                                    <td> ${this.getSubTotal().toFixed(2)}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sales Tax: </td>
+                                    <td> 7.25% (IL)</td>
+                                </tr>
+                                <tr>
+                                    <td>Total: </td>
+                                    <td> ${this.getTotal().toFixed(2)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            );
+        }
+        else {
+            return (
+                <div></div>
+            );
+        }
+    }
+
     private renderFoodCart(): JSX.Element {
         if (this.state.foodCartItems.length > 0 && this.state.customerLoggedIn && !this.state.showSpinner) {
             return (
@@ -173,7 +247,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                                 return (
                                     <tr key={key}>
                                         <td>
-                                            <button className="btn btn-danger" onClick={() => this.removeItemFromCart(item.carryOutRecordId)}>Remove</button>
+                                            <button className="btn btn-outline-danger" onClick={() => this.removeItemFromCart(item.carryOutRecordId)}>Remove</button>
                                         </td>
                                         <td>
                                             {item.food.name}
@@ -194,7 +268,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                                 return (
                                     <tr key={key}>
                                         <td>
-                                            <button className="btn btn-danger" onClick={() => this.removeItemFromCart(item.carryOutRecordId)}>Remove</button>
+                                            <button className="btn btn-outline-danger" onClick={() => this.removeItemFromCart(item.carryOutRecordId)}>Remove</button>
                                         </td>
                                         <td>
                                             {item.beverage.name}
@@ -216,34 +290,38 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                 </div>
             );
         }
-        else if (!this.customerLoggedIn && !this.state.showSpinner) {
+        else if (!this.state.customerLoggedIn && !this.state.showSpinner) {
             return (
-                <div>
+                <div className="text-center">
                     <h5>Please login to add/view items in your cart!</h5>
                     <br />
                     <span>
                         <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToLogin: true})}>{"Login"}</button> &nbsp;
                         <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToMenu: true})}>View Menu</button>
                     </span>
+                    <br />
                 </div>
             );
         }
         else {
-            if (this.state.showSpinner) {
+            if (this.state.showSpinner && !this.state.customerLoggedIn) {
                 return (
-                    <div>
+                    <div className="text-center">
                         <Spinner animation="border" role="status">
                             <span className="sr-only">Loading...</span>
                         </Spinner>
+                        <br />
+                        <br />
                     </div>
                 );
             }
             else {
                 return (
-                    <div>
+                    <div className="text-center">
                         <h5>{localStorage.getItem("First name")}, you have no items in your cart!</h5>
                         <br />
                         <button className="btn btn-outline-danger" onClick={() => this.setState({redirectToMenu: true})}>View Menu</button>
+                        <br />
                     </div>
                 );
             }
