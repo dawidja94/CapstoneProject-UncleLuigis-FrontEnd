@@ -235,34 +235,7 @@ export default class ChangePassword extends React.Component<IChangePasswordProps
                     });
                 });
             }
-            //     fetch(`${ConstantStrings.baseAzureURL}User/ChangePassword`, {
-            //         method: "PUT",
-            //         body: JSON.stringify(requestBody),
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         }
-            //     })
-
-            //     .then(response => {
-            //         console.log(response.status);
-
-            //         if(response.status === 200){
-            //             this.setState({
-            //                 showSuccessModal: true,
-            //             })
-            //             return response.json();
-            //         }
-            //         else if (response.status === 400){
-            //             this.setState({
-            //                 showErrorModal: true,
-            //             })
-            //             return response.json();
-            //         }
-            //     })
-            // }
-            // else {
-            //     //
-            // }
+            
         })
     }
 }
