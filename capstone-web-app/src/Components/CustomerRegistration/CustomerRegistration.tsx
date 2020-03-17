@@ -24,7 +24,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
             showValidationModal: false,
             showCustomerExistsModal: false,
             emptyFirstNameField: "First name field cannot be empty.",
-            emptyLastNameField: "Last name field cannot be empt.",
+            emptyLastNameField: "Last name field cannot be empty.",
             invalidEmail: "Invalid email format. Please use email@domain.com format.",
             invalidPhoneNumber: "Invalid phone number format. Please use US phone number format (ex. 630-123-1234).",
             validationMessages: [],
@@ -108,11 +108,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
         this.setState({
             showValidationModal: false,
             
-        });
-    }
-    private closeCustomerExistsModal = () => {
-        this.setState({
-            showCustomerExistsModal: false,
         });
     }
     private firstNameOnChange(event: any): void {
@@ -267,7 +262,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                         isNewCustomer: false,  
                         showCustomerExistsModal: true,
                         foundCustomerId: data.id,
-                        //navigateToNextScreen: true,
+                        
                     
 
                     }, () => {

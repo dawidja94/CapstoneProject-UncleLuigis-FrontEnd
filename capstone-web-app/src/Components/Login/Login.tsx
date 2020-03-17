@@ -6,7 +6,7 @@ import ILoginState from "./ILoginState";
 import Footer from "../Footer/Footer";
 import TokenService from "../../Services/TokenService";
 import MenuService from "../../Services/MenuService";
-import { Redirect } from "react-router-dom";
+import { Redirect, NavLink } from "react-router-dom";
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
     private menuService: MenuService;
@@ -52,10 +52,14 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                                             <input type="text" className="form-control" placeholder="Username" id="name"value={this.state.userName} onChange={(e) => this.userNameOnChange(e)}></input>
                                         </div>
                                         <div className="form-group">
-                                            <label className="font-weight-bold">Password:</label>
+                                            <label className="font-weight-bold">Password:</label> 
                                             <input type="password" className="form-control" placeholder="Password" id="pswd"value={this.state.password} onChange={(e) => this.passwordOnChange(e)}></input>
+                                            <small><NavLink to="/ForgetPassword"> Forget Password</NavLink></small>
                                         </div>
                                         <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger">Submit</button>
+                                        <br />
+                                        <br />
+                                        <small className="text-mute text-center">Not a member?<NavLink to="/Register"> Register now!</NavLink></small>
                                     </div>
                                 </div>
                             </div>

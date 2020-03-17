@@ -5,6 +5,7 @@ import ICustomModalState from "./ICustomModalState";
 import Modal from "react-bootstrap/Modal";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { listenerCount } from "cluster";
 
 export default class CustomModal extends React.Component<ICustomModalProps, ICustomModalState> {
     constructor(props: any) {
@@ -38,7 +39,8 @@ export default class CustomModal extends React.Component<ICustomModalProps, ICus
                                 <div>
                                     <ul>
                                         {this.props.listMessages.map((item, key) => {
-                                            return (<li>{item}</li>)
+                                    
+                                            return (<li key={key}>{item}</li>)
                                         })}
                                     </ul>
                                 </div>

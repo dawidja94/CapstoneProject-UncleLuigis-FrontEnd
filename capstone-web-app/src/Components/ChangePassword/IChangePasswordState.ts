@@ -1,20 +1,20 @@
-export default interface IForgetPasswordState {
+export default interface IChangePasswordState
+{
     userName: string,
-    email: string,
-    phoneNumber: string,
     password: string,
     confirmPassword: string,
-    foundCustomerId: number,
+    newPassword: string,
+    newConfirmPassword: string,
     isFormValid: boolean,
     showValidationModal: boolean,
     emptyField: string,
     passwordTooShortError: string;
     passwordsNotMatching: string;
-    noMatchingAccount: string;
     validationMessages: string[];
-    invalidEmail: string;
-    invalidPhoneNumber: string;
     showSuccessModal: boolean;
     navigateToHome: boolean;
     showErrorModal: boolean;
+    newPasswordsNotMatching: string;
+    showLoginModal: boolean;
+    
 }

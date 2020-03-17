@@ -4,37 +4,40 @@ import ConstantStrings from "../../Constants/ConstantStrings";
 import Footer from "../Footer/Footer";
 import TokenService from "../../Services/TokenService";
 import MenuService from "../../Services/MenuService";
-import IForgetPasswordProps from "./IForgetPasswordProps";
-import IForgetPasswordState from "./IForgetPasswordState";
+import IChangePasswordProps from "./IChangePasswordProps";
+import IChangePasswordState from "./IChangePasswordState";
 import CustomModal from "../CustomModal/CustomModal";
 import { Redirect } from "react-router-dom";
+import UserService from "../../Services/UserService";
 
 
-export default class ForgetPassword extends React.Component<IForgetPasswordProps, IForgetPasswordState> {
+export default class ChangePassword extends React.Component<IChangePasswordProps, IChangePasswordState> {
+    private userService: UserService;
+
     constructor(props: any) {
         super(props);
 
         this.state = {
-            
+
             userName: "",
-            email: "",
-            phoneNumber: "",
             password: "",
             confirmPassword: "",
-            foundCustomerId: 0,
+            newPassword: "",
+            newConfirmPassword: "",
             isFormValid: true,
-            showValidationModal: false,
+            showValidationModal: true,
             emptyField: "One or more required fields are empty, please review your form.",
             passwordTooShortError: "Password must be at least 6 characters.",
-            passwordsNotMatching: "Confirmed password did not match new password.",
-            noMatchingAccount: "No matching account has been found, please review your form.",
-            invalidEmail: "Invalid email format. Please use email@domain.com format.",
-            invalidPhoneNumber: "Invalid phone number format. Please use US phone number format (ex. 630-123-1234).",
+            passwordsNotMatching: "Confirmed password did not match current password",
+            newPasswordsNotMatching: "Confirmed password did not match new password.",
             validationMessages: [],
             showSuccessModal: false,
             navigateToHome: false,
             showErrorModal: false,
+            showLoginModal: false
         };
+
+        this.userService = new UserService();
     }
 
     public componentDidMount() {
@@ -59,27 +62,27 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                             <div className="col-1"></div>
                             <div className="col-10">
                                 <div className="card login-custom">
-                                    <h3 className="card-header text-center font-weight-bold"  >Forget Password</h3>
+                                    <h3 className="card-header text-center font-weight-bold"  >Change Password</h3>
                                     <div className="card-margin">
                                         <div className="form-group required">
                                             <label className="font-weight-bold">User Name:</label>
-                                            <input type="text" className="form-control" placeholder="User Name" id="name"value={this.state.userName}onChange={(e) => this.userNameOnChange(e)}></input>
+                                            <input type="text" className="form-control" placeholder="User Name" id="name" value={this.state.userName}onChange={(e) => this.userNameOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
-                                            <label className="font-weight-bold">Phone:</label>
-                                            <input type="text" className="form-control"  placeholder="Phone" id="tel" value={this.state.phoneNumber}onChange={(e) => this.phoneNumberOnChange(e)}></input>
+                                            <label className="font-weight-bold">Current Password:</label>
+                                            <input type="password" className="form-control" placeholder="Current Password" id="pswd"value={this.state.password}onChange={(e) => this.passwordOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
-                                            <label className="font-weight-bold">Email:</label>
-                                            <input type="email"  className="form-control" placeholder="Email" id="email" value={this.state.email}onChange={(e) => this.emailOnChange(e)}></input>
+                                            <label className="font-weight-bold">Confirm Current Password:</label>
+                                            <input type="password" className="form-control" placeholder="Confirm Current Password" id="pswd" value={this.state.confirmPassword}onChange={(e) => this.confirmPasswordOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
                                             <label className="font-weight-bold">New Password:</label>
-                                            <input type="password" className="form-control" placeholder="New Password" id="pswd"value={this.state.password}onChange={(e) => this.newPasswordOnChange(e)}></input>
+                                            <input type="password" className="form-control" placeholder="New Password" id="pswd" value={this.state.newPassword}onChange={(e) => this.newPasswordOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
-                                            <label className="font-weight-bold">Confirm Password:</label>
-                                            <input type="password" className="form-control" placeholder="Confirm Password" id="pswd" value={this.state.confirmPassword}onChange={(e) => this.confirmPasswordOnChange(e)}></input>
+                                            <label className="font-weight-bold">Confirm New Password:</label>
+                                            <input type="password" className="form-control" placeholder="Confirm New Password" id="pswd"value={this.state.newConfirmPassword}onChange={(e) => this.newConfirmPasswordOnChange(e)}></input>
                                         </div>
                                         <button type="button" onClick={() => this.onFormSubmit()} className="btn btn-outline-danger">Submit</button>
                                         <br />
@@ -133,17 +136,8 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
             userName: event.target.value
         });
     }
-    private emailOnChange(event: any): void {
-        this.setState({
-            email: event.target.value
-        });
-    }
-    private phoneNumberOnChange(event: any): void {
-        this.setState({
-            phoneNumber: event.target.value
-        });
-    }
-    private newPasswordOnChange(event: any): void {
+
+    private passwordOnChange(event: any): void {
         this.setState({
             password: event.target.value
         });
@@ -154,14 +148,21 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
         });
     }
 
+    private newPasswordOnChange(event: any): void {
+        this.setState({
+            newPassword: event.target.value
+        });
+    }
+    private newConfirmPasswordOnChange(event: any): void {
+        this.setState({
+            newConfirmPassword: event.target.value
+        });
+    }
+
     private onFormSubmit(): void {
         let messages: string[] = [];
         let valid: boolean = true;
         let emptyString = "";
-        let regExEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        // Create another regEx to check for the phone number make it a specific format
-        // Example: 630-343-3434.
-        let regExPhone = /^[2-9]\d{2}-\d{3}-\d{4}$/;
 
         if (this.state.userName === emptyString){
             valid = false;
@@ -169,28 +170,19 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
              
             this.setState({
                 validationMessages: messages,
-                
             });
         }
-        if (this.state.email === emptyString){
+
+        if (this.state.password  === emptyString ){
             valid = false;
             messages.push(this.state.emptyField)
              
             this.setState({
-                validationMessages: messages,
-                
+                validationMessages: messages,  
             });
         }
-        if (this.state.phoneNumber === emptyString){
-            valid = false;
-            messages.push(this.state.emptyField)
-             
-            this.setState({
-                validationMessages: messages,
-                
-            });
-        }
-        if (this.state.password.length < 6 ){
+
+        if (this.state.newPassword.length < 6 ){
             valid = false;
             messages.push(this.state.passwordTooShortError)
              
@@ -198,23 +190,6 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                 validationMessages: messages,  
             });
         }
-        if (!regExEmail.test(this.state.email)) {
-            valid = false;
-            messages.push(this.state.invalidEmail);
-
-            this.setState({
-                validationMessages: messages,  
-            });
-        }
-        if (!regExPhone.test(this.state.phoneNumber)){
-            valid = false;
-            messages.push(this.state.invalidPhoneNumber);
-
-            this.setState({
-                validationMessages: messages,
-            });
-        }
-
         if (this.state.confirmPassword !== this.state.password){
             valid = false;
             messages.push(this.state.passwordsNotMatching)
@@ -223,60 +198,71 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                 validationMessages: messages,
             });
         }
-        
-        console.log("Valid" + valid);
+        if (this.state.newConfirmPassword !== this.state.newPassword){
+            valid = false;
+            messages.push(this.state.newPasswordsNotMatching)
+
+            this.setState({
+                validationMessages: messages,
+            });
+        }
+
         this.setState({
             isFormValid: valid,
             showValidationModal: true,
         }, () => {
 
-            console.log("we got here");
             if (this.state.isFormValid){
                 const requestBody = {
                     userName: this.state.userName,
-                    emailAddress: this.state.email,
-                    phoneNumber: this.state.phoneNumber,
-                    newPassword: this.state.password,
-                    confirmNewPassword: this.state.confirmPassword
+                    password: this.state.password,
+                    confirmPassword: this.state.confirmPassword,
+                    newPassword: this.state.newPassword,
+                    confirmNewPassword: this.state.newConfirmPassword
                 };
-                //Call to API
-                fetch(`${ConstantStrings.baseAzureURL}User/ForgetPassword`, {
-                    method: "PUT",
-                    body: JSON.stringify(requestBody),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                //response taken from API call
+
+                this.userService.changePassword(requestBody)
                 .then(response => {
-                    console.log(response.status);
-                    //found matching account, password is changed
-                    if(response.status === 200){
+                    if (response) {
                         this.setState({
                             showSuccessModal: true,
-    
-                        })
-                        return response.json();   
-                
-                        
+                        });
                     }
-                    else if (response.status === 404){
-                        //no matching data found, display modal with error
-                        console.log(response.status)
-                        this.setState({
-                            showErrorModal: true,
-                        })
-                        return response.json();
-                    }
-
                 })
-                
+                .catch(reason => {
+                    this.setState({
+                        showErrorModal: true,
+                    });
+                });
             }
-            else {
+            //     fetch(`${ConstantStrings.baseAzureURL}User/ChangePassword`, {
+            //         method: "PUT",
+            //         body: JSON.stringify(requestBody),
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //         }
+            //     })
 
-            }
+            //     .then(response => {
+            //         console.log(response.status);
 
-
+            //         if(response.status === 200){
+            //             this.setState({
+            //                 showSuccessModal: true,
+            //             })
+            //             return response.json();
+            //         }
+            //         else if (response.status === 400){
+            //             this.setState({
+            //                 showErrorModal: true,
+            //             })
+            //             return response.json();
+            //         }
+            //     })
+            // }
+            // else {
+            //     //
+            // }
         })
     }
 }
