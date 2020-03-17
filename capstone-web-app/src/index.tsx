@@ -18,11 +18,8 @@ import MenuService from './Services/MenuService';
 import Login from './Components/Login/Login';
 import CarryOut from './Components/CarryOut/CarryOut';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
-<<<<<<< HEAD
 import ChangePassword from './Components/ChangePassword/ChangePassword';
-=======
 import Portal from './Components/Portal/Portal';
->>>>>>> TJO-DEV
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
