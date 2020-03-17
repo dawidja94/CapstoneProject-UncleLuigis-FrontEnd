@@ -20,7 +20,6 @@ class Navbar extends React.Component<INavbarProps, any> {
 
         this.toggleMenu = this.toggleMenu.bind(this);
         this.linkClicked = this.linkClicked.bind(this);
-        this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount() {
@@ -36,14 +35,6 @@ class Navbar extends React.Component<INavbarProps, any> {
     private linkClicked() {
         this.setState({
             menu: false
-        });
-    }
-
-    private logOut() {
-        localStorage.clear();
-
-        this.setState({
-            action: !this.state.action
         });
     }
 
@@ -93,7 +84,7 @@ class Navbar extends React.Component<INavbarProps, any> {
                             </li>
                             <li className="nav-item">
                                 { localStorage.getItem("First name") !== null ? 
-                                    <Link to="/" onClick={this.logOut} className="nav-link">
+                                    <Link to="/Portal" className="nav-link">
                                         <FontAwesomeIcon icon={icons.faUser} /> {localStorage.getItem("First name")} {localStorage.getItem("Last name")}
                                     </Link>
                                     :
