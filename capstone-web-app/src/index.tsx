@@ -18,7 +18,11 @@ import MenuService from './Services/MenuService';
 import Login from './Components/Login/Login';
 import CarryOut from './Components/CarryOut/CarryOut';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
+<<<<<<< HEAD
 import ChangePassword from './Components/ChangePassword/ChangePassword';
+=======
+import Portal from './Components/Portal/Portal';
+>>>>>>> TJO-DEV
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
@@ -97,6 +101,7 @@ const routing = (
                     <Route exact path="/" component={App} />
                     <Route exact path="/Home" component={App} />
                     <Route exact path="/Register" component={CustomerRegistration} />
+                    <Route exact path="/Portal" component={Portal} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/ChangePassword" component={ChangePassword} />
                     <Route exact path="/UserProfile/:id" component={UserProfile}/>

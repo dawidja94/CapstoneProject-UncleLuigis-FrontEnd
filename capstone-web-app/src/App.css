@@ -192,6 +192,36 @@ color: red;
 }
 /* End Login Component CSS */
 
+/* Start Portal Component CSS */
+.options-container {
+  display: grid;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+#portalBackground {
+  /*background-image: url("Images/ScreenBackgrounds/Portal.png");*/
+  background-color: #ecebeb;
+}
+
+.card.user-portal {
+  border: solid #dc3545 2px;
+  margin-bottom: 25px;
+}
+
+.custom-container {
+  padding: 10px;
+  padding-top: 10px;
+  background-color: #e6e6e6;
+  padding-top: 20px;
+  border-radius: 10px 10px;
+  border: solid #d9d5d5 2.5px;
+}
+
+/* End Portal Component CSS */
+
 /* Start CarryOut Component CSS */
 h1.font-weight-lighter.custom {
   color: #FF3836;
