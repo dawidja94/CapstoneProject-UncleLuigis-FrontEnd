@@ -247,6 +247,15 @@ h1.font-weight-lighter.custom {
 /* Start Contact Component CSS */
 #contactBackground {
   background-image: url("Images/ScreenBackgrounds/Portal.png");
+  background-size: cover;
+  background-position: center center;
+}
+
+.card.contact {
+  margin: 30px;
+  padding-top: 30px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.75) !important;
 }
 
 /* End Contact Component CSS */
