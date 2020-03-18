@@ -4,6 +4,7 @@ import ILandingState from "./ILandingState";
 import Navbar from "../Navigation/Navbar";
 import Carousel from 'react-bootstrap/Carousel'
 import Footer from "../Footer/Footer";
+import { Redirect } from "react-router-dom";
 
 export default class Landing extends React.Component<ILandingProps, ILandingState> {
     public constructor(props: any) {
@@ -11,7 +12,11 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
 
         this.state = {
             index: 0,
-            direction: "right"
+            direction: "right",
+            redirectToContact: false,
+            redirectToMenu: false,
+            redirectToRegister: false,
+            redirectToReservations: false
         };
     }
 
@@ -45,8 +50,17 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                             alt="First slide"
                             />
                             <Carousel.Caption>
-                            <h3>Mouth Watering Spaghetti</h3>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                            <div className="carousel-descriptor">
+                                <h3 className="text-uppercase font-weight-light">A Taste of Italy</h3>
+                                <hr />
+                                <button className="btn btn-danger btn-lg" onClick={() => {
+                                    this.setState({
+                                        redirectToMenu: true
+                                    });
+                                }}>View Menu</button>
+                                <h6>We at Uncle Luigi's offer our customers a unique Italian dine-in experience.</h6>
+                            </div>
+                            <br />
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
@@ -56,8 +70,17 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                             alt="Third slide"
                             />
                             <Carousel.Caption>
-                            <h3>Second slide label</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <div className="carousel-descriptor">
+                                <h3 className="text-uppercase font-weight-light">Reserve Your Group</h3>
+                                <hr />
+                                <button className="btn btn-danger btn-lg" onClick={() => {
+                                    this.setState({
+                                        redirectToReservations: true
+                                    });
+                                }}>Reservations</button>
+                                <h6>We are happy to offer our customers the ability to reserve their groups' table in advance.</h6>
+                            </div>
+                            <br />
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
@@ -67,8 +90,17 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                             alt="Third slide"
                             />
                             <Carousel.Caption>
-                            <h3>Second slide label</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <div className="carousel-descriptor">
+                                <h3 className="text-uppercase font-weight-light">Register An Account</h3>
+                                <hr />
+                                <button className="btn btn-danger btn-lg" onClick={() => {
+                                    this.setState({
+                                        redirectToRegister: true
+                                    });
+                                }}>Register</button>
+                                <h6>Register today to create orders and reserve tables on your own time from anywhere.</h6>
+                            </div>
+                            <br />
                             </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
@@ -78,13 +110,26 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                             alt="Third slide"
                             />
                             <Carousel.Caption>
-                            <h3>Second slide label</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <div className="carousel-descriptor">
+                                <h3 className="text-uppercase font-weight-light">Questions?</h3>
+                                <hr />
+                                <button className="btn btn-danger btn-lg" onClick={() => {
+                                    this.setState({
+                                        redirectToContact: true
+                                    });
+                                }}>Contact Us</button>
+                                <h6>We are happy to answer any questions about our menu or business.</h6>
+                            </div>
+                            <br />
                             </Carousel.Caption>
                         </Carousel.Item>
                     </Carousel>
                     <Footer />
                 </div>
+                {this.state.redirectToMenu ? <Redirect to="/Menu"/> : <div></div>}
+                {this.state.redirectToReservations ? <Redirect to="/Reservations"/> : <div></div>}
+                {this.state.redirectToContact ? <Redirect to="/Contact"/> : <div></div>}
+                {this.state.redirectToRegister ? <Redirect to="/Register"/> : <div></div>}
             </div>
         );
     }

@@ -79,6 +79,14 @@ color: red;
 
 /* Landing/Home Component */
 
+.carousel-descriptor {
+  background-color: rgba(255,255,255,0.75);
+  border-radius: 10px 10px;
+  padding: 15px;
+  padding-bottom: 40px;
+  color: black;
+}
+
 .custom-carousel {
   width: 100%;
 }
@@ -235,6 +243,14 @@ h1.font-weight-lighter.custom {
   overflow-x: scroll;
 }
 /* End CarryOut Component CSS */
+
+/* Start Contact Component CSS */
+#contactBackground {
+  background-image: url("Images/ScreenBackgrounds/Portal.png");
+}
+
+/* End Contact Component CSS */
+
 
 /* Devices under 1000px */
 @media (max-width: 1000px) {
