@@ -59,7 +59,7 @@ export default class MenuService {
                     resolve(true);
                 }
                 else {
-                    reject("Response Status: " + response.status);
+                    resolve("Response Status: " + response.status);
                 }
             })
             .catch(reason => {

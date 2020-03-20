@@ -6,8 +6,11 @@ import Footer from "../Footer/Footer";
 import Food from "../../Models/Food";
 import Beverage from "../../Models/Beverage";
 import CustomModal from "../CustomModal/CustomModal";
+import MenuService from "../../Services/MenuService";
 
 export default class Menu extends React.Component<IMenuProps, IMenuState> {
+    private menuService: MenuService;
+    
     constructor(props: any) {
         super(props);
 
@@ -15,8 +18,12 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
             foodItems:  [],
             beverageItems: [],
             showLoginModal: false,
-            showAddtoCartModal: false
+            showAddtoCartModal: false,
+            modalBodyMessage: "",
+            modelHeader: ""
         };
+
+        this.menuService = new MenuService();
     }
 
     public componentDidMount() {
@@ -142,7 +149,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         </div>
                     </div>
                 </div> : ""}
-                {this.state.showLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={"Valued Customer"} body={"Please login to add items to carry out order. Thank you!"} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
+                {this.state.showLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={this.state.modelHeader} body={this.state.modalBodyMessage} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
                 {this.state.showAddtoCartModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={"Added To Cart"} body={"Item added to cart!"} buttontitle={"Close"} show={this.state.showAddtoCartModal} onCloseModal={this.closeAddToCartModal} /> : <div></div>}
                 <Footer />
             </div>
@@ -199,32 +206,99 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         // If we don't have a logged in user.
         if (!localStorage.getItem("First name") && !localStorage.getItem("Last name")) {
             this.setState({
-                showLoginModal: true
+                showLoginModal: true,
+                modalBodyMessage: "Please login to add items to carry out order. Thank you!",
+                modelHeader: "Valued Customer"
             });
         }
         else {
-            if (item.type === "food") {
-                console.log("checking quantity after click");
-                console.log(quantity);
-                this.props.addItem(item.food, quantity, item.type);
+            let customerIdFromLS = localStorage.getItem("Customer ID");
+            let customerId: number = 0;
 
-                setTimeout(() => {
-                    //this.forceUpdate();
-                    this.setState({
-                        showAddtoCartModal: true
-                    });
-                }, 300);
+            if (customerIdFromLS !== null) {
+                customerId = parseInt(customerIdFromLS.toString());
+            }
+
+            let carryOutItem = {};
+
+            if (item.type === "food") {
+                carryOutItem = {
+                    id: 0,
+                    bundleId: 0,
+                    customerId: customerId,
+                    food: item.food,
+                    foodQuantity: quantity,
+                    beverage: null,
+                    beverageQuantity: 0,
+                    submissionTime: null
+                };
             }
             else if (item.type === "beverage") {
-                this.props.addItem(item.beverage, quantity, item.type);
-
-                setTimeout(() => {
-                    //this.forceUpdate();
-                    this.setState({
-                        showAddtoCartModal: true
-                    });
-                }, 300);
+                carryOutItem = {
+                    id: 0,
+                    bundleId: 0,
+                    customerId: customerId,
+                    food: null,
+                    foodQuantity: 0,
+                    beverage: item.beverage,
+                    beverageQuantity: quantity,
+                    submissionTime: null
+                };
             }
+
+            this.menuService.addToCart(carryOutItem).then((response) => {
+                console.log(response);
+
+                if (response === "Response Status: 401") {
+                    this.setState({
+                        modelHeader: `Hi ${localStorage.getItem("First name")} ${localStorage.getItem("Last name")}!`,
+                        modalBodyMessage: "Please login again to confirm your add to cart action!",
+                        showLoginModal: true
+                    });
+                }
+                else if (response) {
+                    console.log("200");
+                    this.menuService.getAllCarryOutsInCart(customerId)
+                    .then((data: any) => {
+                        let count = data.length ?? 0;
+                        localStorage.setItem("cartCount", count);
+                        
+                        this.setState({
+                            showAddtoCartModal: true
+                        });
+                    })
+                    .catch((reason) => {
+                        console.log(reason);
+                    });
+                }
+                
+            });
+
+
+            // if (item.type === "food") {
+            //     console.log("checking quantity after click");
+            //     console.log(quantity);
+            //     let response = this.props.addItem(item.food, quantity, item.type);
+            //     console.log("Checking response");
+            //     console.log(response);
+
+            //     setTimeout(() => {
+            //         //this.forceUpdate();
+            //         this.setState({
+            //             showAddtoCartModal: true
+            //         });
+            //     }, 300);
+            // }
+            // else if (item.type === "beverage") {
+            //     this.props.addItem(item.beverage, quantity, item.type);
+
+            //     setTimeout(() => {
+            //         //this.forceUpdate();
+            //         this.setState({
+            //             showAddtoCartModal: true
+            //         });
+            //     }, 300);
+            // }
         }
     }
 }

@@ -53,7 +53,7 @@ function getCountInCustomerCart() {
     });
 }
 
-function addItemToCarryOutCart(item: any, quantity: number, type: string) {
+function addItemToCarryOutCart(item: any, quantity: number, type: string): any {
     let customerIdFromLS = localStorage.getItem("Customer ID");
     let customerId: number = 0;
 
@@ -88,8 +88,11 @@ function addItemToCarryOutCart(item: any, quantity: number, type: string) {
         };
     }
 
-    menuService.addToCart(carryOutItem).then(() => {
+    menuService.addToCart(carryOutItem).then((response) => {
         getCountInCustomerCart();
+        console.log("Checking response");
+        console.log(response);
+        return response;
     });
 }
 

@@ -25,7 +25,19 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-12">
-                            <h2 className="text-center menu-header">Reservations</h2>
+                            <div className="card custom">
+                                <div className="container-fluid">
+                                <div className="text-center">
+                                        <hr />
+                                        <h2 className="text-center menu-header">Reservations</h2>
+                                        <hr />
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
