@@ -22,6 +22,8 @@ import ChangePassword from './Components/ChangePassword/ChangePassword';
 import Portal from './Components/Portal/Portal';
 import Reservations from './Components/Reservations/Reservations';
 import Contact from './Components/Contact/Contact';
+import CarryOutList from './Components/CarryOutList/CarryOutList'
+import CarryOutOrder from './Components/CarryOutOrder/CarryOutOrder';
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
@@ -107,11 +109,17 @@ const routing = (
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/ChangePassword" component={ChangePassword} />
                     <Route exact path="/UserProfile/:id" component={UserProfile}/>
+<<<<<<< HEAD
                     <Route exact path="/Reservations" component={Reservations} />
                     <Route exact path="/Contact" component={Contact} />
+=======
+                    <Route exact path="/CarryOutOrder/:id" component={CarryOutOrder}/>
+>>>>>>> Dawid-DEV
                     <Route path="/Login" render={(props) => <Login {...props} />} />
                     <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
                     <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
+                    <Route path="/CarryOutList" render={(props) => <CarryOutList/>} />
+                    
                 </ScrollToTop>
             </Switch>
     </Router>

@@ -7,6 +7,7 @@ import Footer from "../Footer/Footer";
 import TokenService from "../../Services/TokenService";
 import MenuService from "../../Services/MenuService";
 import { Redirect, NavLink } from "react-router-dom";
+import CustomModal from "../CustomModal/CustomModal";
 
 export default class Login extends React.Component<ILoginProps, ILoginState> {
     private menuService: MenuService;
@@ -17,7 +18,8 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
         this.state = {
             userName: "",
             password: "",
-            redirectToHome: false
+            redirectToHome: false,
+            showWrongLoginModal: false,
         }
 
         this.menuService = new MenuService();
@@ -73,12 +75,18 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                     <br />
                     <br />
                 </div>
+                {!this.state.showWrongLoginModal ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"Wrong username or password. Please try again."} buttontitle={"Ok"} show={this.state.showWrongLoginModal} onCloseModal={this.closeModal} useListOption={false} listMessages={[]} />}
                 {this.state.redirectToHome ? <Redirect to="/"/> : <div></div>}
                 <Footer />
             </div>
         )
     }
 
+    private closeModal = () => {
+        this.setState({
+            showWrongLoginModal: false
+        });
+    }
     private userNameOnChange(event: any): void{
         this.setState({
             userName: event.target.value
@@ -105,8 +113,16 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                 'Content-Type': 'application/json'
             }
         })
+        
         .then(response => {
-            if (response.status === 200) {
+            console.log(response.status);
+            if (response.status === 401){
+                this.setState({
+                    showWrongLoginModal: true
+                })
+                return response.json();
+            }
+            else if (response.status === 200) {
                 return response.json();
             }
         })
@@ -143,6 +159,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             });
         })
         .catch(reason => {
+            
             console.log(reason);
         })
     }

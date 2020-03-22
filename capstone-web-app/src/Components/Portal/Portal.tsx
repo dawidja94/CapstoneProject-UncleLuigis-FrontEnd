@@ -11,7 +11,9 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         super(props);
 
         this.state = {
-            redirectToHome: false
+            redirectToHome: false,
+            redirectToChangePassword: false,
+            redirectToOrderList: false,
         };
     }
 
@@ -38,7 +40,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                     <div className="card user-portal">
                                         <img className="card-img-top" src={`/Images/Other/Customer.jpg`} alt="Customer"></img>
                                         <div className="options-container">
-                                            <button className="btn btn-danger">Change Password</button>
+                                            <button className="btn btn-danger" onClick={() => this.changePassword()}>Change Password</button>
                                             <button className="btn btn-danger">Update Information</button>
                                             <button className="btn btn-danger" onClick={() => this.logOut()}>Log Out</button>
                                         </div>
@@ -51,7 +53,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                     <div className="card user-portal">
                                         <img className="card-img-top" src={`/Images/Other/CarryOut.png`} alt="Food"></img>
                                         <div className="options-container">
-                                            <button className="btn btn-danger">View Orders</button>
+                                            <button className="btn btn-danger"onClick={() => this.viewOrders()}>View Orders</button>
                                             <span><i className="text-dark">View Carry-Out Orders and Details.</i></span>
                                             <label>&nbsp;</label>
                                             <label>&nbsp;</label>
@@ -83,10 +85,22 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                 </div>
                 <Footer />
                 {this.state.redirectToHome ? <Redirect to="/"/> : <div></div>}
+                {this.state.redirectToChangePassword ? <Redirect to="/ChangePassword"/>: <div></div>}
+                {this.state.redirectToOrderList ? <Redirect to="/CarryOutList"/>: <div></div>}
             </div>
         )
     }
 
+    private changePassword = () => {
+        this.setState({
+            redirectToChangePassword: true
+        });
+    }
+    private viewOrders = () => {
+        this.setState({
+            redirectToOrderList: true
+        });
+    }
     private logOut = () => {
         localStorage.clear();
 
