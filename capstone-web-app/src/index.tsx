@@ -109,12 +109,9 @@ const routing = (
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/ChangePassword" component={ChangePassword} />
                     <Route exact path="/UserProfile/:id" component={UserProfile}/>
-<<<<<<< HEAD
                     <Route exact path="/Reservations" component={Reservations} />
                     <Route exact path="/Contact" component={Contact} />
-=======
                     <Route exact path="/CarryOutOrder/:id" component={CarryOutOrder}/>
->>>>>>> Dawid-DEV
                     <Route path="/Login" render={(props) => <Login {...props} />} />
                     <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
                     <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
