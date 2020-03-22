@@ -101,6 +101,66 @@ export default class MenuService {
 
         return promise;
     }
+    public getAllCarryOutsForCustomer(customerId: number): Promise<any> {
+        let tokenService = new TokenService();
+        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/GetAllCarryOutsForCustomer/${customerId}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .then((data): any => {
+                resolve(data);
+            })
+            .catch(reason => {
+                reject(reason);
+            });
+        });  
+
+        return promise;
+        
+    }
+
+    public getCarryOutById(bundleId: number) :Promise<any>{
+        let tokenService = new TokenService();
+        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseAzureURL}CarryOut/GetCarryOutById/${bundleId}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .then((data): any => {
+                resolve(data);
+            })
+            .catch(reason => {
+                reject(reason);
+            });
+        });  
+
+        return promise;
+    }
 
     public removeFromCart(requestBody: any): Promise<any> {
         let tokenService = new TokenService();
