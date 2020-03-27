@@ -27,7 +27,7 @@ const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
 const beverageMenuItems = menuService.getAllBeverageMenuItems();
 
-let count: number = 0;
+let count: number = 23;
 
 function countUp(message: string) {
     count++;
