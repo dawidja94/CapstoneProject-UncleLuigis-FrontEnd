@@ -211,7 +211,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
     }
 
     private renderSummary(): JSX.Element {
-        if (this.state.foodCartItems.length > 0 && this.state.customerLoggedIn && !this.state.showSpinner) {
+        if ((this.state.foodCartItems.length > 0 || this.state.beverageCartItems.length) && this.state.customerLoggedIn && !this.state.showSpinner) {
             return (
                 <div className="row">
                     <div className="col-lg-6 col-sm-6">
@@ -259,7 +259,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
     }
 
     private renderFoodCart(): JSX.Element {
-        if (this.state.foodCartItems.length > 0 && this.state.customerLoggedIn && !this.state.showSpinner) {
+        if ((this.state.foodCartItems.length > 0 || this.state.beverageCartItems.length > 0) && this.state.customerLoggedIn && !this.state.showSpinner) {
             return (
                 <div className="table-container">
                     <table className="table table-hover">
