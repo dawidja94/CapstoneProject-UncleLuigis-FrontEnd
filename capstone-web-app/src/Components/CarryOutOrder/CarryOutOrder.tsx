@@ -15,6 +15,7 @@ import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationM
 import { timingSafeEqual } from "crypto";
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
 import { parse } from "url";
+import CustomModal from "../CustomModal/CustomModal";
 
 export default class CarryOutOrder extends React.Component<any, ICarryOutOrderState> {
     private menuService: MenuService;
@@ -29,7 +30,9 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
                 orderItems: [],
                 customerLoggedIn: false,
                 foodOrderItems: [],
-                beverageOrderItems: [],  
+                beverageOrderItems: [],
+                showViewOrdersModal: false,
+                redirectToOrderList: false,
         };
 
     }
@@ -37,38 +40,55 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
     public componentDidMount() {
         console.log(this.props.match.params);
         let bundleId: number = 0;
-
+        let customerId: number = 0;
+        let customerIdFromLS = localStorage.getItem("Customer ID");
+        if (customerIdFromLS !== null ){
+            customerId = parseInt(customerIdFromLS.toString());
+        }
         bundleId = parseInt(this.props.match.params.id);
-
+        console.log(customerId);
         this.menuService.getCarryOutById(bundleId)
         .then((data) => {
             console.log(bundleId);
-
-            this.setState({
-                orderItems: data,
-        
-            }, () => {
-
-                let cartItems = this.state.orderItems;
-                let foodItems: Food[] = [];
-                let beverageItems: Beverage[] = [];
-                
-                cartItems.forEach(item => {
-                    if (item.food) {
-                        foodItems.push(new Food(item.food, item.foodQuantity, item.id));
-                    }
-                    else if (item.beverage) {
-                        beverageItems.push(new Beverage(item.beverage, item.beverageQuantity, item.id));
-                    }
-                });
-
                 this.setState({
-                    foodOrderItems: foodItems,
-                    beverageOrderItems: beverageItems,
+                    orderItems: data,
+                    
+                }, () => {
+                    
+                    let cartItems = this.state.orderItems;
+                    let foodItems: Food[] = [];
+                    let beverageItems: Beverage[] = [];
+                    cartItems.forEach(item => {
+                        //check if the id of logged customer matches the order's customer id
+                        if(item.customer.id === customerId){
+                            if (item.food) {
+                                foodItems.push(new Food(item.food, item.foodQuantity, item.id));
+                            }
+                            else if (item.beverage) {
+                                beverageItems.push(new Beverage(item.beverage, item.beverageQuantity, item.id));
+                            }
+                        }
+                        //if this order does not belong to logged customer,
+                        //display a modal to take them to their order list
+                        else if (item.customer.id !== customerId){
+                            
+                            this.setState({
+                                showViewOrdersModal: true
+                            });
+                        }
+                       
+                    });
+
+                    this.setState({
+                        foodOrderItems: foodItems,
+                        beverageOrderItems: beverageItems,
+                    });
                 });
-            });
+            
+    
         });
     }
+
     render() {
         return (
             <div>
@@ -98,10 +118,17 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
                         </div>
                     </div>
                 </div>
-                
+                {!this.state.showViewOrdersModal ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"You cannot view this order. Please Press Ok to view the list of your orders."} buttontitle={"Ok"} show={this.state.showViewOrdersModal} onCloseModal={this.closeModal} useListOption={false} listMessages={[]} />}
+                {this.state.redirectToOrderList ? <Redirect to="/CarryOutList"/> : <div></div>}
                 <Footer />
             </div>
         );
+    }
+    private closeModal = () => {
+        this.setState({
+            showViewOrdersModal: false,
+            redirectToOrderList: true,
+        });
     }
 
     private getSubTotal(): number {
