@@ -63,6 +63,9 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                     console.log("Carry Out Cart checking state");
                     console.log(this.state);
 
+                    let count = data.length ?? 0;
+                    localStorage.setItem("cartCount", count);
+
                     let cartItems = this.state.cartItems;
                     let foodItems: Food[] = [];
                     let beverageItems: Beverage[] = [];
