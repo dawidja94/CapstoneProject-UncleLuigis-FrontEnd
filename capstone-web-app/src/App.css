@@ -198,6 +198,20 @@ color: red;
 .card.login-custom {
   background-color: rgba(255, 255, 255, 0.9) !important;
 }
+
+/* End Login Component CSS */
+
+/* Start User Profile Component CSS */
+#userProfileScreenBackground {
+  background-image: url("Images/ScreenBackgrounds/Login4.jpeg");
+  background-size: cover;
+  background-position: center right;
+}
+
+.card.login-custom {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
 /* End Login Component CSS */
 
 /* Start Portal Component CSS */
@@ -257,9 +271,7 @@ h1.font-weight-lighter.custom {
   padding: 15px;
   background-color: rgba(255, 255, 255, 0.75) !important;
 }
-
 /* End Contact Component CSS */
-
 
 /* Devices under 1000px */
 @media (max-width: 1000px) {

@@ -54,7 +54,7 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                             <div className="col-1"></div>
                             <div className="col-10">
                                 <div className="card login-custom">
-                                    <h3 className="card-header text-center font-weight-bold"  >Customer Registration</h3>
+                                    <h3 className="card-header text-center font-weight-bold">Customer Registration</h3>
                                     <div className="card-margin">
                                         <div className="form-group required">
                                             <label className="font-weight-bold">First Name:</label>
