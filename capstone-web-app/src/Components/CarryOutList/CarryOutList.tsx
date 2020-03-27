@@ -25,7 +25,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             orderNumber: 0,
             redirectToLogin: false,
         };
-
+        
     }
 
     public componentDidMount() {

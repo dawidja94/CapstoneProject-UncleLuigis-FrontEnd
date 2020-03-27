@@ -20,6 +20,8 @@ import CarryOut from './Components/CarryOut/CarryOut';
 import ForgetPassword from './Components/ForgetPassword/ForgetPassword';
 import ChangePassword from './Components/ChangePassword/ChangePassword';
 import Portal from './Components/Portal/Portal';
+import Reservations from './Components/Reservations/Reservations';
+import Contact from './Components/Contact/Contact';
 import CarryOutList from './Components/CarryOutList/CarryOutList'
 import CarryOutOrder from './Components/CarryOutOrder/CarryOutOrder';
 
@@ -53,7 +55,7 @@ function getCountInCustomerCart() {
     });
 }
 
-function addItemToCarryOutCart(item: any, quantity: number, type: string) {
+function addItemToCarryOutCart(item: any, quantity: number, type: string): any {
     let customerIdFromLS = localStorage.getItem("Customer ID");
     let customerId: number = 0;
 
@@ -88,8 +90,11 @@ function addItemToCarryOutCart(item: any, quantity: number, type: string) {
         };
     }
 
-    menuService.addToCart(carryOutItem).then(() => {
+    menuService.addToCart(carryOutItem).then((response) => {
         getCountInCustomerCart();
+        console.log("Checking response");
+        console.log(response);
+        return response;
     });
 }
 
@@ -104,6 +109,8 @@ const routing = (
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/ChangePassword" component={ChangePassword} />
                     <Route exact path="/UserProfile/:id" component={UserProfile}/>
+                    <Route exact path="/Reservations" component={Reservations} />
+                    <Route exact path="/Contact" component={Contact} />
                     <Route exact path="/CarryOutOrder/:id" component={CarryOutOrder}/>
                     <Route path="/Login" render={(props) => <Login {...props} />} />
                     <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
