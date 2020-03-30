@@ -5,5 +5,8 @@ export default interface ICarryOutListState {
     navigateToOrder: boolean;
     orderNumber: number;
     redirectToLogin: boolean;
+    currentPage: number;
+    ordersPerPage: number;
+    
     
 }

@@ -6,7 +6,10 @@ import { Redirect } from "react-router-dom";
 import TokenService from "../../Services/TokenService";
 import CustomModal from "../CustomModal/CustomModal";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import MenuService from "../../Services/MenuService";
 export default class UserProfile extends React.Component<any, IUserProfileState> {
+    private menuService: MenuService;
+
     constructor(props: any) {
         super(props);
 
@@ -27,6 +30,8 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
             showCustomerExistsModal: false,
             isFormValid: false,
         }
+
+        this.menuService = new MenuService();
     }
 
     public componentDidMount() {
@@ -205,15 +210,28 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                                         refreshToken: data.authenticatedModel.refreshToken,
                                         firstName: data.authenticatedModel.customer.firstName,
                                         lastName: data.authenticatedModel.customer.lastName,
-                                        phoneNumber: data.authenticatedModel.customer.phoneNumber
+                                        phoneNumber: data.authenticatedModel.customer.phoneNumber,
+                                        customerId: data.authenticatedModel.customer.id
         
-                                    }
+                                    };
                                     tokenService.handleAuthTokens(tokenBody); 
-        
-                                    this.setState({
-                                        navigateToHomeScreen: true
-                        
-                                    });
+                                    let customerIdFromLS = localStorage.getItem("Customer ID");
+                                    let customerId: number = 0;
+                                    if (customerIdFromLS !== null) {
+                                        customerId = parseInt(customerIdFromLS.toString());
+                                    }
+                                    this.menuService.getAllCarryOutsInCart(customerId)
+                                    .then((data: any) => {
+                                        let count = data.length ?? 0;
+                                         localStorage.setItem("cartCount", count);
+
+                                         this.setState({
+                                            navigateToHomeScreen: true
+                                       
+                                        });
+
+                                     });
+                                    
                                 });
                             }
                             else {
