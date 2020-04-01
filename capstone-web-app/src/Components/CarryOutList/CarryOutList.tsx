@@ -9,6 +9,7 @@ import { mockComponent } from "react-dom/test-utils";
 import Moment from 'react-moment';
 import moment from "moment";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
+import Pagination from "react-js-pagination";
 export default class CarryOutList extends React.Component<ICarryOutListProps, ICarryOutListState> {
     private menuService: MenuService
     private customerLoggedIn: boolean;
@@ -24,6 +25,8 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             navigateToOrder: false,
             orderNumber: 0,
             redirectToLogin: false,
+            currentPage: 1,
+            ordersPerPage: 4,
         };
         
     }
@@ -67,7 +70,8 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                             <hr />
                             <div className="row">
                                 <div className="col-12">
-                                    {this.displayOrders()}
+                                    {this.displayOrders(this.state.orderList)}
+                                    {this.Pagination(this.state.ordersPerPage,this.state.orderList.length)}
                                 </div>
                             </div> 
                             <br />
@@ -90,10 +94,38 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
            orderNumber: bundle
        })
     }
+    public paginate = (pageNumber: number) => this.setState({currentPage: pageNumber })
+    public Pagination = (ordersPerPage: number, totalOrders: number ) => {
+        const pageNumbers= [];
+
+        for (let i = 1; i <= Math.ceil(totalOrders/ordersPerPage); i++){
+            pageNumbers.push(i);
+        }
+        return (
+            <nav>
+                <br />
+                <br />
+                <ul className="pagination">
+                    {pageNumbers.map(number =>(
+                        <li key={number} className="page-item">
+                            <span>
+                           <button onClick={() => this.paginate(number)} className="btn btn-outline-danger" >{number}</button> &nbsp; 
+                           </span>
+                        </li>
+                    ))}
+
+                </ul>
+
+            </nav>
+        )
+    }
     
-    private displayOrders = () => {
+    private displayOrders = (orderList: any []) => {
     {
         if (this.state.customerLoggedIn){
+            let indexOfLastOrder: number = this.state.currentPage * this.state.ordersPerPage;
+            let indexOfFirstOrder: number = indexOfLastOrder - this.state.ordersPerPage;
+            let currentOrders: any [] = orderList.slice(indexOfFirstOrder, indexOfLastOrder);
             return (
                 <div className="table-container">
                     <table className="table table-hover">
@@ -105,7 +137,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                             </tr>
                         </thead>
                         <tbody className="text-left">
-                        {this.state.orderList.map((item, index) => {
+                        {currentOrders.map((item, index) => {
                             return  (
                                 
                                 <tr>

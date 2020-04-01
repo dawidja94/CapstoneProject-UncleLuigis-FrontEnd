@@ -6,5 +6,6 @@ export default interface ICarryOutOrderState {
     customerLoggedIn: boolean,
     foodOrderItems: Food[];
     beverageOrderItems: Beverage[];
-  
+    showViewOrdersModal: boolean;
+    redirectToOrderList: boolean;
 }
