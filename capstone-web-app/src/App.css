@@ -37,6 +37,7 @@
   }
 }
 
+
 body {
   background-color: #dedede;
 }
@@ -52,6 +53,10 @@ body {
   left: 0;
 }
 
+.btn.btn-outline-danger:focus {
+  background-color: #FF3836 ;
+  color: white;
+}
 /* General CSS End */
 
 /* Customer Component */

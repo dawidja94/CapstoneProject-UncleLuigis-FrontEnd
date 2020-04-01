@@ -10,6 +10,7 @@ import Moment from 'react-moment';
 import moment from "moment";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
 import Pagination from "react-js-pagination";
+import Spinner from "react-bootstrap/Spinner";
 export default class CarryOutList extends React.Component<ICarryOutListProps, ICarryOutListState> {
     private menuService: MenuService
     private customerLoggedIn: boolean;
@@ -27,6 +28,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             redirectToLogin: false,
             currentPage: 1,
             ordersPerPage: 4,
+            showSpinner: true,
         };
         
     }
@@ -107,7 +109,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                 <br />
                 <ul className="pagination">
                     {pageNumbers.map(number =>(
-                        <li key={number} className="page-item">
+                        <li key={number} className="pagination pagination-lg">
                             <span>
                            <button onClick={() => this.paginate(number)} className="btn btn-outline-danger" >{number}</button> &nbsp; 
                            </span>
@@ -122,7 +124,9 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
     
     private displayOrders = (orderList: any []) => {
     {
-        if (this.state.customerLoggedIn){
+    
+       if (this.state.customerLoggedIn){
+           
             let indexOfLastOrder: number = this.state.currentPage * this.state.ordersPerPage;
             let indexOfFirstOrder: number = indexOfLastOrder - this.state.ordersPerPage;
             let currentOrders: any [] = orderList.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -155,6 +159,17 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                         </div>
             );
         }
+        else if (this.state.showSpinner && !this.customerLoggedIn){
+            return (
+                <div className="text-center">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                    <br />
+                    <br />
+                </div>
+            );
+        }
         else if (!this.customerLoggedIn){
             return (
                 <div className="text-center">
@@ -167,6 +182,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                 </div>
             );
         }
+        
     }
 
     }
