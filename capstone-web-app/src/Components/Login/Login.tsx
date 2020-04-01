@@ -76,7 +76,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                     <br />
                 </div>
                 {!this.state.showWrongLoginModal ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"Wrong username or password. Please try again."} buttontitle={"Ok"} show={this.state.showWrongLoginModal} onCloseModal={this.closeModal} useListOption={false} listMessages={[]} />}
-                {this.state.redirectToHome ? <Redirect to="/"/> : <div></div>}
+                {this.state.redirectToHome ? <Redirect push to="/"/> : <div></div>}
                 <Footer />
             </div>
         )

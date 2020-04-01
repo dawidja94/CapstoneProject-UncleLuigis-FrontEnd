@@ -125,8 +125,8 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                         </div>
                     </div>
                 </div>
-                {this.state.redirectToLogin ? <Redirect to="/Login"/> : <div></div>}
-                {this.state.redirectToMenu ? <Redirect to="/Menu"/> : <div></div>}
+                {this.state.redirectToLogin ? <Redirect push to="/Login"/> : <div></div>}
+                {this.state.redirectToMenu ? <Redirect push to="/Menu"/> : <div></div>}
                 {this.state.showSubmitOrderConfirmationModal ? <OrderConfirmationModal showRemoveItemButton={false} onRemoveItemClick={(this.submitOrder)} showSubmitOrderButton={true} title={"Order Confirmation"} body={"Please confirm your intent to submit this carry-out order."} buttontitle={"Close"} onSubmitOrderClick={this.submitOrder} show={this.state.showSubmitOrderConfirmationModal} onCloseModal={this.closeSubmitOrderConfirmationModal}></OrderConfirmationModal> : <div></div>}
                 {this.state.showThankYouModal ? <OrderConfirmationModal showRemoveItemButton={false} onRemoveItemClick={(this.submitOrder)} showSubmitOrderButton={false} title={"Thank You!"} body={"Thank you for your carry-out order!"} buttontitle={"Close"} onSubmitOrderClick={this.submitOrder} show={this.state.showThankYouModal} onCloseModal={this.closeThankYouModal}></OrderConfirmationModal> : <div></div>}
                 {this.state.showRemoveItemModal ? <OrderConfirmationModal onRemoveItemClick={this.removeItemFromCart} showRemoveItemButton={true} showSubmitOrderButton={false} title={"Remove Item"} body={"Are you sure you want to remove this item from your cart?"} buttontitle={"No"} onSubmitOrderClick={this.submitOrder} show={this.state.showRemoveItemModal} onCloseModal={this.closeRemoveItemFromCartModal}></OrderConfirmationModal> : <div></div>}

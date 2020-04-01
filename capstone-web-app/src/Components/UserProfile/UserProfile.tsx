@@ -95,7 +95,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                     <br />
                 </div>
                 <Footer />
-                {this.state.navigateToHomeScreen ? <Redirect to={"/"}/>:<div></div>}
+                {this.state.navigateToHomeScreen ? <Redirect push to={"/"}/>:<div></div>}
             </div>
         )
     }

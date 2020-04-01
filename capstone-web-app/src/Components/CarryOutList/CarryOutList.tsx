@@ -82,8 +82,8 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                     <br />
                 </div>
                 <Footer />
-                {this.state.redirectToLogin ? <Redirect to="/Login"/> : <div></div>}
-                {this.state.navigateToOrder ? <Redirect to={{pathname: `/CarryOutOrder/${this.state.orderNumber}`}}/> : <div></div>}
+                {this.state.redirectToLogin ? <Redirect push to="/Login"/> : <div></div>}
+                {this.state.navigateToOrder ? <Redirect push to={{pathname: `/CarryOutOrder/${this.state.orderNumber}`}}/> : <div></div>}
             </div>
         )
     }

@@ -84,9 +84,9 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                     <br />
                 </div>
                 <Footer />
-                {this.state.redirectToHome ? <Redirect to="/"/> : <div></div>}
-                {this.state.redirectToChangePassword ? <Redirect to="/ChangePassword"/>: <div></div>}
-                {this.state.redirectToOrderList ? <Redirect to="/CarryOutList"/>: <div></div>}
+                {this.state.redirectToHome ? <Redirect push to="/"/> : <div></div>}
+                {this.state.redirectToChangePassword ? <Redirect push to="/ChangePassword"/>: <div></div>}
+                {this.state.redirectToOrderList ? <Redirect push to="/CarryOutList"/>: <div></div>}
             </div>
         )
     }
