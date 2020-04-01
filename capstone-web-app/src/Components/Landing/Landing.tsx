@@ -126,10 +126,10 @@ export default class Landing extends React.Component<ILandingProps, ILandingStat
                     </Carousel>
                     <Footer />
                 </div>
-                {this.state.redirectToMenu ? <Redirect to="/Menu"/> : <div></div>}
-                {this.state.redirectToReservations ? <Redirect to="/Reservations"/> : <div></div>}
-                {this.state.redirectToContact ? <Redirect to="/Contact"/> : <div></div>}
-                {this.state.redirectToRegister ? <Redirect to="/Register"/> : <div></div>}
+                {this.state.redirectToMenu ? <Redirect push to="/Menu"/> : <div></div>}
+                {this.state.redirectToReservations ? <Redirect push to="/Reservations"/> : <div></div>}
+                {this.state.redirectToContact ? <Redirect push to="/Contact"/> : <div></div>}
+                {this.state.redirectToRegister ? <Redirect push to="/Register"/> : <div></div>}
             </div>
         );
     }

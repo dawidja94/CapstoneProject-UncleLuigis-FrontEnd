@@ -6,6 +6,8 @@ import { Redirect } from "react-router-dom";
 import TokenService from "../../Services/TokenService";
 import CustomModal from "../CustomModal/CustomModal";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import Footer from "../Footer/Footer";
+
 import MenuService from "../../Services/MenuService";
 export default class UserProfile extends React.Component<any, IUserProfileState> {
     private menuService: MenuService;
@@ -48,7 +50,11 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
         return (
             <div>
                 <Navbar />
-                <div>
+                <div id="userProfileScreenBackground">
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                     <br />
                     <br />
                     <br />
@@ -57,12 +63,12 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                         <div className="row">
                             <div className="col-1"></div>
                             <div className="col-10">
-                                <div className="card">
-                                    <h3 className="card-header text-center font-weight-bold">Customer Registration</h3>
+                                <div className="card login-custom">
+                                    <h3 className="card-header text-center font-weight-bold">Create User</h3>
                                     <div className="card-margin">
                                         <div className="form-group">
-                                            <label className="font-weight-bold">User Name:</label>
-                                            <input type="text" className="form-control" placeholder="User Name" id="name"value={this.state.userName} onChange={(e) => this.userNameOnChange(e)}></input>
+                                            <label className="font-weight-bold">Username:</label>
+                                            <input type="text" className="form-control" placeholder="Username" id="name"value={this.state.userName} onChange={(e) => this.userNameOnChange(e)}></input>
                                         </div>
                                         <div className="form-group">
                                             <label className="font-weight-bold">Password:</label>
@@ -81,8 +87,15 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                             <div className="col-1"></div>
                         </div>
                     </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
                 </div>
-                {this.state.navigateToHomeScreen ? <Redirect to={"/"}/>:<div></div>}
+                <Footer />
+                {this.state.navigateToHomeScreen ? <Redirect push to={"/"}/>:<div></div>}
             </div>
         )
     }

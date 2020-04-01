@@ -119,7 +119,7 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
                         </div>
                     </div>
                 </div>
-                {this.state.redirectToOrderList ? <Redirect to="/CarryOutList"/> : <div></div>}
+                {this.state.redirectToOrderList ? <Redirect push to="/CarryOutList"/> : <div></div>}
                 <Footer />
             </div>
         );
