@@ -27,8 +27,9 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             orderNumber: 0,
             redirectToLogin: false,
             currentPage: 1,
-            ordersPerPage: 4,
+            ordersPerPage: 8,
             showSpinner: true,
+            activeIndex: 1
         };
         
     }
@@ -73,10 +74,9 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                             <div className="row">
                                 <div className="col-12">
                                     {this.displayOrders(this.state.orderList)}
-                                    {this.Pagination(this.state.ordersPerPage,this.state.orderList.length)}
+                                    {this.Pagination(this.state.ordersPerPage, this.state.orderList.length)}
                                 </div>
                             </div> 
-                            <br />
                             <br />
                         </div>
                     </div>
@@ -96,7 +96,15 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
            orderNumber: bundle
        })
     }
-    public paginate = (pageNumber: number) => this.setState({currentPage: pageNumber })
+
+    public paginate = (pageNumber: number) => {
+        this.setState({
+            currentPage: pageNumber,
+            activeIndex: pageNumber 
+        });
+    }
+    
+    
     public Pagination = (ordersPerPage: number, totalOrders: number ) => {
         const pageNumbers= [];
 
@@ -111,13 +119,11 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                     {pageNumbers.map(number =>(
                         <li key={number} className="pagination pagination-lg">
                             <span>
-                           <button onClick={() => this.paginate(number)} className="btn btn-outline-danger" >{number}</button> &nbsp; 
+                           <button onClick={() => this.paginate(number)} className={number === this.state.activeIndex ? "btn btn-danger" : "btn btn-outline-danger"} >{number}</button> &nbsp; 
                            </span>
                         </li>
                     ))}
-
                 </ul>
-
             </nav>
         )
     }

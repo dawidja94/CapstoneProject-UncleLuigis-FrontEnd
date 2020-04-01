@@ -54,9 +54,13 @@ body {
 }
 
 .btn.btn-outline-danger:focus {
-  background-color: #FF3836 ;
+  background-color: #dc3545;
   color: white;
 }
+.li.page-item:focus {
+  background-color: #dc3545;
+}
+
 /* General CSS End */
 
 /* Customer Component */

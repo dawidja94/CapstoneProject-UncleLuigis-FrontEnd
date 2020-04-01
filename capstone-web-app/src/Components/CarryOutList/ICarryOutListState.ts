@@ -8,5 +8,5 @@ export default interface ICarryOutListState {
     currentPage: number;
     ordersPerPage: number;
     showSpinner: boolean;
-    
+    activeIndex: number;
 }
