@@ -3,4 +3,10 @@ export default interface IReservationsState {
     selectedTableSize: string;
     selectedTimeSlot: string;
     showSpinner: boolean;
+    showLoginModal: boolean;
+    showReserveModal: boolean;
+    modalHeader: string;
+    modalBodyMessage: string;
+    reserveModalHeader: string;
+    reserveModalMessage: string;
 }

@@ -238,7 +238,7 @@ color: red;
 }
 
 .card.user-portal {
-  border: solid #dc3545 2px;
+  border: solid rgb(141, 141, 141) 1.5px;
   margin-bottom: 25px;
 }
 

@@ -5,6 +5,7 @@ import IReservationsState from "./IReservationState";
 import TableService from "../../Services/TableService";
 import Spinner from "react-bootstrap/Spinner";
 import Footer from "../Footer/Footer";
+import CustomModal from "../CustomModal/CustomModal";
 
 export default class Reservations extends React.Component<IReservationsProps, IReservationsState> {
     private tableService: TableService;
@@ -17,7 +18,13 @@ export default class Reservations extends React.Component<IReservationsProps, IR
             availableTables: [],
             selectedTableSize: "",
             selectedTimeSlot: "",
-            showSpinner: false
+            showSpinner: false,
+            showLoginModal: false,
+            showReserveModal: false,
+            modalBodyMessage: "Please login to make a table reservation! Thank you!",
+            modalHeader: "Valued Customer",
+            reserveModalHeader: "Reservation Confirmation",
+            reserveModalMessage: ""
         };
 
         this.tableService = new TableService();
@@ -94,12 +101,26 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                                     <br /> 
                                 </div>
                             </div>
+                            {this.state.showLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={this.state.modalHeader} body={this.state.modalBodyMessage} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
+                            {this.state.showReserveModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={this.state.reserveModalHeader} body={this.state.reserveModalMessage} buttontitle={"Close"} show={this.state.showReserveModal} onCloseModal={this.closeReserveModal} /> : <div></div>}
                             <Footer />
                         </div>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    private closeLoginModal = () => {
+        this.setState({
+            showLoginModal: false
+        });
+    }
+
+    private closeReserveModal = () => {
+        this.setState({
+            showReserveModal: false
+        });
     }
 
     private changeTimeSlot(e: any) {
@@ -139,7 +160,7 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                                         <td>{item.tableSize}</td>
                                         <td>{item.timeSlot}</td>
                                         <td>
-                                            <button className="btn btn-outline-danger">Reserve</button>
+                                            <button className="btn btn-outline-danger" onClick={() => this.reserveTableClick(item.id, item.reservationTable, item.timeSlot)}>Reserve</button>
                                         </td>
                                     </tr>
                                 );
@@ -151,49 +172,95 @@ export default class Reservations extends React.Component<IReservationsProps, IR
         }
         else {
             return (
-                <h4 className="text-center">No tables to show.</h4>
+                <h4 className="text-center">No Reservations To Show</h4>
             );
         }
+    }
+
+    private reserveTableClick(tableId: number, tableName: string, timeSlot: string): void {
+        if (!localStorage.getItem("First name") && !localStorage.getItem("Last name")) {
+            this.setState({
+                showLoginModal: true
+            });
+        }
+        else {
+            let customerIdFromLS = localStorage.getItem("Customer ID");
+            let customerId: number = 0;
+            let selectedPartySize = 0;
+
+            if (customerIdFromLS !== null) {
+                customerId = parseInt(customerIdFromLS.toString());
+            }
+
+            console.log(tableId);
+            selectedPartySize = parseInt(this.state.selectedTableSize.toString());
+            console.log(selectedPartySize);
+
+            const requestBody = {
+                customerId: customerId,
+                tableId: tableId,
+                partySize: selectedPartySize
+            };
+
+            this.tableService.reserveTable(requestBody)
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    showReserveModal: true,
+                    showSpinner: true,
+                    reserveModalMessage: `Hi ${localStorage.getItem("First name")}, ${tableName} for ${this.state.selectedTableSize} people is
+                    confirmed for ${this.getTodaysDate()} at ${timeSlot}.`
+                }, () =>
+                this.processAvailableTables());
+            })
+            .catch (reason => {
+                console.log(reason);
+            });
+        }
+    }
+
+    private processAvailableTables(): void {
+        const requestBody = {
+            partySize: parseInt(this.state.selectedTableSize) as number,
+            reservationDate: this.getTodaysDate(),
+            timeSlot: this.state.selectedTimeSlot
+        };
+
+        this.tableService.getAvailableTables(requestBody)
+        .then(response => {    
+            let sortedTables = response;
+
+            if (sortedTables) {
+                sortedTables.sort((a: any, b: any) => {
+                    if (a.reservationTable > b.reservationTable) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
+            }
+
+            this.setState({
+                availableTables: sortedTables,
+                showSpinner: false
+            });
+        })
+        .catch(reason => {
+            console.log(reason);
+
+            this.setState({
+                showSpinner: false,
+                availableTables: []
+            });
+        });
     }
 
     private searchButtonClick(): void {
         this.setState({
             showSpinner: true
         }, () => {
-            const requestBody = {
-                partySize: parseInt(this.state.selectedTableSize) as number,
-                reservationDate: this.getTodaysDate(),
-                timeSlot: this.state.selectedTimeSlot
-            };
-    
-            this.tableService.getAvailableTables(requestBody)
-            .then(response => {    
-                let sortedTables = response;
-    
-                if (sortedTables) {
-                    sortedTables.sort((a: any, b: any) => {
-                        if (a.reservationTable > b.reservationTable) {
-                            return 1;
-                        }
-                        else {
-                            return 0;
-                        }
-                    });
-                }
-    
-                this.setState({
-                    availableTables: sortedTables,
-                    showSpinner: false
-                });
-            })
-            .catch(reason => {
-                console.log(reason);
-    
-                this.setState({
-                    showSpinner: false,
-                    availableTables: []
-                });
-            });
+            this.processAvailableTables();
         });
     }
 
