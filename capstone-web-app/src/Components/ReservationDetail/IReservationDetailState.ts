@@ -1,4 +1,5 @@
 export default interface IReservationDetailState {
     customerLoggedIn: boolean,
-    reservationId: number    
+    reservationId: number,
+    reservation: any;   
 }
