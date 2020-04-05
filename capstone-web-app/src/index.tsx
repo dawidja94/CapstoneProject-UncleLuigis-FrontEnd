@@ -25,6 +25,7 @@ import Contact from './Components/Contact/Contact';
 import CarryOutList from './Components/CarryOutList/CarryOutList'
 import CarryOutOrder from './Components/CarryOutOrder/CarryOutOrder';
 import ReservationList from './Components/ReservationList/ReservationList';
+import ReservationDetail from './Components/ReservationDetail/ReservationDetail';
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
@@ -114,6 +115,7 @@ const routing = (
                     <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
                     <Route path="/CarryOutList" render={(props) => <CarryOutList/>} />
                     <Route path="/ReservationList" render={(props) => <ReservationList/>} />
+                    <Route exact path="/ReservationDetail/:id" component={ReservationDetail}/>
                 </ScrollToTop>
             </Switch>
     </Router>

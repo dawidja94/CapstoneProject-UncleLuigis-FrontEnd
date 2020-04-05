@@ -100,7 +100,7 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
             rememberMe: true
         };
 
-        fetch(`${ConstantStrings.baseDevURL}User/Login`, {
+        fetch(`${ConstantStrings.baseAzureURL}User/Login`, {
             method: "POST",
             body: JSON.stringify(requestBody),
             headers: {

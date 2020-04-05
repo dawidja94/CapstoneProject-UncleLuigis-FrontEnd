@@ -1,5 +1,3 @@
-import { isRegExp } from "util";
-
 var jwt = require('jsonwebtoken');
 
 export default class TokenService {
@@ -70,20 +68,20 @@ export default class TokenService {
         console.log("access: " + accessToken);
         console.log("refresh: " + refreshToken);
 
-        // if (decodedAccessToken.payload.exp * 1000 < dateNow.getTime()) {
-        //     isExpired = true;
-        //     bearerToken += refreshToken;
+        if (decodedAccessToken.payload.exp * 1000 < dateNow.getTime()) {
+            isExpired = true;
+            bearerToken += refreshToken;
 
-        //     if (decodedRefreshToken.payload.exp * 1000 < dateNow.getTime()) {
-        //         console.log("Refresh token expired? " + true);
-        //     }
-        // }
-        // else {
+            if (decodedRefreshToken.payload.exp * 1000 < dateNow.getTime()) {
+                console.log("Refresh token expired? " + true);
+            }
+        }
+        else {
             isExpired = false;
             bearerToken += accessToken;
-        //}
+        }
 
-        //console.log("Is access token expired: " + isExpired);
+        console.log("Is access token expired: " + isExpired);
         console.log(bearerToken);
         return bearerToken;
     }

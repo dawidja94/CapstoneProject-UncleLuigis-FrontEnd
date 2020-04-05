@@ -89,7 +89,7 @@ export default class ReservationList extends React.Component<IReservationListPro
                 </div>
                 <Footer />
                 {this.state.redirectToLogin ? <Redirect push to="/Login"/> : <div></div>}
-                {this.state.navigateToOrder ? <Redirect push to={{pathname: `/Reservation/${this.state.reservationId}`}}/> : <div></div>}
+                {this.state.navigateToOrder ? <Redirect push to={{pathname: `/ReservationDetail/${this.state.reservationId}`}}/> : <div></div>}
             </div>
         )
     }
