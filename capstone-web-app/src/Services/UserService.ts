@@ -5,7 +5,7 @@ import TokenService from "./TokenService";
 export default class UserService {
     public changePassword(requestBody: any): Promise<any> {
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = tokenService.getAuthToken();
         console.log("checking bearer token");
         console.log(bearerToken);
         console.log(requestBody);

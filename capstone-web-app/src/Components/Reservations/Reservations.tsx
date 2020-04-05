@@ -6,6 +6,7 @@ import TableService from "../../Services/TableService";
 import Spinner from "react-bootstrap/Spinner";
 import Footer from "../Footer/Footer";
 import CustomModal from "../CustomModal/CustomModal";
+import LoginModal from "../LoginModal/LoginModal";
 
 export default class Reservations extends React.Component<IReservationsProps, IReservationsState> {
     private tableService: TableService;
@@ -20,7 +21,9 @@ export default class Reservations extends React.Component<IReservationsProps, IR
             selectedTimeSlot: "",
             showSpinner: false,
             showLoginModal: false,
+            showNoLoginModal: false,
             showReserveModal: false,
+            showContinueWithActionModal: false,
             modalBodyMessage: "Please login to make a table reservation! Thank you!",
             modalHeader: "Valued Customer",
             reserveModalHeader: "Reservation Confirmation",
@@ -103,7 +106,13 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                                     <br /> 
                                 </div>
                             </div>
-                            {this.state.showLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={this.state.modalHeader} body={this.state.modalBodyMessage} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
+                            {this.state.showLoginModal ? <LoginModal 
+                                show={this.state.showLoginModal} 
+                                onCloseModal={this.closeLoginModal}
+                                loginIsSuccessful={this.loginIsSuccessful}
+                                /> 
+                                : <div></div>}
+                            {this.state.showNoLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={this.state.modalHeader} body={this.state.modalBodyMessage} buttontitle={"Ok"} show={this.state.showNoLoginModal} onCloseModal={this.closeNoLoginModal} /> : <div></div>}
                             {this.state.showReserveModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={this.state.reserveModalHeader} body={this.state.reserveModalMessage} buttontitle={"Close"} show={this.state.showReserveModal} onCloseModal={this.closeReserveModal} /> : <div></div>}
                             <Footer />
                         </div>
@@ -111,6 +120,19 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                 </div>
             </div>
         );
+    }
+
+    private loginIsSuccessful = (): void => {
+        this.setState({
+            showLoginModal: false,
+            showContinueWithActionModal: true
+        });
+    }
+
+    private closeNoLoginModal = () => {
+        this.setState({
+            showNoLoginModal: false
+        });
     }
 
     private closeLoginModal = () => {
@@ -182,7 +204,7 @@ export default class Reservations extends React.Component<IReservationsProps, IR
     private reserveTableClick(tableId: number, tableName: string, timeSlot: string): void {
         if (!localStorage.getItem("First name") && !localStorage.getItem("Last name")) {
             this.setState({
-                showLoginModal: true
+                showNoLoginModal: true
             });
         }
         else {
@@ -217,6 +239,11 @@ export default class Reservations extends React.Component<IReservationsProps, IR
             })
             .catch (reason => {
                 console.log(reason);
+
+                this.setState({
+                    showLoginModal: true,
+
+                });
             });
         }
     }

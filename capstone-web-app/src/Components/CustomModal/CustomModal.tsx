@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { listenerCount } from "cluster";
 
-export default class CustomModal extends React.Component<ICustomModalProps, ICustomModalState> {
+export default class LoginModal extends React.Component<ICustomModalProps, ICustomModalState> {
     constructor(props: any) {
         super(props);
 

@@ -1,3 +1,7 @@
+import { isRegExp } from "util";
+
+var jwt = require('jsonwebtoken');
+
 export default class TokenService {
     
     public handleAuthTokens(apiResponse: any) {
@@ -16,12 +20,13 @@ export default class TokenService {
         localStorage.setItem("Last name", apiResponse.lastName);
         localStorage.setItem("Phone number", apiResponse.phoneNumber);
         localStorage.setItem("Customer ID", apiResponse.customerId);
+        localStorage.setItem("Username", apiResponse.username);
 
         this.getAccessToken();
         this.getRefreshToken();
     }
 
-    public getAccessToken(): string {
+    private getAccessToken(): string {
         let accessParts: string[] = [];
         let accessToken: string = "";
 
@@ -37,7 +42,7 @@ export default class TokenService {
         return accessToken;
     }
 
-    public getRefreshToken(): string {
+    private getRefreshToken(): string {
         let refreshParts: string[] = [];
         let refreshToken: string = "";
 
@@ -51,5 +56,35 @@ export default class TokenService {
         }
 
         return refreshToken;
+    }
+
+    public getAuthToken(): string {
+        let bearerToken: string = "Bearer ";
+        let isExpired = false;
+        let accessToken = this.getAccessToken();
+        let refreshToken = this.getRefreshToken();
+        let decodedAccessToken= jwt.decode(accessToken, {complete: true});
+        let decodedRefreshToken = jwt.decode(refreshToken, {complete: true});
+        let dateNow = new Date();
+
+        console.log("access: " + accessToken);
+        console.log("refresh: " + refreshToken);
+
+        // if (decodedAccessToken.payload.exp * 1000 < dateNow.getTime()) {
+        //     isExpired = true;
+        //     bearerToken += refreshToken;
+
+        //     if (decodedRefreshToken.payload.exp * 1000 < dateNow.getTime()) {
+        //         console.log("Refresh token expired? " + true);
+        //     }
+        // }
+        // else {
+            isExpired = false;
+            bearerToken += accessToken;
+        //}
+
+        //console.log("Is access token expired: " + isExpired);
+        console.log(bearerToken);
+        return bearerToken;
     }
 }

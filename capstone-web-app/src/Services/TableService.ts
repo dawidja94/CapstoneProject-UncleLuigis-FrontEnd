@@ -1,5 +1,6 @@
 import ConstantStrings from "../Constants/ConstantStrings";
 import TokenService from "./TokenService";
+var jwt = require('jsonwebtoken');
 
 export default class TableService {
     public getAvailableTables(requestBody: any): Promise<any> {
@@ -36,7 +37,7 @@ export default class TableService {
     public reserveTable(requestBody: any): Promise<any> {
         console.log(requestBody);
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = tokenService.getAuthToken();
 
         let promise = new Promise((resolve, reject) => {
             fetch(`${ConstantStrings.baseAzureURL}Table/ReserveTable`, {

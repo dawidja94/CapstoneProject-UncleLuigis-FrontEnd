@@ -7,6 +7,7 @@ import Food from "../../Models/Food";
 import Beverage from "../../Models/Beverage";
 import CustomModal from "../CustomModal/CustomModal";
 import MenuService from "../../Services/MenuService";
+import LoginModal from "../LoginModal/LoginModal";
 
 export default class Menu extends React.Component<IMenuProps, IMenuState> {
     private menuService: MenuService;
@@ -19,8 +20,10 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
             beverageItems: [],
             showLoginModal: false,
             showAddtoCartModal: false,
-            modalBodyMessage: "",
-            modelHeader: ""
+            showContinueWithActionModal: false,
+            showNoLoginModal: false,
+            modalBodyMessage: "Please login to add items to the carry-out cart! Thank you!",
+            modalHeader: "Valued Customer"
         };
 
         this.menuService = new MenuService();
@@ -149,8 +152,15 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         </div>
                     </div>
                 </div> : ""}
-                {this.state.showLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={this.state.modelHeader} body={this.state.modalBodyMessage} buttontitle={"Ok"} show={this.state.showLoginModal} onCloseModal={this.closeLoginModal} /> : <div></div>}
+                {this.state.showLoginModal ? <LoginModal 
+                    show={this.state.showLoginModal} 
+                    onCloseModal={this.closeLoginModal}
+                    loginIsSuccessful={this.loginIsSuccessful}
+                    /> 
+                    : <div></div>}
+                {this.state.showNoLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={this.state.modalHeader} body={this.state.modalBodyMessage} buttontitle={"Ok"} show={this.state.showNoLoginModal} onCloseModal={this.closeNoLoginModal} /> : <div></div>}
                 {this.state.showAddtoCartModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={"Added To Cart"} body={"Item added to cart!"} buttontitle={"Close"} show={this.state.showAddtoCartModal} onCloseModal={this.closeAddToCartModal} /> : <div></div>}
+                {this.state.showContinueWithActionModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={"Proceed"} body={"Your login was successful, please proceed with your previous action."} buttontitle={"Close"} show={this.state.showContinueWithActionModal} onCloseModal={this.closeActionModal} /> : <div></div>}
                 <Footer />
             </div>
         );
@@ -162,9 +172,21 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         });
     }
 
+    private closeNoLoginModal = () => {
+        this.setState({
+            showNoLoginModal: false
+        });
+    }
+
     private closeAddToCartModal = () => {
         this.setState({
             showAddtoCartModal: false
+        });
+    }
+
+    private closeActionModal = () => {
+        this.setState({
+            showContinueWithActionModal: false
         });
     }
     
@@ -206,9 +228,9 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
         // If we don't have a logged in user.
         if (!localStorage.getItem("First name") && !localStorage.getItem("Last name")) {
             this.setState({
-                showLoginModal: true,
+                showNoLoginModal: true,
                 modalBodyMessage: "Please login to add items to carry out order. Thank you!",
-                modelHeader: "Valued Customer"
+                modalHeader: "Valued Customer"
             });
         }
         else {
@@ -257,23 +279,28 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         localStorage.setItem("cartCount", count);
                         
                         this.setState({
-                            showAddtoCartModal: true
+                            showAddtoCartModal: true,
+                            showLoginModal: false
                         });
                     })
                     .catch((reason) => {
                         console.log(reason);
                     });
                 }
-                
             })
             .catch(reason => {
-                console.log(reason);
+                console.log("pssh" + reason);
                 this.setState({
-                    modelHeader: `Hi ${localStorage.getItem("First name")} ${localStorage.getItem("Last name")}!`,
-                    modalBodyMessage: "Please login again to confirm your add to cart action!",
                     showLoginModal: true
                 });
             });
         }
+    }
+
+    private loginIsSuccessful = (): void => {
+        this.setState({
+            showLoginModal: false,
+            showContinueWithActionModal: true
+        });
     }
 }

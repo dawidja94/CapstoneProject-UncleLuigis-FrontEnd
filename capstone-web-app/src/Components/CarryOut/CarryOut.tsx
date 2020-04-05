@@ -13,6 +13,8 @@ import { Redirect } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
 import { timingSafeEqual } from "crypto";
+import CustomModal from "../../Components/CustomModal/CustomModal";
+import LoginModal from "../LoginModal/LoginModal";
 
 export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutState> {
     private menuService: MenuService;
@@ -33,7 +35,9 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             showSubmitOrderConfirmationModal: false,
             showThankYouModal: false,
             showRemoveItemModal: false,
-            cartIdToRemove: 0
+            showLoginModal: false,
+            cartIdToRemove: 0,
+            showContinueWithActionModal: false
         };
 
         this.customerLoggedIn = false;
@@ -125,14 +129,33 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                         </div>
                     </div>
                 </div>
+                {this.state.showLoginModal ? <LoginModal 
+                    show={this.state.showLoginModal} 
+                    onCloseModal={this.closeLoginModal}
+                    loginIsSuccessful={this.loginIsSuccessful}
+                    /> 
+                    : <div></div>}
                 {this.state.redirectToLogin ? <Redirect push to="/Login"/> : <div></div>}
                 {this.state.redirectToMenu ? <Redirect push to="/Menu"/> : <div></div>}
                 {this.state.showSubmitOrderConfirmationModal ? <OrderConfirmationModal showRemoveItemButton={false} onRemoveItemClick={(this.submitOrder)} showSubmitOrderButton={true} title={"Order Confirmation"} body={"Please confirm your intent to submit this carry-out order."} buttontitle={"Close"} onSubmitOrderClick={this.submitOrder} show={this.state.showSubmitOrderConfirmationModal} onCloseModal={this.closeSubmitOrderConfirmationModal}></OrderConfirmationModal> : <div></div>}
                 {this.state.showThankYouModal ? <OrderConfirmationModal showRemoveItemButton={false} onRemoveItemClick={(this.submitOrder)} showSubmitOrderButton={false} title={"Thank You!"} body={"Thank you for your carry-out order!"} buttontitle={"Close"} onSubmitOrderClick={this.submitOrder} show={this.state.showThankYouModal} onCloseModal={this.closeThankYouModal}></OrderConfirmationModal> : <div></div>}
                 {this.state.showRemoveItemModal ? <OrderConfirmationModal onRemoveItemClick={this.removeItemFromCart} showRemoveItemButton={true} showSubmitOrderButton={false} title={"Remove Item"} body={"Are you sure you want to remove this item from your cart?"} buttontitle={"No"} onSubmitOrderClick={this.submitOrder} show={this.state.showRemoveItemModal} onCloseModal={this.closeRemoveItemFromCartModal}></OrderConfirmationModal> : <div></div>}
+                {this.state.showContinueWithActionModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={"Proceed"} body={"Your login was successful, please proceed with your previous action."} buttontitle={"Close"} show={this.state.showContinueWithActionModal} onCloseModal={this.closeActionModal} /> : <div></div>}
                 <Footer />
             </div>
         );
+    }
+
+    private closeLoginModal = () => {
+        this.setState({
+            showLoginModal: false
+        });
+    }
+
+    private closeActionModal = () => {
+        this.setState({
+            showContinueWithActionModal: false
+        });
     }
 
     private closeThankYouModal = () => {
@@ -210,6 +233,10 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
         })
         .catch(reason => {
             console.log(reason);
+            this.setState({
+                showLoginModal: true,
+                showSubmitOrderConfirmationModal: false
+            });
         });
     }
 
@@ -432,7 +459,18 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                 });
             }
         })
+        .catch(reason => {
+            this.setState({
+                showLoginModal: true,
+                showRemoveItemModal: false
+            });
+        })
     }
 
-    
+    private loginIsSuccessful = (): void => {
+        this.setState({
+            showLoginModal: false,
+            showContinueWithActionModal: true
+        });
+    }
 }

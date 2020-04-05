@@ -44,29 +44,7 @@ export default class MenuService {
     // Requires Authorization Bearer Token.
     public addToCart(requestBody: any): Promise<any> {
         let tokenService = new TokenService();
-        let bearerToken = "Bearer ";
-
-        let isExpired = false;
-        let accessToken = tokenService.getAccessToken();
-        let refreshToken = tokenService.getRefreshToken();
-        let decodedAccessToken= jwt.decode(accessToken, {complete: true});
-        let decodedRefreshToken = jwt.decode(refreshToken, {complete: true});
-        let dateNow = new Date();
-
-        if (decodedAccessToken.payload.exp * 1000 < dateNow.getTime()) {
-            console.log("Is access token expired? " + true);
-            console.log("Using refresh token.");
-            bearerToken += tokenService.getRefreshToken();
-
-            if (decodedRefreshToken.payload.exp * 1000 < dateNow.getTime()) {
-                console.log("Refresh token expired? " + true);
-                console.log("Refresh token is expired!!!");
-            }
-        }
-        else {
-            console.log("Is token expired? " + false);
-            bearerToken += tokenService.getAccessToken();
-        }
+        let bearerToken = tokenService.getAuthToken();
 
         let promise = new Promise((resolve, reject) => {
             fetch(`${ConstantStrings.baseDevURL}CarryOut/AddToCart`, {
@@ -96,10 +74,10 @@ export default class MenuService {
     // Requires Authorization Bearer Token.
     public getAllCarryOutsInCart(customerId: number): Promise<any> {
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = tokenService.getAuthToken();
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseAzureURL}CarryOut/GetAllCarryOutsInCart/${customerId}`, {
+            fetch(`${ConstantStrings.baseDevURL}CarryOut/GetAllCarryOutsInCart/${customerId}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -126,7 +104,7 @@ export default class MenuService {
     }
     public getAllCarryOutsForCustomer(customerId: number): Promise<any> {
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = tokenService.getAuthToken();
         let promise = new Promise((resolve, reject) => {
             fetch(`${ConstantStrings.baseAzureURL}CarryOut/GetAllCarryOutsForCustomer/${customerId}`, {
                 method: "GET",
@@ -157,7 +135,7 @@ export default class MenuService {
 
     public getCarryOutById(bundleId: number) :Promise<any>{
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = tokenService.getAuthToken();
         let promise = new Promise((resolve, reject) => {
             fetch(`${ConstantStrings.baseAzureURL}CarryOut/GetCarryOutById/${bundleId}`, {
                 method: "GET",
@@ -187,10 +165,10 @@ export default class MenuService {
 
     public removeFromCart(requestBody: any): Promise<any> {
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = tokenService.getAuthToken();
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseAzureURL}CarryOut/RemoveFromCart`, {
+            fetch(`${ConstantStrings.baseDevURL}CarryOut/RemoveFromCart`, {
                 method: "DELETE",
                 body: JSON.stringify(requestBody),
                 headers: {
@@ -218,7 +196,7 @@ export default class MenuService {
         console.log(requestBody);
 
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = tokenService.getAuthToken();
 
         let promise = new Promise((resolve, reject) => {
             fetch(`${ConstantStrings.baseAzureURL}CarryOut/CreateCarryOut`, {

@@ -14,4 +14,6 @@ export default interface ICarryOutState {
     showSubmitOrderConfirmationModal: boolean;
     showThankYouModal: boolean;
     showRemoveItemModal: boolean;
+    showContinueWithActionModal: boolean;
+    showLoginModal: boolean;
 }

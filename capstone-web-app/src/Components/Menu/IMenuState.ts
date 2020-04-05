@@ -5,7 +5,9 @@ export default interface IMenuState {
     foodItems: Food[];
     beverageItems: Beverage[];
     showLoginModal: boolean;
+    showNoLoginModal: boolean;
     showAddtoCartModal: boolean;
     modalBodyMessage: string;
-    modelHeader: string;
+    modalHeader: string;
+    showContinueWithActionModal: boolean;
 }

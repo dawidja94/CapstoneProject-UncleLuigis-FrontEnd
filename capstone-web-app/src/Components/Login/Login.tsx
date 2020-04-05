@@ -136,7 +136,8 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                 firstName: data.authenticatedModel.customer.firstName,
                 lastName: data.authenticatedModel.customer.lastName,
                 phoneNumber: data.authenticatedModel.customer.phoneNumber,
-                customerId: data.authenticatedModel.customer.id
+                customerId: data.authenticatedModel.customer.id,
+                username: data.username
             };
 
             tokenService.handleAuthTokens(tokenBody);
