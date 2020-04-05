@@ -1,5 +1,6 @@
 import ConstantStrings from "../Constants/ConstantStrings";
 import TokenService from "./TokenService";
+var jwt = require('jsonwebtoken');
 
 export default class MenuService {
     public getAllFoodMenuItems(): Promise<any> {
@@ -43,10 +44,32 @@ export default class MenuService {
     // Requires Authorization Bearer Token.
     public addToCart(requestBody: any): Promise<any> {
         let tokenService = new TokenService();
-        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        let bearerToken = "Bearer ";
+
+        let isExpired = false;
+        let accessToken = tokenService.getAccessToken();
+        let refreshToken = tokenService.getRefreshToken();
+        let decodedAccessToken= jwt.decode(accessToken, {complete: true});
+        let decodedRefreshToken = jwt.decode(refreshToken, {complete: true});
+        let dateNow = new Date();
+
+        if (decodedAccessToken.payload.exp * 1000 < dateNow.getTime()) {
+            console.log("Is access token expired? " + true);
+            console.log("Using refresh token.");
+            bearerToken += tokenService.getRefreshToken();
+
+            if (decodedRefreshToken.payload.exp * 1000 < dateNow.getTime()) {
+                console.log("Refresh token expired? " + true);
+                console.log("Refresh token is expired!!!");
+            }
+        }
+        else {
+            console.log("Is token expired? " + false);
+            bearerToken += tokenService.getAccessToken();
+        }
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseAzureURL}CarryOut/AddToCart`, {
+            fetch(`${ConstantStrings.baseDevURL}CarryOut/AddToCart`, {
                 method: "POST",
                 body: JSON.stringify(requestBody),
                 headers: {

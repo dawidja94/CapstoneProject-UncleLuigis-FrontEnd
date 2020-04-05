@@ -193,6 +193,7 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
     private displayOrder(): JSX.Element {
         return (
             <div className="table-container">
+                <br />
                 <table className="table table-hover">
                     <thead className="text-left">
                         <tr>

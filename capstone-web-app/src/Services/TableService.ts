@@ -66,4 +66,39 @@ export default class TableService {
 
         return promise;
     }
+
+    public getCustomerReservations(): Promise<any> {
+        let customerIdFromLS = localStorage.getItem("Customer ID");
+        let customerId: number = 0;
+
+        if (customerIdFromLS !== null) {
+            customerId = parseInt(customerIdFromLS.toString());
+        }
+
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseAzureURL}Table/GetCustomerReservations/${customerIdFromLS}`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    console.log("Reserve table status 200");
+                    return response.json();
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .then((data): any => {
+                resolve(data);
+            })
+            .catch(reason => {
+                reject(reason);
+            });
+        });  
+
+        return promise;
+    }
 }

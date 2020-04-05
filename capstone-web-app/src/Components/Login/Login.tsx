@@ -58,7 +58,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                                             <input type="password" className="form-control" placeholder="Password" id="pswd"value={this.state.password} onChange={(e) => this.passwordOnChange(e)}></input>
                                             <small><NavLink className="text-danger" to="/ForgetPassword"> Forget Password</NavLink></small>
                                         </div>
-                                        <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger">Submit</button>
+                                        <button onClick={() => this.onFormSubmit()} type="button" className="btn btn-outline-danger">Login</button>
                                         <br />
                                         <br />
                                         <small className="text-mute text-center">Not a member?<NavLink className="text-danger" to="/Register"> Register now!</NavLink></small>
@@ -106,7 +106,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             rememberMe: true
         };
 
-        fetch(`${ConstantStrings.baseAzureURL}User/Login`, {
+        fetch(`${ConstantStrings.baseDevURL}User/Login`, {
             method: "POST",
             body: JSON.stringify(requestBody),
             headers: {

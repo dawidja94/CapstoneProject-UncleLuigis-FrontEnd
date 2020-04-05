@@ -2,8 +2,6 @@ import React from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navigation/Navbar";
 import { Redirect } from "react-router-dom";
-import ICarryOutListProps from "./ICarryOutListProps";
-import ICarryOutListState from "./ICarryOutListState";
 import MenuService from "../../Services/MenuService";
 import { mockComponent } from "react-dom/test-utils";
 import Moment from 'react-moment';
@@ -11,30 +9,36 @@ import moment from "moment";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
 import Pagination from "react-js-pagination";
 import Spinner from "react-bootstrap/Spinner";
-export default class CarryOutList extends React.Component<ICarryOutListProps, ICarryOutListState> {
-    private menuService: MenuService
+import IReservationListProps from "./IReservationListProps";
+import IReservationListState from "./IReservationListState";
+import TableService from "../../Services/TableService";
+
+export default class ReservationList extends React.Component<IReservationListProps, IReservationListState> {
+    private tableService: TableService;
     private customerLoggedIn: boolean;
+    
     public constructor(props: any) {
         super(props);
 
-        this.menuService = new MenuService();
+        this.tableService = new TableService();
         this.customerLoggedIn = false;
 
         this.state = {
-            orderList: [],
+            reservationList: [],
             customerLoggedIn: false,
             navigateToOrder: false,
-            orderNumber: 0,
+            reservationId: 0,
             redirectToLogin: false,
             currentPage: 1,
             ordersPerPage: 8,
             showSpinner: true,
             activeIndex: 1
         };
-        
     }
 
     public componentDidMount() {
+        let s= new Date().toLocaleString();
+        console.log(s);
 
         this.customerLoggedIn = localStorage.getItem("Customer ID") !== "" ? true : false; 
         let customerIdFromLS = localStorage.getItem("Customer ID");
@@ -44,19 +48,19 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             customerId = parseInt(customerIdFromLS.toString());
         }
         
-        this.menuService.getAllCarryOutsForCustomer(customerId)
+        this.tableService.getCustomerReservations()
         .then ((data) => {
             const loggedIn = localStorage.getItem("Customer ID") ? true : false;
 
             this.setState({
-                orderList: data,
+                reservationList: data,
                 customerLoggedIn: loggedIn,
-                orderNumber: data.bundleId,
             }, () => {
                 console.log(this.state);
             });
         })
     }
+
     public render() {
         return (
             <div>
@@ -69,12 +73,12 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                     <br />
                     <div className="container">
                         <div className="custom-container">
-                            <h3 className="text-center">Your Orders</h3>
+                            <h3 className="text-center">Your Reservations</h3>
                             <hr />
                             <div className="row">
                                 <div className="col-12">
-                                    {this.displayOrders(this.state.orderList)}
-                                    {this.Pagination(this.state.ordersPerPage, this.state.orderList.length)}
+                                    {this.Pagination(this.state.ordersPerPage, this.state.reservationList.length)}
+                                    {this.displayReservations(this.state.reservationList)}
                                 </div>
                             </div> 
                             <br />
@@ -85,16 +89,16 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                 </div>
                 <Footer />
                 {this.state.redirectToLogin ? <Redirect push to="/Login"/> : <div></div>}
-                {this.state.navigateToOrder ? <Redirect push to={{pathname: `/CarryOutOrder/${this.state.orderNumber}`}}/> : <div></div>}
+                {this.state.navigateToOrder ? <Redirect push to={{pathname: `/Reservation/${this.state.reservationId}`}}/> : <div></div>}
             </div>
         )
     }
 
-    private viewOrder(bundle: number) {
+    private viewReservation(reservationId: number) {
        this.setState({
-           navigateToOrder: true,
-           orderNumber: bundle
-       })
+            navigateToOrder: true,
+            reservationId: reservationId
+       });
     }
 
     public paginate = (pageNumber: number) => {
@@ -128,33 +132,44 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
         )
     }
     
-    private displayOrders = (orderList: any []) => {
-       if (this.state.customerLoggedIn && this.state.orderList.length > 0) {
-            let indexOfLastOrder: number = this.state.currentPage * this.state.ordersPerPage;
-            let indexOfFirstOrder: number = indexOfLastOrder - this.state.ordersPerPage;
-            let currentOrders: any [] = orderList.slice(indexOfFirstOrder, indexOfLastOrder);
+    private displayReservations = (orderList: any []) => {
+        console.log("Checking reservations");
+        console.log(this.state.reservationList);
+
+        if (this.state.customerLoggedIn && this.state.reservationList.length > 0) {
+            let indexOfLastReservation: number = this.state.currentPage * this.state.ordersPerPage;
+            let indexOfFirstReservation: number = indexOfLastReservation - this.state.ordersPerPage;
+            let currentReservations: any [] = orderList.slice(indexOfFirstReservation, indexOfLastReservation);
+
+            console.log("currentReservations");
+            console.log(currentReservations);
+
             return (
                 <div className="table-container">
                     <table className="table table-hover">
                         <thead className="text-left">
                             <tr>
                                 <th className="font-weight-normal"></th> 
-                                <th>Order ID</th>
-                                <th>Order Date</th>
+                                <th>Reservation Id</th>
+                                <th>Table</th>
+                                <th>Group Size</th>
+                                <th>Time Slot</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody className="text-left">
-                        {currentOrders.map((item, index) => {
-                            return  (
-                                
+                        {currentReservations.map((item, index) => {
+                            return (
                                 <tr>
                                     <td>
-                                        <button className="btn btn-danger" onClick={() => this.viewOrder(item.bundleId)}>View</button>
+                                        <button className="btn btn-danger" onClick={() => this.viewReservation(item.id)}>View</button>
                                     </td>
-                                    <td>{item.bundleId}</td>
-                                    <td>{moment(item.submissionTime).format('MMM DD, YYYY')}</td>
+                                    <td>{item.id}</td>
+                                    <td>{item.reservationTable}</td>
+                                    <td>{item.partySize}</td>
+                                    <td>{item.timeSlot}</td>
+                                    <td>{item.reservationDate}</td>
                                 </tr>
-                                
                             );
                         })}
                         </tbody>
@@ -176,7 +191,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
         else if (!this.customerLoggedIn){
             return (
                 <div className="text-center">
-                    <h5>Please login to view your orders!</h5>
+                    <h5>Please login to view your reservations!</h5>
                     <br />
                     <span>
                         <button className="btn btn-outline-danger"onClick={() => this.setState({redirectToLogin: true})} >{"Login"}</button> &nbsp;
@@ -188,7 +203,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
         else {
             return (
                 <div className="text-center">
-                    <h5>No Orders To Display</h5>
+                    <h5>No Reservations To Display</h5>
                     <br />
                     <br />
                 </div>

@@ -30,6 +30,8 @@ export default class Reservations extends React.Component<IReservationsProps, IR
         this.tableService = new TableService();
         this.timeSlots = ["9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM", "3:00PM", "4:00PM",
         "5:00PM", "6:00PM", "7:00PM", "8:00PM", "9:00PM"];
+
+        this.getCurrentLocalTime();
     }
 
     render() {
@@ -282,5 +284,18 @@ export default class Reservations extends React.Component<IReservationsProps, IR
         console.log(today);
 
         return today;
+    }
+
+    private getCurrentLocalTime(): void {
+        let date = new Date();
+
+        let hours = date.getHours() as any;
+        let minutes = date.getMinutes() as any;
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+ minutes : minutes;
+        let strTime = hours + ':' + minutes + ampm;
+        console.log(strTime);
     }
 }

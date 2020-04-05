@@ -14,6 +14,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
             redirectToHome: false,
             redirectToChangePassword: false,
             redirectToOrderList: false,
+            redirectToReservationList: false
         };
     }
 
@@ -53,7 +54,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                     <div className="card user-portal">
                                         <img className="card-img-top" src={`/Images/Other/CarryOut.png`} alt="Food"></img>
                                         <div className="options-container">
-                                            <button className="btn btn-danger"onClick={() => this.viewOrders()}>View Orders</button>
+                                            <button className="btn btn-danger" onClick={() => this.viewOrders()}>View Orders</button>
                                             <span><i className="text-dark">View Carry-Out Orders and Details.</i></span>
                                             <label>&nbsp;</label>
                                             <label>&nbsp;</label>
@@ -67,7 +68,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                     <div className="card user-portal">
                                         <img className="card-img-top" src={`/Images/Other/Reservation.jpg`} alt="Food"></img>
                                         <div className="options-container">
-                                            <button className="btn btn-danger">View Reservations</button>
+                                            <button className="btn btn-danger" onClick={() => this.viewReservations()}>View Reservations</button>
                                             <span><i className="text-dark">View Reservations and Details.</i></span>
                                             <label>&nbsp;</label>
                                             <label>&nbsp;</label>
@@ -87,6 +88,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                 {this.state.redirectToHome ? <Redirect push to="/"/> : <div></div>}
                 {this.state.redirectToChangePassword ? <Redirect push to="/ChangePassword"/>: <div></div>}
                 {this.state.redirectToOrderList ? <Redirect push to="/CarryOutList"/>: <div></div>}
+                {this.state.redirectToReservationList ? <Redirect push to="/ReservationList"/>: <div></div>}
             </div>
         )
     }
@@ -96,11 +98,19 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
             redirectToChangePassword: true
         });
     }
+
     private viewOrders = () => {
         this.setState({
             redirectToOrderList: true
         });
     }
+
+    private viewReservations = () => {
+        this.setState({
+            redirectToReservationList: true
+        });
+    }
+
     private logOut = () => {
         localStorage.clear();
 

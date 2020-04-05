@@ -24,6 +24,7 @@ import Reservations from './Components/Reservations/Reservations';
 import Contact from './Components/Contact/Contact';
 import CarryOutList from './Components/CarryOutList/CarryOutList'
 import CarryOutOrder from './Components/CarryOutOrder/CarryOutOrder';
+import ReservationList from './Components/ReservationList/ReservationList';
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
@@ -33,8 +34,6 @@ let count: number = 23;
 
 function countUp(message: string) {
     count++;
-    console.log("count: " + count);
-    console.log("message: " + message);
 }
 
 function getCountInCustomerCart() {
@@ -92,8 +91,6 @@ function addItemToCarryOutCart(item: any, quantity: number, type: string): any {
 
     menuService.addToCart(carryOutItem).then((response) => {
         getCountInCustomerCart();
-        console.log("Checking response");
-        console.log(response);
         return response;
     });
 }
@@ -116,7 +113,7 @@ const routing = (
                     <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
                     <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
                     <Route path="/CarryOutList" render={(props) => <CarryOutList/>} />
-                    
+                    <Route path="/ReservationList" render={(props) => <ReservationList/>} />
                 </ScrollToTop>
             </Switch>
     </Router>

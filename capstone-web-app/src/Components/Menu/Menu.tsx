@@ -249,14 +249,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
             this.menuService.addToCart(carryOutItem).then((response) => {
                 console.log(response);
 
-                if (response === "Response Status: 401") {
-                    this.setState({
-                        modelHeader: `Hi ${localStorage.getItem("First name")} ${localStorage.getItem("Last name")}!`,
-                        modalBodyMessage: "Please login again to confirm your add to cart action!",
-                        showLoginModal: true
-                    });
-                }
-                else if (response) {
+                if (response) {
                     console.log("200");
                     this.menuService.getAllCarryOutsInCart(customerId)
                     .then((data: any) => {
@@ -272,33 +265,15 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                     });
                 }
                 
+            })
+            .catch(reason => {
+                console.log(reason);
+                this.setState({
+                    modelHeader: `Hi ${localStorage.getItem("First name")} ${localStorage.getItem("Last name")}!`,
+                    modalBodyMessage: "Please login again to confirm your add to cart action!",
+                    showLoginModal: true
+                });
             });
-
-
-            // if (item.type === "food") {
-            //     console.log("checking quantity after click");
-            //     console.log(quantity);
-            //     let response = this.props.addItem(item.food, quantity, item.type);
-            //     console.log("Checking response");
-            //     console.log(response);
-
-            //     setTimeout(() => {
-            //         //this.forceUpdate();
-            //         this.setState({
-            //             showAddtoCartModal: true
-            //         });
-            //     }, 300);
-            // }
-            // else if (item.type === "beverage") {
-            //     this.props.addItem(item.beverage, quantity, item.type);
-
-            //     setTimeout(() => {
-            //         //this.forceUpdate();
-            //         this.setState({
-            //             showAddtoCartModal: true
-            //         });
-            //     }, 300);
-            // }
         }
     }
 }

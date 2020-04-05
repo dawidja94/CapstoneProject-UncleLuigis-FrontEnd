@@ -1,8 +1,8 @@
-export default interface ICarryOutListState {
-    orderList: any [];
+export default interface IReservationListState {
+    reservationList: any [];
     customerLoggedIn: boolean;
     navigateToOrder: boolean;
-    orderNumber: number;
+    reservationId: number;
     redirectToLogin: boolean;
     currentPage: number;
     ordersPerPage: number;
