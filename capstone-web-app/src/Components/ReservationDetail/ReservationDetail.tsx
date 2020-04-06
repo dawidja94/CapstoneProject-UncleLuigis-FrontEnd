@@ -24,8 +24,6 @@ export default class ReservationDetail extends React.Component<any, IReservation
             this.customerId = parseInt(customerIdFromLS.toString());
         }
 
-        console.log(parseInt(this.props.match.params.id));
-
         this.state = {
             customerLoggedIn: false,
             reservationId: parseInt(this.props.match.params.id),
@@ -45,15 +43,10 @@ export default class ReservationDetail extends React.Component<any, IReservation
         };
 
         this.tableService.getReservation(requestBody).then(response => {
-            console.log(response);
-
             if (response !== undefined && response !== null) {
                 this.setState({
                     reservation: response
-                }, () => {
-                    console.log(response);
-                    console.log(this.state.reservation);
-                })
+                });
             }
             else {
                 this.setState({

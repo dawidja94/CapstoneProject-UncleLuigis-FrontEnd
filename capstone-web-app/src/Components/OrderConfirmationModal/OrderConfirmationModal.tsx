@@ -1,7 +1,5 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
 import IOrderConfirmationModalProps from "./IOrderConfirmationModalProps";
 import IOrderConfirmationModalState from "./IOrderConfirmationModalState";
 

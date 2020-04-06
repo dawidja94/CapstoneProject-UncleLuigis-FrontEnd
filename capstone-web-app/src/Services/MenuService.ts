@@ -1,6 +1,5 @@
 import ConstantStrings from "../Constants/ConstantStrings";
 import TokenService from "./TokenService";
-var jwt = require('jsonwebtoken');
 
 export default class MenuService {
     public getAllFoodMenuItems(): Promise<any> {
@@ -193,8 +192,6 @@ export default class MenuService {
     }
 
     public submitCarryOutOrder(requestBody: any): Promise<any> {
-        console.log(requestBody);
-
         let tokenService = new TokenService();
         let bearerToken = tokenService.getAuthToken();
 

@@ -5,8 +5,6 @@ import '../../css/Navbar.scss';
 import '../../css/Fixed.scss';
 import { Link } from 'react-router-dom';
 import INavbarProps from './INavbarProps';
-import MenuService from '../../Services/MenuService';
-import Spinner from 'react-bootstrap/Spinner';
 
 class Navbar extends React.Component<INavbarProps, any> {
     constructor(props:any) {
@@ -29,7 +27,7 @@ class Navbar extends React.Component<INavbarProps, any> {
     private toggleMenu() {
         this.setState({ 
             menu: !this.state.menu 
-        }, () => { console.log(this.state.menu)});
+        });
     }
 
     private linkClicked() {

@@ -14,7 +14,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Menu";
         this.state = {
             foodItems:  [],
             beverageItems: [],
@@ -197,7 +197,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
      * This method is responsible for setting the quantity on each food menu item. 
      */
     private changeQuantityForFood = (e: any, key: number) => {
-        let quantity: number = e.target.value  != "" ? parseInt(e.target.value) : 0;
+        let quantity: number = e.target.value  !== "" ? parseInt(e.target.value) : 0;
         let foodItems = this.state.foodItems;
 
         foodItems[key].quantity = quantity;
@@ -214,7 +214,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
      * This method is responsible for setting the quantity on each food menu item. 
      */
     private changeQuantityForBeverages = (e: any, key: number) => {
-        let quantity: number = e.target.value  != "" ? parseInt(e.target.value) : 0;
+        let quantity: number = e.target.value  !== "" ? parseInt(e.target.value) : 0;
         let beverageItems = this.state.beverageItems;
 
         beverageItems[key].quantity = quantity;
@@ -269,10 +269,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
             }
 
             this.menuService.addToCart(carryOutItem).then((response) => {
-                console.log(response);
-
                 if (response) {
-                    console.log("200");
                     this.menuService.getAllCarryOutsInCart(customerId)
                     .then((data: any) => {
                         let count = data.length ?? 0;
@@ -284,12 +281,10 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         });
                     })
                     .catch((reason) => {
-                        console.log(reason);
                     });
                 }
             })
             .catch(reason => {
-                console.log("pssh" + reason);
                 this.setState({
                     showLoginModal: true
                 });

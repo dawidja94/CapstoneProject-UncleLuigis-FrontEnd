@@ -112,7 +112,6 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
         })
         
         .then(response => {
-            console.log(response.status);
             if (response.status === 401) {
                 this.setState({
                     showMessageModal: true
@@ -123,9 +122,7 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
                 return response.json();
             }
         })
-        .then(data => {
-            console.log(data);
-            
+        .then(data => {            
             let tokenService = new TokenService();
 
             const tokenBody = {
@@ -163,8 +160,6 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
             });
         })
         .catch(reason => {
-            console.log(reason);
-
             this.setState({
                 isUserValid: false,
                 messageTitle: "Login Failed",

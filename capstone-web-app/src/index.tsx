@@ -26,14 +26,14 @@ import CarryOutList from './Components/CarryOutList/CarryOutList'
 import CarryOutOrder from './Components/CarryOutOrder/CarryOutOrder';
 import ReservationList from './Components/ReservationList/ReservationList';
 import ReservationDetail from './Components/ReservationDetail/ReservationDetail';
+import UpdateInformation from './Components/UpdateInformation/UpdateInformation';
 
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
 const beverageMenuItems = menuService.getAllBeverageMenuItems();
 
-let count: number = 23;
-
 function countUp(message: string) {
+    let count = 0;
     count++;
 }
 
@@ -51,7 +51,6 @@ function getCountInCustomerCart() {
         localStorage.setItem("cartCount", count);
     })
     .catch((reason) => {
-        console.log(reason);
     });
 }
 
@@ -106,6 +105,7 @@ const routing = (
                     <Route exact path="/Portal" component={Portal} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/ChangePassword" component={ChangePassword} />
+                    <Route exact path="/UpdateInformation" component={UpdateInformation} />
                     <Route exact path="/UserProfile/:id" component={UserProfile}/>
                     <Route exact path="/Reservations" component={Reservations} />
                     <Route exact path="/Contact" component={Contact} />

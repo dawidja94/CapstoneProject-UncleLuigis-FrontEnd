@@ -7,7 +7,6 @@ import Spinner from "react-bootstrap/Spinner";
 import Footer from "../Footer/Footer";
 import CustomModal from "../CustomModal/CustomModal";
 import LoginModal from "../LoginModal/LoginModal";
-import { Redirect } from "react-router-dom";
 
 export default class Reservations extends React.Component<IReservationsProps, IReservationsState> {
     private tableService: TableService;
@@ -15,7 +14,7 @@ export default class Reservations extends React.Component<IReservationsProps, IR
     
     public constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Reservations";
         this.state = {
             availableTables: [],
             selectedTableSize: "",
@@ -156,16 +155,12 @@ export default class Reservations extends React.Component<IReservationsProps, IR
     }
 
     private changeTimeSlot(e: any) {
-        console.log(e.target.value);
-
         this.setState({
             selectedTimeSlot: e.target.value
         });
     }
 
     private changeTableSize(e: any) {
-        console.log(e.target.value);
-
         this.setState({
             selectedTableSize: e.target.value
         });
@@ -224,9 +219,7 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                 customerId = parseInt(customerIdFromLS.toString());
             }
 
-            console.log(tableId);
             selectedPartySize = parseInt(this.state.selectedTableSize.toString());
-            console.log(selectedPartySize);
 
             const requestBody = {
                 customerId: customerId,
@@ -236,7 +229,6 @@ export default class Reservations extends React.Component<IReservationsProps, IR
 
             this.tableService.reserveTable(requestBody)
             .then(response => {
-                console.log(response);
                 this.setState({
                     showReserveModal: true,
                     showSpinner: true,
@@ -246,8 +238,6 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                 this.processAvailableTables());
             })
             .catch (reason => {
-                console.log(reason);
-
                 this.setState({
                     showLoginModal: true,
 
@@ -284,8 +274,6 @@ export default class Reservations extends React.Component<IReservationsProps, IR
             });
         })
         .catch(reason => {
-            console.log(reason);
-
             this.setState({
                 showSpinner: false,
                 availableTables: []
@@ -316,21 +304,18 @@ export default class Reservations extends React.Component<IReservationsProps, IR
         } 
 
         today = mm + '/' + dd + '/' + yyyy;
-        console.log(today);
-
         return today;
     }
 
     private getCurrentLocalTime(): void {
-        let date = new Date();
+        //let date = new Date();
 
-        let hours = date.getHours() as any;
-        let minutes = date.getMinutes() as any;
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+ minutes : minutes;
-        let strTime = hours + ':' + minutes + ampm;
-        console.log(strTime);
+        //let hours = date.getHours() as any;
+        //let minutes = date.getMinutes() as any;
+        //let ampm = hours >= 12 ? 'PM' : 'AM';
+        //hours = hours % 12;
+        //hours = hours ? hours : 12; // the hour '0' should be '12'
+        //minutes = minutes < 10 ? '0'+ minutes : minutes;
+        //let strTime = hours + ':' + minutes + ampm;
     }
 }

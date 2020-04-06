@@ -1,22 +1,18 @@
 import React from "react";
 import Navbar from "../Navigation/Navbar";
-import ConstantStrings from "../../Constants/ConstantStrings";
 import Footer from "../Footer/Footer";
-import TokenService from "../../Services/TokenService";
-import MenuService from "../../Services/MenuService";
 import IChangePasswordProps from "./IChangePasswordProps";
 import IChangePasswordState from "./IChangePasswordState";
 import CustomModal from "../CustomModal/CustomModal";
 import { Redirect } from "react-router-dom";
 import UserService from "../../Services/UserService";
 
-
 export default class ChangePassword extends React.Component<IChangePasswordProps, IChangePasswordState> {
     private userService: UserService;
 
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Change Password";
         this.state = {
 
             userName: "",
