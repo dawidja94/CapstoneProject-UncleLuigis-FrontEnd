@@ -36,18 +36,7 @@ export default class ReservationList extends React.Component<IReservationListPro
         };
     }
 
-    public componentDidMount() {
-        let s= new Date().toLocaleString();
-        console.log(s);
-
-        this.customerLoggedIn = localStorage.getItem("Customer ID") !== "" ? true : false; 
-        let customerIdFromLS = localStorage.getItem("Customer ID");
-        let customerId: number = 0;
-    
-        if (customerIdFromLS !== null) {
-            customerId = parseInt(customerIdFromLS.toString());
-        }
-        
+    public componentDidMount() {        
         this.tableService.getCustomerReservations()
         .then ((data) => {
             const loggedIn = localStorage.getItem("Customer ID") ? true : false;
@@ -77,7 +66,7 @@ export default class ReservationList extends React.Component<IReservationListPro
                             <hr />
                             <div className="row">
                                 <div className="col-12">
-                                    {this.Pagination(this.state.ordersPerPage, this.state.reservationList.length)}
+                                    {this.state.reservationList.length > 8 ? this.Pagination(this.state.ordersPerPage, this.state.reservationList.length) : <div></div> }
                                     {this.displayReservations(this.state.reservationList)}
                                 </div>
                             </div> 
@@ -115,6 +104,7 @@ export default class ReservationList extends React.Component<IReservationListPro
         for (let i = 1; i <= Math.ceil(totalOrders/ordersPerPage); i++){
             pageNumbers.push(i);
         }
+
         return (
             <nav>
                 <br />

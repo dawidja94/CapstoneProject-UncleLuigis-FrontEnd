@@ -68,13 +68,47 @@ export default class TableService {
         return promise;
     }
 
-    public getReservation(id: number): Promise<any> {
+    public getReservation(requestBody: any): Promise<any> {
         let tokenService = new TokenService();
         let bearerToken = tokenService.getAuthToken();
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseAzureURL}Table/GetReservation/${id}`, {
-                method: "GET",
+            fetch(`${ConstantStrings.baseDevURL}Table/GetReservation`, {
+                method: "POST",
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    console.log("Reserve table status 200");
+                    return response.json();
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .then((data): any => {
+                resolve(data);
+            })
+            .catch(reason => {
+                reject(reason);
+            });
+        });  
+
+        return promise;
+    }
+
+    public cancelReservation(requestBody: any): Promise<any> {
+        let tokenService = new TokenService();
+        let bearerToken = tokenService.getAuthToken();
+
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseDevURL}Table/CancelReservation`, {
+                method: "PUT",
+                body: JSON.stringify(requestBody),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': bearerToken

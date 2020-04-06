@@ -3,34 +3,69 @@ import Navbar from "../Navigation/Navbar";
 import Footer from "../Footer/Footer";
 import IReservationDetailState from "./IReservationDetailState";
 import TableService from "../../Services/TableService";
+import LoginModal from "../LoginModal/LoginModal";
+import CustomModal from "../CustomModal/CustomModal";
+import { Redirect } from "react-router-dom";
+import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
 import Spinner from "react-bootstrap/Spinner";
-
 
 export default class ReservationDetail extends React.Component<any, IReservationDetailState> {
     private tableService: TableService;
-    private customerLoggedIn: boolean;
+    private customerId: number;
     
     public constructor(props: any) {
         super(props);
-        
         this.tableService = new TableService();
-        this.customerLoggedIn = false;
+
+        this.customerId = 0;
+        let customerIdFromLS = localStorage.getItem("Customer ID");
+        
+        if (customerIdFromLS !== null ){
+            this.customerId = parseInt(customerIdFromLS.toString());
+        }
+
+        console.log(parseInt(this.props.match.params.id));
+
         this.state = {
             customerLoggedIn: false,
             reservationId: parseInt(this.props.match.params.id),
-            reservation: null
+            reservation: null,
+            showLoginModal: false,
+            showContinueWithActionModal: false,
+            showCancelReservationModal: false,
+            redirectToReservationList: false
         };
     }
 
     public componentDidMount() {
-        this.tableService.getReservation(this.state.reservationId).then(response => {
+        const requestBody = {
+            customerId: this.customerId,
+            tableId: this.state.reservationId,
+            partySize: 0
+        };
+
+        this.tableService.getReservation(requestBody).then(response => {
+            console.log(response);
+
+            if (response !== undefined && response !== null) {
+                this.setState({
+                    reservation: response
+                }, () => {
+                    console.log(response);
+                    console.log(this.state.reservation);
+                })
+            }
+            else {
+                this.setState({
+                    redirectToReservationList: true
+                });
+            }
+        })
+        .catch(reason => {
             this.setState({
-                reservation: response
-            }, () => {
-                console.log(response);
-                console.log(this.state.reservation);
+                redirectToReservationList: true
             })
-        })        
+        });        
     }
 
     render() {
@@ -62,6 +97,15 @@ export default class ReservationDetail extends React.Component<any, IReservation
                             </div>
                         </div>
                     </div>
+                    {this.state.showLoginModal ? <LoginModal 
+                                show={this.state.showLoginModal} 
+                                onCloseModal={this.closeLoginModal}
+                                loginIsSuccessful={this.loginIsSuccessful}
+                                /> 
+                                : <div></div>}
+                    {this.state.showContinueWithActionModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={"Proceed"} body={"Your login was successful, please proceed with your previous action."} buttontitle={"Close"} show={this.state.showContinueWithActionModal} onCloseModal={this.closeActionModal} /> : <div></div>}
+                    {this.state.redirectToReservationList ? <Redirect push to="/ReservationList"/> : <div></div>}
+                    {this.state.showCancelReservationModal ? <OrderConfirmationModal showRemoveItemButton={false} onRemoveItemClick={() => this.setState({...this.state})} showSubmitOrderButton={true} title={"Cancel Reservation"} body={"Are you sure you want to remove this table reservation?"} buttontitle={"No"} onSubmitOrderClick={this.cancelReservation} show={this.state.showCancelReservationModal} onCloseModal={this.closeCancelConfirmationModal}></OrderConfirmationModal> : <div></div>}
                     <Footer />
                 </div>
             );
@@ -85,6 +129,13 @@ export default class ReservationDetail extends React.Component<any, IReservation
                                             <hr />
                                         </div>
                                         <br />
+                                        <div className="text-center">
+                                            <Spinner animation="border" role="status">
+                                                <span className="sr-only">Loading...</span>
+                                            </Spinner>
+                                            <br />
+                                            <br />
+                                        </div>
                                         <br />
                                         <br />
                                         <br />
@@ -109,7 +160,7 @@ export default class ReservationDetail extends React.Component<any, IReservation
                                 <h3>Reservation ID: <span className="font-weight-bold">{this.state.reservationId}</span></h3>
                             </td>
                             <td>
-                                <button className="btn btn-danger">Cancel Reservation</button>
+                                <button className="btn btn-danger" onClick={() => this.cancelReservationClick()}>Cancel Reservation</button>
                             </td>
                         </tr>
                         <tr>
@@ -140,5 +191,59 @@ export default class ReservationDetail extends React.Component<any, IReservation
                 </table>
             </div>
         );
+    }
+
+    private closeCancelConfirmationModal = () => {
+        this.setState({
+            showCancelReservationModal: false
+        });
+    }
+
+    private closeActionModal = () => {
+        this.setState({
+            showContinueWithActionModal: false
+        });
+    }
+
+    private closeLoginModal = () => {
+        this.setState({
+            showLoginModal: false
+        });
+    }
+
+    private loginIsSuccessful = (): void => {
+        this.setState({
+            showLoginModal: false,
+            showContinueWithActionModal: true
+        });
+    }
+
+    private cancelReservationClick(): void {
+        this.setState({
+            showCancelReservationModal: true
+        });
+    }
+
+    private cancelReservation = (): void => {
+        this.setState({
+            showCancelReservationModal: false
+        });
+
+        const requestBody = {
+            customerId: this.customerId,
+            tableId: this.state.reservationId,
+            partySize: 0
+        };
+
+        this.tableService.cancelReservation(requestBody).then(response => {
+            this.setState({
+                redirectToReservationList: true
+            });
+        })
+        .catch(reason => {
+            this.setState({
+                showLoginModal: true
+            });
+        });
     }
 }

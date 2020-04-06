@@ -46,7 +46,7 @@ export default class OrderConfirmationModal extends React.Component<IOrderConfir
 
                         <Modal.Footer>
                             {this.props.showSubmitOrderButton ?
-                            <button className="btn btn-outline-danger" onClick={() => this.onSubmitOrderHandler()}>Submit Order</button>
+                            <button className="btn btn-outline-danger" onClick={() => this.onSubmitOrderHandler()}>Confirm</button>
                             : <label></label>
                             }  
                             {this.props.showRemoveItemButton ?

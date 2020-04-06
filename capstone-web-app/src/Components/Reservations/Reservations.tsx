@@ -7,6 +7,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Footer from "../Footer/Footer";
 import CustomModal from "../CustomModal/CustomModal";
 import LoginModal from "../LoginModal/LoginModal";
+import { Redirect } from "react-router-dom";
 
 export default class Reservations extends React.Component<IReservationsProps, IReservationsState> {
     private tableService: TableService;
@@ -112,6 +113,7 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                                 loginIsSuccessful={this.loginIsSuccessful}
                                 /> 
                                 : <div></div>}
+                            {this.state.showContinueWithActionModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={"Proceed"} body={"Your login was successful, please proceed with your previous action."} buttontitle={"Close"} show={this.state.showContinueWithActionModal} onCloseModal={this.closeActionModal} /> : <div></div>}
                             {this.state.showNoLoginModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={true} title={this.state.modalHeader} body={this.state.modalBodyMessage} buttontitle={"Ok"} show={this.state.showNoLoginModal} onCloseModal={this.closeNoLoginModal} /> : <div></div>}
                             {this.state.showReserveModal ? <CustomModal {...this.props} useListOption={false} listMessages={[]} showLoginButton={false} title={this.state.reserveModalHeader} body={this.state.reserveModalMessage} buttontitle={"Close"} show={this.state.showReserveModal} onCloseModal={this.closeReserveModal} /> : <div></div>}
                             <Footer />
@@ -120,6 +122,12 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                 </div>
             </div>
         );
+    }
+
+    private closeActionModal = () => {
+        this.setState({
+            showContinueWithActionModal: false
+        });
     }
 
     private loginIsSuccessful = (): void => {

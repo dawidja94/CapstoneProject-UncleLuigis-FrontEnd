@@ -54,8 +54,11 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
                                 <Modal.Title>Login</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <NavLink className="text-left text-danger" to="/Login" onClick={() => this.differentUserClick()}>Not {localStorage.getItem("First name")}? Click here.</NavLink>
-                                <p>You must login again to continue with your action.</p>
+                                
+                                <p>
+                                    You must login again to continue with your action.
+                                    &nbsp;<NavLink className="text-left text-danger" to="/Login" onClick={() => this.differentUserClick()}>Not {localStorage.getItem("First name")}? Click here.</NavLink>
+                                </p>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Password:</label>
                                     <input type="password" placeholder="Password" className="form-control" value={this.state.password} onChange={(e) => this.passwordOnChange(e)}/>
