@@ -1,6 +1,5 @@
 import ConstantStrings from "../Constants/ConstantStrings";
 import TokenService from "./TokenService";
-var jwt = require('jsonwebtoken');
 
 export default class TableService {
     public getAvailableTables(requestBody: any): Promise<any> {
@@ -136,7 +135,7 @@ export default class TableService {
         }
 
         let promise = new Promise((resolve, reject) => {
-            fetch(`${ConstantStrings.baseAzureURL}Table/GetCustomerReservations/${customerIdFromLS}`, {
+            fetch(`${ConstantStrings.baseAzureURL}Table/GetCustomerReservations/${customerId}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json'

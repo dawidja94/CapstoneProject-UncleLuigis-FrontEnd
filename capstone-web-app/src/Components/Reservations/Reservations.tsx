@@ -7,7 +7,6 @@ import Spinner from "react-bootstrap/Spinner";
 import Footer from "../Footer/Footer";
 import CustomModal from "../CustomModal/CustomModal";
 import LoginModal from "../LoginModal/LoginModal";
-import { Redirect } from "react-router-dom";
 
 export default class Reservations extends React.Component<IReservationsProps, IReservationsState> {
     private tableService: TableService;
@@ -309,14 +308,14 @@ export default class Reservations extends React.Component<IReservationsProps, IR
     }
 
     private getCurrentLocalTime(): void {
-        let date = new Date();
+        //let date = new Date();
 
-        let hours = date.getHours() as any;
-        let minutes = date.getMinutes() as any;
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+ minutes : minutes;
-        let strTime = hours + ':' + minutes + ampm;
+        //let hours = date.getHours() as any;
+        //let minutes = date.getMinutes() as any;
+        //let ampm = hours >= 12 ? 'PM' : 'AM';
+        //hours = hours % 12;
+        //hours = hours ? hours : 12; // the hour '0' should be '12'
+        //minutes = minutes < 10 ? '0'+ minutes : minutes;
+        //let strTime = hours + ':' + minutes + ampm;
     }
 }

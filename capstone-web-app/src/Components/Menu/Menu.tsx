@@ -197,7 +197,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
      * This method is responsible for setting the quantity on each food menu item. 
      */
     private changeQuantityForFood = (e: any, key: number) => {
-        let quantity: number = e.target.value  != "" ? parseInt(e.target.value) : 0;
+        let quantity: number = e.target.value  !== "" ? parseInt(e.target.value) : 0;
         let foodItems = this.state.foodItems;
 
         foodItems[key].quantity = quantity;
@@ -214,7 +214,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
      * This method is responsible for setting the quantity on each food menu item. 
      */
     private changeQuantityForBeverages = (e: any, key: number) => {
-        let quantity: number = e.target.value  != "" ? parseInt(e.target.value) : 0;
+        let quantity: number = e.target.value  !== "" ? parseInt(e.target.value) : 0;
         let beverageItems = this.state.beverageItems;
 
         beverageItems[key].quantity = quantity;

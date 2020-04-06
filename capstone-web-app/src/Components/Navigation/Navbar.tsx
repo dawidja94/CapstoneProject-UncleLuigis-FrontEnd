@@ -5,8 +5,6 @@ import '../../css/Navbar.scss';
 import '../../css/Fixed.scss';
 import { Link } from 'react-router-dom';
 import INavbarProps from './INavbarProps';
-import MenuService from '../../Services/MenuService';
-import Spinner from 'react-bootstrap/Spinner';
 
 class Navbar extends React.Component<INavbarProps, any> {
     constructor(props:any) {

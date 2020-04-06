@@ -1,11 +1,8 @@
-import ICustomerRegistrationProps from "../CustomerRegistration/ICustomerRegistrationProps";
 import React from "react";
 import ICustomModalProps from "./ICustomModalProps";
 import ICustomModalState from "./ICustomModalState";
 import Modal from "react-bootstrap/Modal";
-import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { listenerCount } from "cluster";
 
 export default class LoginModal extends React.Component<ICustomModalProps, ICustomModalState> {
     constructor(props: any) {

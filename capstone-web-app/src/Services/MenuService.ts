@@ -1,6 +1,5 @@
 import ConstantStrings from "../Constants/ConstantStrings";
 import TokenService from "./TokenService";
-var jwt = require('jsonwebtoken');
 
 export default class MenuService {
     public getAllFoodMenuItems(): Promise<any> {

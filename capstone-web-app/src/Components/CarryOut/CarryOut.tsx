@@ -10,9 +10,7 @@ import Beverage from "../../Models/Beverage";
 import Food from "../../Models/Food";
 import Spinner from "react-bootstrap/Spinner";
 import { Redirect } from "react-router-dom";
-import Modal from "react-bootstrap/Modal";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
-import { timingSafeEqual } from "crypto";
 import CustomModal from "../../Components/CustomModal/CustomModal";
 import LoginModal from "../LoginModal/LoginModal";
 
