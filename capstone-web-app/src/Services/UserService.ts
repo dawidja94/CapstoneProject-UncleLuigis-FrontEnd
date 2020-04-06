@@ -32,4 +32,34 @@ export default class UserService {
         });
             return promise;
     }
+    public updateInformation(requestBody: any ): Promise<any>{
+        let tokenService = new TokenService();
+        let bearerToken = "Bearer " + tokenService.getAccessToken();
+        console.log("from user service");
+        console.log(requestBody);
+        let promise = new Promise ((resolve, reject) => {
+            fetch(`${ConstantStrings.baseDevURL}Customer/UpdateByCustomer`, {
+                method: "PUT",
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200){
+                    resolve(true);
+                }
+                else {
+                    reject("Response Status: " + response.status)
+                }
+            })
+            .catch(reason => {
+                reject(reason);
+            })
+        });
+        
+        return promise;
+
+    }
 }

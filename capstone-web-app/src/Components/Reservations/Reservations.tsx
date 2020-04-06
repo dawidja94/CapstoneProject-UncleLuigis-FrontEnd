@@ -12,7 +12,7 @@ export default class Reservations extends React.Component<IReservationsProps, IR
     
     public constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Reservations";
         this.state = {
             availableTables: [],
             selectedTableSize: "",

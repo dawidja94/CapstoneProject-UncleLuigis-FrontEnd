@@ -11,12 +11,14 @@ import moment from "moment";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
 import Pagination from "react-js-pagination";
 import Spinner from "react-bootstrap/Spinner";
+import timezone from 'moment-timezone';
+require('moment-timezone');
 export default class CarryOutList extends React.Component<ICarryOutListProps, ICarryOutListState> {
     private menuService: MenuService
     private customerLoggedIn: boolean;
     public constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Carry Out List";
         this.menuService = new MenuService();
         this.customerLoggedIn = false;
 
@@ -30,6 +32,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             ordersPerPage: 8,
             showSpinner: true,
             activeIndex: 1
+            
         };
         
     }
@@ -44,18 +47,27 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             customerId = parseInt(customerIdFromLS.toString());
         }
         
-        this.menuService.getAllCarryOutsForCustomer(customerId)
-        .then ((data) => {
-            const loggedIn = localStorage.getItem("Customer ID") ? true : false;
+        if (localStorage.getItem("Customer ID")) {
+            this.menuService.getAllCarryOutsForCustomer(customerId)
+            .then ((data) => {
+                const loggedIn = localStorage.getItem("Customer ID") ? true : false;
 
+                this.setState({
+                    orderList: data,
+                    customerLoggedIn: loggedIn,
+                    orderNumber: data.bundleId,
+                }, () => {
+                    console.log(this.state);
+                });
+            })
+        }
+        else {
             this.setState({
-                orderList: data,
-                customerLoggedIn: loggedIn,
-                orderNumber: data.bundleId,
-            }, () => {
-                console.log(this.state);
-            });
-        })
+                showSpinner: false,
+                customerLoggedIn: false,
+            })
+        }
+
     }
     public render() {
         return (
@@ -73,8 +85,9 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                             <hr />
                             <div className="row">
                                 <div className="col-12">
+                                {this.Pagination(this.state.ordersPerPage, this.state.orderList.length)}
                                     {this.displayOrders(this.state.orderList)}
-                                    {this.Pagination(this.state.ordersPerPage, this.state.orderList.length)}
+                                    
                                 </div>
                             </div> 
                             <br />
@@ -111,21 +124,25 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
         for (let i = 1; i <= Math.ceil(totalOrders/ordersPerPage); i++){
             pageNumbers.push(i);
         }
-        return (
-            <nav>
-                <br />
-                <br />
-                <ul className="pagination">
-                    {pageNumbers.map(number =>(
-                        <li key={number} className="pagination pagination-lg">
-                            <span>
-                           <button onClick={() => this.paginate(number)} className={number === this.state.activeIndex ? "btn btn-danger" : "btn btn-outline-danger"} >{number}</button> &nbsp; 
-                           </span>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
-        )
+        if (totalOrders > 8 )
+        {
+            return (
+                <nav>
+                    <br />
+                    <br />
+                    <ul className="pagination">
+                        {pageNumbers.map(number =>(
+                            <li key={number} className="pagination pagination-lg">
+                                <span>
+                            <button onClick={() => this.paginate(number)} className={number === this.state.activeIndex ? "btn btn-danger" : "btn btn-outline-danger"} >{number}</button> &nbsp; 
+                            </span>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            )
+        }
+                  
     }
     
     private displayOrders = (orderList: any []) => {
@@ -149,13 +166,12 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                         <tbody className="text-left">
                         {currentOrders.map((item, index) => {
                             return  (
-                                
                                 <tr>
                                     <td>
                                         <button className="btn btn-danger" onClick={() => this.viewOrder(item.bundleId)}>View</button>
                                     </td>
                                     <td>{item.bundleId}</td>
-                                    <td>{moment(item.submissionTime).format('MMM DD, YYYY')}</td>
+                                    <td>{moment.tz(item.submissionTime, 'America/Chicago').subtract(5, 'h').format('MMM DD, YYYY, h:mm:ss a z')}</td>
                                 </tr>
                                 
                             );
@@ -176,7 +192,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                 </div>
             );
         }
-        else if (!this.customerLoggedIn){
+        else {
             return (
                 <div className="text-center">
                     <h5>Please login to view your orders!</h5>

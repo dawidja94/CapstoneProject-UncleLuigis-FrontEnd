@@ -9,7 +9,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
 
     public constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Portal";
         this.state = {
             redirectToHome: false,
             redirectToChangePassword: false,

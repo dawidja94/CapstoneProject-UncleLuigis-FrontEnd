@@ -13,7 +13,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
     
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Menu";
         this.state = {
             foodItems:  [],
             beverageItems: [],

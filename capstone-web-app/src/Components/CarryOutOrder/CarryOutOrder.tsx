@@ -24,7 +24,7 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
     
     public constructor(props: any) {
         super(props);
-        
+        document.title = "Uncle Luigi's Bistro - View Order";
         this.menuService = new MenuService();
         this.customerLoggedIn = false;
         this.state = {

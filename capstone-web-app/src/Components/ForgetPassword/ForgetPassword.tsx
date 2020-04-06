@@ -13,7 +13,7 @@ import { Redirect } from "react-router-dom";
 export default class ForgetPassword extends React.Component<IForgetPasswordProps, IForgetPasswordState> {
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Forget Password";
         this.state = {
             
             userName: "",

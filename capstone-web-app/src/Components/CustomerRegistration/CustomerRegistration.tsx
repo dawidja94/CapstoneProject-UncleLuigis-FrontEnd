@@ -11,7 +11,7 @@ import Footer from "../Footer/Footer";
 export default class CustomerRegistration extends React.Component<ICustomerRegistrationProps, ICustomerRegistrationState> {
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Registration";
         this.state = {
             firstName: "",
             lastName: "",
@@ -133,7 +133,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
 
     private onFormSubmit(): void {
         let messages: string[] = [];
-        console.log("Deadass");
         let valid: boolean = true;
         //let response: any;
         let regExEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -183,7 +182,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
 
         }, () => {
 
-            console.log("Hereerererere");
             if (this.state.isFormValid) {
                 const requestBody = {
                     firstName: this.state.firstName,

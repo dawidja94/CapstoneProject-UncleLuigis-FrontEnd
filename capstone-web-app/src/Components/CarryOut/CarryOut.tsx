@@ -20,7 +20,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
     
     public constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Carry Out";
         this.state = {
             beverageCartItems: [],
             foodCartItems: [],

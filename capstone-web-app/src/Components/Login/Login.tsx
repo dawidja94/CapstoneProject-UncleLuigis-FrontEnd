@@ -14,7 +14,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Login";
         this.state = {
             userName: "",
             password: "",

@@ -14,7 +14,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
 
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - User Profile";
         this.state = {
             userName: "",
             password: "",
