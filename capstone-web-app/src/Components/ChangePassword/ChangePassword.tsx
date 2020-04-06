@@ -16,7 +16,7 @@ export default class ChangePassword extends React.Component<IChangePasswordProps
 
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Change Password";
         this.state = {
 
             userName: "",

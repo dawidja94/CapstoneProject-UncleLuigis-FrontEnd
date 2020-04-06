@@ -22,7 +22,7 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
     
     public constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Carry Out";
         this.state = {
             beverageCartItems: [],
             foodCartItems: [],
@@ -64,9 +64,6 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                     customerLoggedIn: loggedIn,
                     showSpinner: true
                 }, () => {
-                    console.log("Carry Out Cart checking state");
-                    console.log(this.state);
-
                     let count = data.length ?? 0;
                     localStorage.setItem("cartCount", count);
 
@@ -232,7 +229,6 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
             }
         })
         .catch(reason => {
-            console.log(reason);
             this.setState({
                 showLoginModal: true,
                 showSubmitOrderConfirmationModal: false
@@ -416,9 +412,6 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
 
         this.menuService.removeFromCart(requestBody)
         .then(data => {
-            console.log("checking data");
-            console.log(data);
-            
             if (data) {
                 // Call the API to get all the cart items.
                 this.setState({
@@ -429,9 +422,6 @@ export default class CarryOut extends React.Component<ICarryOutProps, ICarryOutS
                         this.setState({
                             cartItems: data
                         }, () => {
-                            console.log("Carry Out Cart checking state");
-                            console.log(this.state);
-
                             let count = data.length ?? 0;
                             localStorage.setItem("cartCount", count);
 

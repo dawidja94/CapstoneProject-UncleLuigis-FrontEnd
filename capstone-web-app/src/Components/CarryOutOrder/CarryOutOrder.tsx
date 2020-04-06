@@ -24,7 +24,7 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
     
     public constructor(props: any) {
         super(props);
-        
+        document.title = "Uncle Luigi's Bistro - View Order";
         this.menuService = new MenuService();
         this.customerLoggedIn = false;
         this.state = {
@@ -39,21 +39,19 @@ export default class CarryOutOrder extends React.Component<any, ICarryOutOrderSt
     }
 
     public componentDidMount() {
-        console.log(this.props.match.params);
         let bundleId: number = 0;
         let customerId: number = 0;
         let customerIdFromLS = localStorage.getItem("Customer ID");
+        
         if (customerIdFromLS !== null ){
             customerId = parseInt(customerIdFromLS.toString());
         }
+
         bundleId = parseInt(this.props.match.params.id);
-        console.log(customerId);
         this.menuService.getCarryOutById(bundleId)
         .then((data) => {
-            console.log(bundleId);
-                this.setState({
+            this.setState({
                     orderItems: data,
-                    
                 }, () => {
                     
                     let cartItems = this.state.orderItems;

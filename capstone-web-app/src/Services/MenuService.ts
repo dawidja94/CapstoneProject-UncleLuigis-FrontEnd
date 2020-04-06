@@ -193,8 +193,6 @@ export default class MenuService {
     }
 
     public submitCarryOutOrder(requestBody: any): Promise<any> {
-        console.log(requestBody);
-
         let tokenService = new TokenService();
         let bearerToken = tokenService.getAuthToken();
 

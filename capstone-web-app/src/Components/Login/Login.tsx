@@ -14,7 +14,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Login";
         this.state = {
             userName: "",
             password: "",
@@ -115,7 +115,6 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
         })
         
         .then(response => {
-            console.log(response.status);
             if (response.status === 401){
                 this.setState({
                     showWrongLoginModal: true
@@ -127,7 +126,6 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             }
         })
         .then(data => {
-            console.log(data);
             let tokenService = new TokenService();
 
             const tokenBody = {
@@ -160,8 +158,6 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             });
         })
         .catch(reason => {
-            
-            console.log(reason);
         })
     }
 }

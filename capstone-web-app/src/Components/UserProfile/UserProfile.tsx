@@ -14,7 +14,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
 
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - User Profile";
         this.state = {
             userName: "",
             password: "",
@@ -37,13 +37,9 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
     }
 
     public componentDidMount() {
-        console.log("Checking for created customer ID.");
-        console.log(this.props.match.params.id);
-
         this.setState({
             customerId: parseInt(this.props.match.params.id) as number 
         });
-        //this.props.match.params.id;
     }
 
     public render() {
@@ -165,8 +161,6 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
-
                     // Then check that the username hasn't already been taken.
                     if (data.length === 0 ){
                         fetch(`${ConstantStrings.baseAzureURL}User/GetUser/${this.state.userName}`, {
@@ -179,12 +173,9 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                             return response.json();
                         })
                         .then(data => {
-                            console.log("Checking response data here in user profile");
                             // Here we should see either a JSON object with one property (username).
                             // Either the property is equal to the username passed in in the URL (this means that the username is already taken.)
-                            // Or the username property returned is an empty string, (this means the username is not taken and is available.)
-                            console.log(data);
-        
+                            // Or the username property returned is an empty string, (this means the username is not taken and is available.)        
                             if (data.username === "") {
                                 // // Create the user account and pass in the customer ID along with it.
                                 // // Create your API call here for CreateUser.
@@ -197,9 +188,6 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                                     customerId: this.state.customerId
                                 };
         
-                                console.log("Checking this.state.customerId");
-                                console.log(this.state.customerId);
-        
                                 fetch(`${ConstantStrings.baseAzureURL}User/Register`, {
                                     method: "POST",
                                     body: JSON.stringify(requestBody),
@@ -207,15 +195,12 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                                         'Content-Type': 'application/json'
                                     }
                                 })
-                                .then(response =>{
-                                    console.log("Create User status:" + response.status);
-        
-                                    if (response.status === 200)
+                                .then(response =>{        
+                                    if (response.status === 200) {
                                         return response.json();
-                                  
+                                    }
                                 })
                                 .then(data => {
-                                    console.log(data);
                                     let tokenService = new TokenService();
                         
                                     const tokenBody = {
@@ -260,9 +245,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                              }
                         })
                         .catch(reason => {
-                            console.log(reason);
                         });
-
                     }
                     else {
                         // Display message saying that the customer already has an account.

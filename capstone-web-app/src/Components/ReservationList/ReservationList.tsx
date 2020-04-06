@@ -44,8 +44,6 @@ export default class ReservationList extends React.Component<IReservationListPro
             this.setState({
                 reservationList: data,
                 customerLoggedIn: loggedIn,
-            }, () => {
-                console.log(this.state);
             });
         })
     }
@@ -123,16 +121,10 @@ export default class ReservationList extends React.Component<IReservationListPro
     }
     
     private displayReservations = (orderList: any []) => {
-        console.log("Checking reservations");
-        console.log(this.state.reservationList);
-
         if (this.state.customerLoggedIn && this.state.reservationList.length > 0) {
             let indexOfLastReservation: number = this.state.currentPage * this.state.ordersPerPage;
             let indexOfFirstReservation: number = indexOfLastReservation - this.state.ordersPerPage;
             let currentReservations: any [] = orderList.slice(indexOfFirstReservation, indexOfLastReservation);
-
-            console.log("currentReservations");
-            console.log(currentReservations);
 
             return (
                 <div className="table-container">

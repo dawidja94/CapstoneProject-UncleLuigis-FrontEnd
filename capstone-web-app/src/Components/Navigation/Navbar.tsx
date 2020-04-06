@@ -29,7 +29,7 @@ class Navbar extends React.Component<INavbarProps, any> {
     private toggleMenu() {
         this.setState({ 
             menu: !this.state.menu 
-        }, () => { console.log(this.state.menu)});
+        });
     }
 
     private linkClicked() {

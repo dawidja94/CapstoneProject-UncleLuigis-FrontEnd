@@ -11,7 +11,7 @@ import * as icons from "@fortawesome/free-solid-svg-icons";
 export default class Contact extends React.Component<IContactProps, IContactState> {
     public constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Contact";
         this.state = {
         };
     }

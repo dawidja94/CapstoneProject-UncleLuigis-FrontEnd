@@ -11,7 +11,7 @@ import Footer from "../Footer/Footer";
 export default class CustomerRegistration extends React.Component<ICustomerRegistrationProps, ICustomerRegistrationState> {
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Registration";
         this.state = {
             firstName: "",
             lastName: "",
@@ -133,7 +133,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
 
     private onFormSubmit(): void {
         let messages: string[] = [];
-        console.log("Deadass");
         let valid: boolean = true;
         //let response: any;
         let regExEmail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -174,8 +173,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                 validationMessages: messages
             });
         }
-        
-        console.log("Valid: " + valid);
 
         this.setState({
             isFormValid: valid,
@@ -183,7 +180,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
 
         }, () => {
 
-            console.log("Hereerererere");
             if (this.state.isFormValid) {
                 const requestBody = {
                     firstName: this.state.firstName,
@@ -201,16 +197,10 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                     }
                 })
                 .then(response => {
-                    console.log(response.status);
-
                     if (response.status === 200) {
                         // If customer exists, pop-up a modal on top of center of screen alerting the user about them already existing
                         // Grab this customer object and on the modal add a button to redirect them to the User Profile screen so that they set up a login
-                        console.log("Inside 200 status");
-                        console.log(response);
-                        
-                        
-                            return response.json();
+                        return response.json();
                         
                     }
                     else if (response.status === 400) {
@@ -233,8 +223,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                             }
                         })
                         .then(response => {
-                            console.log("Create Customer status:" + response.status);
-
                             // If it is 200, then it created the customer successfully. 
                             if (response.status === 200) {
                                 
@@ -245,8 +233,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                             }
                         })
                         .then(data => {
-
-                            console.log(data);
                             this.setState({
                                 navigateToNextScreen: true,
                                 createdCustomerId: data.id
@@ -256,24 +242,13 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                 })
                 .then(data => {
                     // This is the block of .then for when the customer is found as an already existing customer in the Db.
-                    
                     this.setState({
-
                         isNewCustomer: false,  
                         showCustomerExistsModal: true,
                         foundCustomerId: data.id,
-                        
-                    
-
-                    }, () => {
-                        console.log("Checking this after setting the state when a customer was found.");
-                        console.log(this.state);
-                
                     });
                 })
                 .catch(reason => {
-                    console.log("Error calling Customer/GetCustomer endpoint.");
-                    console.log(reason);
                 });
             }
             else {

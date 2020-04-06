@@ -13,7 +13,7 @@ import { Redirect } from "react-router-dom";
 export default class ForgetPassword extends React.Component<IForgetPasswordProps, IForgetPasswordState> {
     constructor(props: any) {
         super(props);
-
+        document.title = "Uncle Luigi's Bistro - Forget Password";
         this.state = {
             
             userName: "",
@@ -223,14 +223,11 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                 validationMessages: messages,
             });
         }
-        
-        console.log("Valid" + valid);
+
         this.setState({
             isFormValid: valid,
             showValidationModal: true,
         }, () => {
-
-            console.log("we got here");
             if (this.state.isFormValid){
                 const requestBody = {
                     userName: this.state.userName,
@@ -249,7 +246,6 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                 })
                 //response taken from API call
                 .then(response => {
-                    console.log(response.status);
                     //found matching account, password is changed
                     if(response.status === 200){
                         this.setState({
@@ -262,7 +258,6 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                     }
                     else if (response.status === 404){
                         //no matching data found, display modal with error
-                        console.log(response.status)
                         this.setState({
                             showErrorModal: true,
                         })
