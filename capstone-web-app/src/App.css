@@ -37,6 +37,13 @@
   }
 }
 
+th, td {
+  white-space: nowrap;
+}
+
+table {
+  overflow-x: scroll !important;
+}
 
 body {
   background-color: #dedede;
@@ -122,6 +129,8 @@ color: red;
 .footer-authors {
   font-weight: lighter;
   font-size: 12px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 /* Start Customer Component */
@@ -253,7 +262,8 @@ color: red;
 /* End Portal Component CSS */
 
 /* Start CarryOut Component CSS */
-h1.font-weight-lighter.custom {
+h1.font-weight-lighter.custom, 
+h2.font-weight-lighter.custom {
   color: #FF3836;
   text-transform: uppercase;
   font-weight: 100 !important;
@@ -281,8 +291,16 @@ h1.font-weight-lighter.custom {
 }
 /* End Contact Component CSS */
 
+/* Start Reservation Detail Component CSS */
+
+#mobile-reservation { 
+  display: none;
+}
+
+/* End Reservation Detail Component CSS */
+
 /* Devices under 1000px */
-@media (max-width: 1000px) {
+@media (max-width: 1000px) { 
   .menu-item-break {
     display: none;
   }
@@ -292,6 +310,14 @@ h1.font-weight-lighter.custom {
 @media (max-width: 800px) {
   .menu-item-break {
     display: none;
+  }
+
+  #non-mobile-reservation {
+    display: none;
+  }
+
+  #mobile-reservation {
+    display: block;
   }
 
   .col-lg-4-custom {
