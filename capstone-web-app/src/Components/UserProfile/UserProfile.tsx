@@ -103,8 +103,11 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
     }
 
     private userNameOnChange(event: any): void{
+        //this prevents users from entering special characters
+        let value = event.target.value
+        value  = value.replace(/[^A-Za-z0-9]/gi, "");
         this.setState({
-            userName: event.target.value
+            userName: value
         });
     }
     private passwordOnChange(event: any): void {
