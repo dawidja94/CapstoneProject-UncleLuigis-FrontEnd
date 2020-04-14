@@ -37,7 +37,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                             <h3 className="text-center">Welcome!</h3>
                             <hr />
                             <div className="row">
-                                <div className="col-lg-4 col-md-4 col-sm-12">
+                                <div className="col-lg-4 col-md-6 col-sm-12">
                                     <div className="card user-portal">
                                         <img className="card-img-top" src={`/Images/Other/Customer.jpg`} alt="Customer"></img>
                                         <div className="options-container">
@@ -50,7 +50,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                 </div>
                                 <br />
                                 <br />
-                                <div className="col-lg-4 col-md-4 col-sm-12">
+                                <div className="col-lg-4 col-md-6 col-sm-12">
                                     <div className="card user-portal">
                                         <img className="card-img-top" src={`/Images/Other/CarryOut.png`} alt="Food"></img>
                                         <div className="options-container">
@@ -64,7 +64,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                 </div>
                                 <br />
                                 <br />
-                                <div className="col-lg-4 col-md-4 col-sm-12">
+                                <div className="col-lg-4 col-md-6 col-sm-12">
                                     <div className="card user-portal">
                                         <img className="card-img-top" src={`/Images/Other/Reservation.jpg`} alt="Food"></img>
                                         <div className="options-container">

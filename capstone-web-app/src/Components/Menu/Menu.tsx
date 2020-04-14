@@ -96,7 +96,6 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                                             <span>
                                                                 <h6>Quantity:</h6>
                                                                 <select className="form-control quantity-custom" value={item.quantity} onChange={(e) => this.changeQuantityForFood(e, key)}>
-                                                                    <option></option>
                                                                     <option>1</option>
                                                                     <option>2</option>
                                                                     <option>3</option>

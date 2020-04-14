@@ -61,7 +61,7 @@ export default class ChangePassword extends React.Component<IChangePasswordProps
                                     <h3 className="card-header text-center font-weight-bold"  >Change Password</h3>
                                     <div className="card-margin">
                                         <div className="form-group required">
-                                            <label className="font-weight-bold">User Name:</label>
+                                            <label className="font-weight-bold">Username:</label>
                                             <input type="text" className="form-control" placeholder="User Name" id="name" value={this.state.userName}onChange={(e) => this.userNameOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
@@ -97,7 +97,7 @@ export default class ChangePassword extends React.Component<IChangePasswordProps
                     <br />
                 </div>
                 {this.state.isFormValid ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Warning"} body={"Yes"} buttontitle={"Ok"} show={this.state.showValidationModal} onCloseModal={this.closeValidationModal} useListOption={true} listMessages={this.state.validationMessages} />}
-                {!this.state.showSuccessModal ? <div></div> : <CustomModal {...this.props} showLoginButton={true} title={"Success"} body={"Password changed successfully! Click Login button to login with new password."} buttontitle={"Home"} show={this.state.showSuccessModal} onCloseModal={this.closeSuccessModal} useListOption={false} listMessages={[]} />}
+                {!this.state.showSuccessModal ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Success"} body={"Password changed successfully!"} buttontitle={"Home"} show={this.state.showSuccessModal} onCloseModal={this.closeSuccessModal} useListOption={false} listMessages={[]} />}
                 {!this.state.showErrorModal ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Error"} body={"Could not find matching account, please try again."} buttontitle={"Ok"} show={this.state.showErrorModal} onCloseModal={this.closeErrorModal} useListOption={false} listMessages={[]} />}
                 {this.state.navigateToHome ? <Redirect push to={{pathname: `/`}}/> : <div></div>}
                 <Footer />

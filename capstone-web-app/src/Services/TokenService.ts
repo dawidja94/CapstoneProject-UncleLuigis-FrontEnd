@@ -62,7 +62,7 @@ export default class TokenService {
         let accessToken = this.getAccessToken();
         let refreshToken = this.getRefreshToken();
         let decodedAccessToken= jwt.decode(accessToken, {complete: true});
-        let decodedRefreshToken = jwt.decode(refreshToken, {complete: true});
+        //let decodedRefreshToken = jwt.decode(refreshToken, {complete: true});
         let dateNow = new Date();
 
         if (decodedAccessToken.payload.exp * 1000 < dateNow.getTime()) {

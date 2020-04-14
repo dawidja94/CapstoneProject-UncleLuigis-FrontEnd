@@ -62,7 +62,7 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                                     <h3 className="card-header text-center font-weight-bold"  >Forget Password</h3>
                                     <div className="card-margin">
                                         <div className="form-group required">
-                                            <label className="font-weight-bold">User Name:</label>
+                                            <label className="font-weight-bold">Username:</label>
                                             <input type="text" className="form-control" placeholder="User Name" id="name"value={this.state.userName}onChange={(e) => this.userNameOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
@@ -253,8 +253,6 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
     
                         })
                         return response.json();   
-                
-                        
                     }
                     else if (response.status === 404){
                         //no matching data found, display modal with error

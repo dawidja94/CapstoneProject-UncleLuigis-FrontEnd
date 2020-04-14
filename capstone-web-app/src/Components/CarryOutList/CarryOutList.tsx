@@ -11,8 +11,8 @@ import moment from "moment";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
 import Pagination from "react-js-pagination";
 import Spinner from "react-bootstrap/Spinner";
-import timezone from 'moment-timezone';
 require('moment-timezone');
+
 export default class CarryOutList extends React.Component<ICarryOutListProps, ICarryOutListState> {
     private menuService: MenuService
     private customerLoggedIn: boolean;
@@ -31,15 +31,12 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             currentPage: 1,
             ordersPerPage: 8,
             showSpinner: true,
-            activeIndex: 1
-            
+            activeIndex: 1 
         };
-        
     }
 
     public componentDidMount() {
-
-        this.customerLoggedIn = localStorage.getItem("Customer ID") !== "" ? true : false; 
+        const loggedIn = localStorage.getItem("Customer ID") ? true : false;        
         let customerIdFromLS = localStorage.getItem("Customer ID");
         let customerId: number = 0;
     
@@ -47,26 +44,29 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             customerId = parseInt(customerIdFromLS.toString());
         }
         
-        if (localStorage.getItem("Customer ID")) {
-            this.menuService.getAllCarryOutsForCustomer(customerId)
-            .then ((data) => {
-                const loggedIn = localStorage.getItem("Customer ID") ? true : false;
-
-                this.setState({
-                    orderList: data,
-                    customerLoggedIn: loggedIn,
-                    orderNumber: data.bundleId,
-                });
+        if (loggedIn) {
+            this.setState({
+                showSpinner: true,
+                customerLoggedIn: loggedIn
+            }, () => {
+                this.menuService.getAllCarryOutsForCustomer(customerId)
+                .then ((data) => {
+                    this.setState({
+                        orderList: data,
+                        orderNumber: data.bundleId,
+                        showSpinner: false
+                    });
+                })
             })
         }
-        else {
+        else if (!loggedIn) {
             this.setState({
                 showSpinner: false,
-                customerLoggedIn: false,
-            })
+                customerLoggedIn: loggedIn
+            });
         }
-
     }
+
     public render() {
         return (
             <div>
@@ -85,7 +85,6 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                                 <div className="col-12">
                                 {this.Pagination(this.state.ordersPerPage, this.state.orderList.length)}
                                     {this.displayOrders(this.state.orderList)}
-                                    
                                 </div>
                             </div> 
                             <br />
@@ -176,6 +175,18 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                         </div>
             );
         }
+        else if (!this.state.showSpinner && !this.state.customerLoggedIn) {
+            return (
+                <div className="text-center">
+                    <h5>Please login to view your reservations!</h5>
+                    <br />
+                    <span>
+                        <button className="btn btn-outline-danger"onClick={() => this.setState({redirectToLogin: true})} >{"Login"}</button> &nbsp;
+                    </span>
+                    <br />
+                </div>
+            );
+        }
         else if (this.state.showSpinner && !this.customerLoggedIn){
             return (
                 <div className="text-center">
@@ -190,6 +201,8 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
         else {
             return (
                 <div className="text-center">
+                    <br />
+                    <br />
                     <h5>No Orders To Display</h5>
                     <br />
                     <br />

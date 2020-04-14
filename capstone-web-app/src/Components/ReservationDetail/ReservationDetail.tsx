@@ -77,7 +77,7 @@ export default class ReservationDetail extends React.Component<any, IReservation
                                     <div className="container-fluid">
                                     <div className="text-center">
                                             <hr />
-                                            <h1 className="font-weight-lighter custom">Table Reservation</h1>
+                                            <h2 className="font-weight-lighter custom">Reservation</h2>
                                             <hr />
                                         </div>
                                         <br />
@@ -103,6 +103,44 @@ export default class ReservationDetail extends React.Component<any, IReservation
                 </div>
             );
         }
+        else if (this.state.reservation !== null && this.state.reservation.length === 0) {
+            return (
+                <div>
+                    <Navbar />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="card custom">
+                                    <div className="container-fluid">
+                                    <div className="text-center">
+                                            <hr />
+                                            <h2 className="font-weight-lighter custom">Reservation</h2>
+                                            <hr />
+                                        </div>
+                                        <br />
+                                        <div className="text-center">
+                                            <h4>
+                                                No Reservation History Available.
+                                            </h4>
+                                            <br />
+                                            <br />
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <Footer />
+                </div>
+            );
+        }
         else {
             return (
                 <div>
@@ -118,7 +156,7 @@ export default class ReservationDetail extends React.Component<any, IReservation
                                     <div className="container-fluid">
                                     <div className="text-center">
                                             <hr />
-                                            <h1 className="font-weight-lighter custom">Table Reservation</h1>
+                                            <h2 className="font-weight-lighter custom">Reservation</h2>
                                             <hr />
                                         </div>
                                         <br />
@@ -146,7 +184,7 @@ export default class ReservationDetail extends React.Component<any, IReservation
     private renderSummary(): JSX.Element {
         return (
             <div>
-                <table className="table table-bordered">
+                <table className="table table-bordered" id="non-mobile-reservation">
                     <tbody>
                         <tr>
                             <td>
@@ -182,6 +220,17 @@ export default class ReservationDetail extends React.Component<any, IReservation
                         </tr>
                     </tbody>
                 </table>
+                <div className="container-fluid" id="mobile-reservation">
+                    <h3>Reservation ID: <span className="font-weight-bold">{this.state.reservationId}</span></h3>
+                    <button className="btn btn-danger" onClick={() => this.cancelReservationClick()}>Cancel Reservation</button>
+                    <br /><br />
+                    <h4 className="font-weight-bolder">{this.state.reservation.reservationTable}</h4>
+                    <h5>Table Size: {this.state.reservation.tableSize}</h5>
+                    <h5>Group Size: {this.state.reservation.partySize}</h5>
+                    <h5>Reservation Date: {this.state.reservation.reservationDate}</h5>
+                    <h5>Time Slot: {this.state.reservation.timeSlot}</h5>
+                </div>
+
             </div>
         );
     }
