@@ -201,7 +201,6 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                         // If customer exists, pop-up a modal on top of center of screen alerting the user about them already existing
                         // Grab this customer object and on the modal add a button to redirect them to the User Profile screen so that they set up a login
                         return response.json();
-                        
                     }
                     else if (response.status === 400) {
                         // Need to make a call to create the customer.
@@ -225,11 +224,9 @@ export default class CustomerRegistration extends React.Component<ICustomerRegis
                         .then(response => {
                             // If it is 200, then it created the customer successfully. 
                             if (response.status === 200) {
-                                
                                 // Redirect at this point in time to the next screen and pass
                                 // in the requestBodyCreate object (Customer) to that screen.
                                 return response.json();
-                                
                             }
                         })
                         .then(data => {
