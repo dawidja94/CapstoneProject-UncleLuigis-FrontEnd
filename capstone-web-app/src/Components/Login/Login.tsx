@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
-import ILoginProps from "../UserProfile/IUserProfileProps";
+import ILoginProps from "./ILoginProps";
 import ILoginState from "./ILoginState";
 import Footer from "../Footer/Footer";
 import TokenService from "../../Services/TokenService";
@@ -115,7 +115,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
         })
         
         .then(response => {
-            if (response.status === 401){
+            if (response.status === 401) {
                 this.setState({
                     showWrongLoginModal: true
                 })
@@ -126,7 +126,10 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             }
         })
         .then(data => {
+            console.log(data);
             let tokenService = new TokenService();
+            let phoneNumber = data.authenticatedModel.customer.phoneNumber;
+            let email = data.authenticatedModel.customer.email;
 
             const tokenBody = {
                 accessToken: data.authenticatedModel.accessToken,
@@ -134,6 +137,7 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
                 firstName: data.authenticatedModel.customer.firstName,
                 lastName: data.authenticatedModel.customer.lastName,
                 phoneNumber: data.authenticatedModel.customer.phoneNumber,
+                email: data.authenticatedModel.customer.email,
                 customerId: data.authenticatedModel.customer.id,
                 username: data.username
             };
@@ -154,6 +158,8 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
 
                 this.setState({
                     redirectToHome: true
+                }, () => {
+                    this.props.setContactInfo(phoneNumber, email);
                 });
             });
         })

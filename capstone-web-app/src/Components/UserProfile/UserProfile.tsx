@@ -5,10 +5,9 @@ import ConstantStrings from "../../Constants/ConstantStrings";
 import { Redirect } from "react-router-dom";
 import TokenService from "../../Services/TokenService";
 import CustomModal from "../CustomModal/CustomModal";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../Footer/Footer";
-
 import MenuService from "../../Services/MenuService";
+
 export default class UserProfile extends React.Component<any, IUserProfileState> {
     private menuService: MenuService;
 

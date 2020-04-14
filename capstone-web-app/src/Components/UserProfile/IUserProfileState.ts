@@ -1,5 +1,3 @@
-import MenuService from "../../Services/MenuService";
-
 export default interface IUserProfileState {
     userName: string;
     password: string;
@@ -15,7 +13,5 @@ export default interface IUserProfileState {
     showValidationModal: boolean;
     showCustomerExistsModal: boolean;
     isFormValid: boolean,
-    accountExists: string;
-
-    
+    accountExists: string;    
 }

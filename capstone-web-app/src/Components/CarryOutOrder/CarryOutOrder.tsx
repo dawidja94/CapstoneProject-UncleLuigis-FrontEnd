@@ -1,22 +1,13 @@
 import React from "react";
 import Navbar from "../Navigation/Navbar";
 import Footer from "../Footer/Footer";
-import ICarryOutOrderProps from "./ICarryOutOrderProps";
 import ICarryOutOrderState from "./ICarryOutOrderState";
 import MenuService from "../../Services/MenuService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as icons from "@fortawesome/free-solid-svg-icons";
 import Beverage from "../../Models/Beverage";
 import Food from "../../Models/Food";
-import Spinner from "react-bootstrap/Spinner";
 import { Redirect } from "react-router-dom";
-import Modal from "react-bootstrap/Modal";
-import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
-import { timingSafeEqual } from "crypto";
-import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from "constants";
-import { parse } from "url";
-import CustomModal from "../CustomModal/CustomModal";
-
 
 export default class CarryOutOrder extends React.Component<any, ICarryOutOrderState> {
     private menuService: MenuService;

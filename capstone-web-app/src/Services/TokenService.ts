@@ -17,6 +17,7 @@ export default class TokenService {
         localStorage.setItem("First name", apiResponse.firstName);
         localStorage.setItem("Last name", apiResponse.lastName);
         localStorage.setItem("Phone number", apiResponse.phoneNumber);
+        localStorage.setItem("Email", apiResponse.email);
         localStorage.setItem("Customer ID", apiResponse.customerId);
         localStorage.setItem("Username", apiResponse.username);
 
@@ -58,7 +59,6 @@ export default class TokenService {
 
     public getAuthToken(): string {
         let bearerToken: string = "Bearer ";
-        let isExpired = false;
         let accessToken = this.getAccessToken();
         let refreshToken = this.getRefreshToken();
         let decodedAccessToken= jwt.decode(accessToken, {complete: true});
@@ -66,11 +66,9 @@ export default class TokenService {
         let dateNow = new Date();
 
         if (decodedAccessToken.payload.exp * 1000 < dateNow.getTime()) {
-            isExpired = true;
             bearerToken += refreshToken;
         }
         else {
-            isExpired = false;
             bearerToken += accessToken;
         }
         

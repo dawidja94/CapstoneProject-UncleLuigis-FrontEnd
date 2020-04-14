@@ -1,9 +1,8 @@
+/* eslint-disable */
 import React from "react";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
 import Footer from "../Footer/Footer";
-import TokenService from "../../Services/TokenService";
-import MenuService from "../../Services/MenuService";
 import IForgetPasswordProps from "./IForgetPasswordProps";
 import IForgetPasswordState from "./IForgetPasswordState";
 import CustomModal from "../CustomModal/CustomModal";
