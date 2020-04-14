@@ -136,7 +136,7 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
                 memberSince: null,
                 dateOfBirth: null,
             }
-            console.log(requestBody);
+            
             this.userService.updateInformation(requestBody)
             .then(response => {
                 
