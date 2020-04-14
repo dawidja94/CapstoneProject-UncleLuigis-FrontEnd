@@ -74,7 +74,7 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                                 <hr />
                                 {this.state.foodItems.map((item, key) => {
                                     return (
-                                    <div className="card-container">
+                                    <div className="card-container" key={key}>
                                         <div className="card">
                                             <div className="card-margin">
                                                 <div className="row">
@@ -123,11 +123,11 @@ export default class Menu extends React.Component<IMenuProps, IMenuState> {
                         <div className="row justify-content-md-center">
                             {this.state.beverageItems.map((item, key) => {
                                 return (
-                                    <div className="card col-lg-4-custom">
+                                    <div className="card col-lg-4-custom" key={key}>
                                         <div className="card-margin">
                                             <h4>{item.beverage.name}</h4>
                                             <span><h6>Description: <i>{item.beverage.description}</i></h6></span>
-                                            <span><h6>Price: ${item.beverage.price.toFixed()}</h6></span>
+                                            <span><h6>Price: ${item.beverage.price.toFixed(2)}</h6></span>
                                             <span>
                                                 <h6>Quantity:</h6>
                                                 <select className="form-control quantity-custom" value={item.quantity} onChange={(e) => this.changeQuantityForBeverages(e, key)}>

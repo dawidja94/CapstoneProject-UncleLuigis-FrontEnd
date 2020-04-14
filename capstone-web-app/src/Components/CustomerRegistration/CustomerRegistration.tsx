@@ -1,10 +1,10 @@
+/* eslint-disable */
 import React from "react";
 import ICustomerRegistrationProps from "./ICustomerRegistrationProps";
 import ICustomerRegistrationState from "./ICustomerRegistrationState";
 import Navbar from "../Navigation/Navbar";
 import ConstantStrings from "../../Constants/ConstantStrings";
 import { Redirect } from "react-router-dom";
-import Modal from 'react-bootstrap/Modal';
 import CustomModal from "../CustomModal/CustomModal";
 import Footer from "../Footer/Footer";
 

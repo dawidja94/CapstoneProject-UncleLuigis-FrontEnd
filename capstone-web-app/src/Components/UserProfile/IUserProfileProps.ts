@@ -1,5 +1,3 @@
-import { match } from "react-router-dom";
-
-export default interface ILoginProps {
+export default interface IUserProfileProps {
 
 }

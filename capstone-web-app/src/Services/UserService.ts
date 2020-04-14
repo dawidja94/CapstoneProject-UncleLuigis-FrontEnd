@@ -44,12 +44,15 @@ export default class UserService {
                 }
             })
             .then(response => {
-                if (response.status === 200){
-                    resolve(true);
+                if (response.status === 200) {
+                    return response.json();
                 }
                 else {
-                    reject("Response Status: " + response.status)
+                    reject("Response Status: " + response.status);
                 }
+            })
+            .then((data): any => {
+                resolve(data);
             })
             .catch(reason => {
                 reject(reason);

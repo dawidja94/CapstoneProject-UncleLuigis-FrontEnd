@@ -31,11 +31,8 @@ import UpdateInformation from './Components/UpdateInformation/UpdateInformation'
 const menuService = new MenuService();
 const foodMenuItems = menuService.getAllFoodMenuItems();
 const beverageMenuItems = menuService.getAllBeverageMenuItems();
-
-function countUp(message: string) {
-    let count = 0;
-    count++;
-}
+let userEmail: string = "";
+let userPhoneNumber: string = "";
 
 function getCountInCustomerCart() {
     let customerIdFromLS = localStorage.getItem("Customer ID");
@@ -52,6 +49,15 @@ function getCountInCustomerCart() {
     })
     .catch((reason) => {
     });
+}
+
+function setContactInfo(phoneNumber: string, email: string): void {
+    userEmail = email;
+    userPhoneNumber = phoneNumber;
+}
+
+function getContactInfo(): any {
+    return { email: userEmail, phoneNumber: userPhoneNumber };
 }
 
 function addItemToCarryOutCart(item: any, quantity: number, type: string): any {
@@ -105,13 +111,13 @@ const routing = (
                     <Route exact path="/Portal" component={Portal} />
                     <Route exact path="/ForgetPassword" component={ForgetPassword} />
                     <Route exact path="/ChangePassword" component={ChangePassword} />
-                    <Route exact path="/UpdateInformation" component={UpdateInformation} />
+                    <Route exact path="/UpdateInformation"  render={(props) => <UpdateInformation {...props} getContactInfo={getContactInfo}/>} />
                     <Route exact path="/UserProfile/:id" component={UserProfile}/>
                     <Route exact path="/Reservations" component={Reservations} />
                     <Route exact path="/Contact" component={Contact} />
                     <Route exact path="/CarryOutOrder/:id" component={CarryOutOrder}/>
-                    <Route path="/Login" render={(props) => <Login {...props} />} />
-                    <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} countUp={countUp} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
+                    <Route path="/Login" render={(props) => <Login {...props}  setContactInfo={setContactInfo}/>} />
+                    <Route path="/Menu" render={(props) => <Menu {...props} addItem={addItemToCarryOutCart} foodItems={foodMenuItems} beverageItems={beverageMenuItems}/>} />
                     <Route path="/CarryOut" render={(props) => <CarryOut {...props} />} />
                     <Route path="/CarryOutList" render={(props) => <CarryOutList/>} />
                     <Route path="/ReservationList" render={(props) => <ReservationList/>} />

@@ -1,20 +1,17 @@
 import React from "react";
 import Navbar from "../Navigation/Navbar";
-import ConstantStrings from "../../Constants/ConstantStrings";
 import Footer from "../Footer/Footer";
-import TokenService from "../../Services/TokenService";
-import MenuService from "../../Services/MenuService";
 import CustomModal from "../CustomModal/CustomModal";
 import { Redirect } from "react-router-dom";
 import UserService from "../../Services/UserService";
 import IUpdateInformationState from "./IUpdateInformationState";
 import IUpdateInformationProps from "./IUpdateInformationProps";
 
-
 export default class UpdateInformation extends React.Component<IUpdateInformationProps, IUpdateInformationState> {
     private userService: UserService;
     private customerLoggedIn: boolean;
     private customerId: number = 0;
+
     constructor(props: any) {
         super(props);
         document.title = "Uncle Luigi's Bistro - Update Information";
@@ -23,13 +20,23 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
             id: 0,
             email: "",
             phoneNumber: "",
+            firstName: "string",
+            lastName: "string",
+            showSuccessfulModal: false,
+            navigateToHome: false,
         };
         this.customerLoggedIn = false;
         this.userService = new UserService();
     }
 
     public componentDidMount() {
+      let email: string = localStorage.getItem("Email") !== null ? localStorage.getItem("Email") as string : "";
+      let phoneNumber: string = localStorage.getItem("Phone number") ? localStorage.getItem("Phone number") as string: "";
       
+      this.setState({
+        email: email,
+        phoneNumber: phoneNumber
+      });
     }
 
     public render() {
@@ -54,11 +61,11 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
                                     <div className="card-margin">
                                         <div className="form-group required">
                                             <label className="font-weight-bold">Email:</label>
-                                            <input type="email"  className="form-control" placeholder="Email" id="email" value={this.state.email}onChange={(e) => this.emailOnChange(e)}></input>
+                                            <input type="email"  className="form-control" placeholder="Email" id="email" value={this.state.email} onChange={(e) => this.emailOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
                                             <label className="font-weight-bold">Phone Number:</label>
-                                            <input type="text" className="form-control"  placeholder="Phone" id="tel" value={this.state.phoneNumber}onChange={(e) => this.phoneNumberOnChange(e)}></input>
+                                            <input type="text" className="form-control"  placeholder="Phone" id="tel" value={this.state.phoneNumber} onChange={(e) => this.phoneNumberOnChange(e)}></input>
                                         </div>
                                         <button type="button" onClick={() => this.onFormSubmit()} className="btn btn-outline-danger">Submit</button>
                                         <br />
@@ -76,9 +83,19 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
                     <br />
                     <br />
                 </div>
+                {!this.state.showSuccessfulModal ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Success"} body={"Your information has been updated successfully!"} buttontitle={"Home"} show={this.state.showSuccessfulModal} onCloseModal={this.closeSuccessModal} useListOption={false} listMessages={[]} />}
+                {this.state.navigateToHome ? <Redirect push to={{pathname: `/`}}/> : <div></div>}
                 <Footer />
             </div>
         )
+    }
+
+    private closeSuccessModal = () => {
+
+        this.setState({
+            showSuccessfulModal: false,
+            navigateToHome: true,
+        })
     }
 
     private emailOnChange (event: any): void {
@@ -106,10 +123,23 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
                 id: customerId,
                 email: this.state.email,
                 phoneNumber: this.state.phoneNumber,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                memberSince: null,
+                dateOfBirth: null,
             }
-
+            console.log(requestBody);
             this.userService.updateInformation(requestBody)
             .then(response => {
+                
+                if (response){
+                    this.setState({
+                        showSuccessfulModal: true
+                    }, () => {
+                        localStorage.setItem("Email", this.state.email);
+                        localStorage.setItem("Phone number", this.state.phoneNumber);
+                    });
+                }
             })
             .catch(reason => {
             })

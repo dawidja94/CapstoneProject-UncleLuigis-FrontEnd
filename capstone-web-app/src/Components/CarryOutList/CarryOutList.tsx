@@ -5,11 +5,7 @@ import { Redirect } from "react-router-dom";
 import ICarryOutListProps from "./ICarryOutListProps";
 import ICarryOutListState from "./ICarryOutListState";
 import MenuService from "../../Services/MenuService";
-import { mockComponent } from "react-dom/test-utils";
-import Moment from 'react-moment';
 import moment from "moment";
-import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
-import Pagination from "react-js-pagination";
 import Spinner from "react-bootstrap/Spinner";
 require('moment-timezone');
 
@@ -160,7 +156,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                         <tbody className="text-left">
                         {currentOrders.map((item, index) => {
                             return  (
-                                <tr>
+                                <tr key={index}>
                                     <td>
                                         <button className="btn btn-danger" onClick={() => this.viewOrder(item.bundleId)}>View</button>
                                     </td>

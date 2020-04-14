@@ -2,12 +2,6 @@ import React from "react";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navigation/Navbar";
 import { Redirect } from "react-router-dom";
-import MenuService from "../../Services/MenuService";
-import { mockComponent } from "react-dom/test-utils";
-import Moment from 'react-moment';
-import moment from "moment";
-import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
-import Pagination from "react-js-pagination";
 import Spinner from "react-bootstrap/Spinner";
 import IReservationListProps from "./IReservationListProps";
 import IReservationListState from "./IReservationListState";
@@ -152,7 +146,7 @@ export default class ReservationList extends React.Component<IReservationListPro
                         <tbody className="text-left">
                         {currentReservations.map((item, index) => {
                             return (
-                                <tr>
+                                <tr key={index}>
                                     <td>
                                         <button className="btn btn-danger" onClick={() => this.viewReservation(item.id)}>View</button>
                                     </td>

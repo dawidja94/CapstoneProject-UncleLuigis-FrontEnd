@@ -75,8 +75,8 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                                             <label>Select Time</label>
                                             <select className="browser-default custom-select" onChange={(e) => this.changeTimeSlot(e)}>
                                                 <option></option>
-                                                {this.timeSlots.map(time => {
-                                                    return (<option>{time}</option>);
+                                                {this.timeSlots.map((time, index) => {
+                                                    return (<option key={index}>{time}</option>);
                                                 })}
                                             </select>
                                             </div>
@@ -182,7 +182,7 @@ export default class Reservations extends React.Component<IReservationsProps, IR
                         <tbody className="text-left">
                             {this.state.availableTables.map((item, index) => {
                                 return (
-                                    <tr>
+                                    <tr key={index}>
                                         <td>{item.reservationTable}</td>
                                         <td>{item.tableSize}</td>
                                         <td>{item.timeSlot}</td>
