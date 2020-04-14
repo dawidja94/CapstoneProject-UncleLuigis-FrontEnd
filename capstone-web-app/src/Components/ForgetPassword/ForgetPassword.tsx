@@ -253,8 +253,6 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
     
                         })
                         return response.json();   
-                
-                        
                     }
                     else if (response.status === 404){
                         //no matching data found, display modal with error

@@ -11,8 +11,8 @@ import moment from "moment";
 import OrderConfirmationModal from "../OrderConfirmationModal/OrderConfirmationModal";
 import Pagination from "react-js-pagination";
 import Spinner from "react-bootstrap/Spinner";
-import timezone from 'moment-timezone';
 require('moment-timezone');
+
 export default class CarryOutList extends React.Component<ICarryOutListProps, ICarryOutListState> {
     private menuService: MenuService
     private customerLoggedIn: boolean;
@@ -201,6 +201,8 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
         else {
             return (
                 <div className="text-center">
+                    <br />
+                    <br />
                     <h5>No Orders To Display</h5>
                     <br />
                     <br />

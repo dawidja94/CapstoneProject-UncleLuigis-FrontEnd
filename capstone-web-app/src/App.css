@@ -274,6 +274,48 @@ h2.font-weight-lighter.custom {
 .table-container {
   overflow-x: scroll;
 }
+
+input.form-control.quantity {
+  display: inline;
+}
+
+.form-control.quantity {
+  width: 60px;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.btn.btn-outline-danger.quantity {
+  width: 50px;
+}
+
+.form-control:disabled, .form-control[readonly] {
+  background-color: white !important;
+  opacity: 1;
+}
+
+/* Plus Sign */
+.svg-inline--fa.fa-plus.fa-w-14 {
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.svg-inline--fa.fa-plus.fa-w-14:hover {
+  color: rgb(182, 0, 0);
+}
+
+/* Minus Sign */
+.svg-inline--fa.fa-minus.fa-w-14 {
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.svg-inline--fa.fa-minus.fa-w-14:hover {
+  color: rgb(182, 0, 0);
+}
+
 /* End CarryOut Component CSS */
 
 /* Start Contact Component CSS */

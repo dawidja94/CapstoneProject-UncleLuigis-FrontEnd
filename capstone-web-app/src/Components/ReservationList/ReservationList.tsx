@@ -35,7 +35,6 @@ export default class ReservationList extends React.Component<IReservationListPro
 
     public componentDidMount() {     
         const loggedIn = localStorage.getItem("Customer ID") ? true : false;
-        console.log("LoggedIn: " + loggedIn);
 
         if (loggedIn) {
             this.setState({
