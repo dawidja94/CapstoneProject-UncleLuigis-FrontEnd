@@ -15,13 +15,11 @@ import TableService from "../../Services/TableService";
 
 export default class ReservationList extends React.Component<IReservationListProps, IReservationListState> {
     private tableService: TableService;
-    private customerLoggedIn: boolean;
-    
+
     public constructor(props: any) {
         super(props);
 
         this.tableService = new TableService();
-        this.customerLoggedIn = false;
 
         this.state = {
             reservationList: [],
@@ -31,21 +29,34 @@ export default class ReservationList extends React.Component<IReservationListPro
             redirectToLogin: false,
             currentPage: 1,
             ordersPerPage: 8,
-            showSpinner: true,
+            showSpinner: false,
             activeIndex: 1
         };
     }
 
-    public componentDidMount() {        
-        this.tableService.getCustomerReservations()
-        .then ((data) => {
-            const loggedIn = localStorage.getItem("Customer ID") ? true : false;
+    public componentDidMount() {     
+        const loggedIn = localStorage.getItem("Customer ID") ? true : false;
 
+        if (loggedIn) {
             this.setState({
-                reservationList: data,
-                customerLoggedIn: loggedIn,
+                showSpinner: true
+            }, () => {
+                this.tableService.getCustomerReservations()
+                .then ((data) => {
+                    
+        
+                    this.setState({
+                        reservationList: data,
+                        customerLoggedIn: loggedIn,
+                    });
+                })
             });
-        })
+        }
+        else if (!loggedIn) {
+            this.setState({
+                showSpinner: false
+            });
+        }        
     }
 
     public render() {
@@ -159,18 +170,7 @@ export default class ReservationList extends React.Component<IReservationListPro
                         </div>
             );
         }
-        else if (this.state.showSpinner && !this.customerLoggedIn){
-            return (
-                <div className="text-center">
-                    <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                    <br />
-                    <br />
-                </div>
-            );
-        }
-        else if (!this.customerLoggedIn){
+        else if (!this.state.showSpinner && !this.state.customerLoggedIn) {
             return (
                 <div className="text-center">
                     <h5>Please login to view your reservations!</h5>
@@ -182,9 +182,25 @@ export default class ReservationList extends React.Component<IReservationListPro
                 </div>
             );
         }
+        else if (this.state.showSpinner && !this.state.customerLoggedIn) {
+            console.log("showSpinner: " + this.state.showSpinner);
+            console.log("customerLoggedIn: " + this.state.customerLoggedIn);
+
+            return (
+                <div className="text-center">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                    <br />
+                    <br />
+                </div>
+            );
+        }
         else {
             return (
                 <div className="text-center">
+                    <br />
+                    <br />
                     <h5>No Reservations To Display</h5>
                     <br />
                     <br />

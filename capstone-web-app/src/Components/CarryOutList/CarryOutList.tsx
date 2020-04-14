@@ -38,8 +38,7 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
     }
 
     public componentDidMount() {
-
-        this.customerLoggedIn = localStorage.getItem("Customer ID") !== "" ? true : false; 
+        this.customerLoggedIn = localStorage.getItem("Customer ID") ? true : false; 
         let customerIdFromLS = localStorage.getItem("Customer ID");
         let customerId: number = 0;
     
@@ -47,26 +46,31 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             customerId = parseInt(customerIdFromLS.toString());
         }
         
-        if (localStorage.getItem("Customer ID")) {
-            this.menuService.getAllCarryOutsForCustomer(customerId)
-            .then ((data) => {
-                const loggedIn = localStorage.getItem("Customer ID") ? true : false;
+        if (this.customerLoggedIn) {
+            this.setState({
+                showSpinner: true
+            }, () => {
+                this.menuService.getAllCarryOutsForCustomer(customerId)
+                .then ((data) => {
+                    const loggedIn = localStorage.getItem("Customer ID") ? true : false;
 
-                this.setState({
-                    orderList: data,
-                    customerLoggedIn: loggedIn,
-                    orderNumber: data.bundleId,
-                });
+                    this.setState({
+                        orderList: data,
+                        customerLoggedIn: loggedIn,
+                        orderNumber: data.bundleId,
+                        showSpinner: false
+                    });
+                })
             })
         }
-        else {
+        else if (!this.customerLoggedIn) {
             this.setState({
                 showSpinner: false,
-                customerLoggedIn: false,
-            })
+                customerLoggedIn: false
+            });
         }
-
     }
+
     public render() {
         return (
             <div>
@@ -85,7 +89,6 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                                 <div className="col-12">
                                 {this.Pagination(this.state.ordersPerPage, this.state.orderList.length)}
                                     {this.displayOrders(this.state.orderList)}
-                                    
                                 </div>
                             </div> 
                             <br />
@@ -174,6 +177,18 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
                         </tbody>
                         </table>
                         </div>
+            );
+        }
+        else if (!this.state.showSpinner && !this.state.customerLoggedIn) {
+            return (
+                <div className="text-center">
+                    <h5>Please login to view your reservations!</h5>
+                    <br />
+                    <span>
+                        <button className="btn btn-outline-danger"onClick={() => this.setState({redirectToLogin: true})} >{"Login"}</button> &nbsp;
+                    </span>
+                    <br />
+                </div>
             );
         }
         else if (this.state.showSpinner && !this.customerLoggedIn){

@@ -61,7 +61,7 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
                                 </p>
                                 <div className="form-group">
                                     <label className="font-weight-bold">Password:</label>
-                                    <input type="password" placeholder="Password" className="form-control" value={this.state.password} onChange={(e) => this.passwordOnChange(e)}/>
+                                    <input type="password" placeholder="Password" className="form-control" value={this.state.password} onChange={(e) => this.passwordOnChange(e)} onKeyPress={(e) => this.enterPress(e)}/>
                                 </div>
                                 <NavLink className="text-danger" to="/ForgetPassword">Forget Password</NavLink>
                                 <br /><br />
@@ -77,6 +77,12 @@ export default class LoginModal extends React.Component<ILoginModalProps, ILogin
         }
         else {
             return (<div></div>);
+        }
+    }
+
+    private enterPress(event: any): void {
+        if (event.key === 'Enter'){
+           this.onFormSubmit(); 
         }
     }
 

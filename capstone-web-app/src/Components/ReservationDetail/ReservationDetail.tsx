@@ -103,6 +103,44 @@ export default class ReservationDetail extends React.Component<any, IReservation
                 </div>
             );
         }
+        else if (this.state.reservation !== null && this.state.reservation.length === 0) {
+            return (
+                <div>
+                    <Navbar />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="card custom">
+                                    <div className="container-fluid">
+                                    <div className="text-center">
+                                            <hr />
+                                            <h2 className="font-weight-lighter custom">Reservation</h2>
+                                            <hr />
+                                        </div>
+                                        <br />
+                                        <div className="text-center">
+                                            <h4>
+                                                No Reservation History Available.
+                                            </h4>
+                                            <br />
+                                            <br />
+                                        </div>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <Footer />
+                </div>
+            );
+        }
         else {
             return (
                 <div>
@@ -118,7 +156,7 @@ export default class ReservationDetail extends React.Component<any, IReservation
                                     <div className="container-fluid">
                                     <div className="text-center">
                                             <hr />
-                                            <h1 className="font-weight-lighter custom">Reservation</h1>
+                                            <h2 className="font-weight-lighter custom">Reservation</h2>
                                             <hr />
                                         </div>
                                         <br />

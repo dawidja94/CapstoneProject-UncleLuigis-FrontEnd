@@ -191,6 +191,35 @@ export default class MenuService {
         return promise;
     }
 
+    public updateCarryOutOrder(requestBody: any): Promise<any> {
+        let tokenService = new TokenService();
+        let bearerToken = tokenService.getAuthToken();
+
+        let promise = new Promise((resolve, reject) => {
+            fetch(`${ConstantStrings.baseDevURL}CarryOut/UpdateCarryOut`, {
+                method: "PUT",
+                body: JSON.stringify(requestBody),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': bearerToken
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    resolve(true);
+                }
+                else {
+                    reject("Response Status: " + response.status);
+                }
+            })
+            .catch(reason => {
+                reject(reason);
+            })
+        });
+
+        return promise;
+    }
+
     public submitCarryOutOrder(requestBody: any): Promise<any> {
         let tokenService = new TokenService();
         let bearerToken = tokenService.getAuthToken();
