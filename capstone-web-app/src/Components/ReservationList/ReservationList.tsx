@@ -18,7 +18,6 @@ export default class ReservationList extends React.Component<IReservationListPro
 
     public constructor(props: any) {
         super(props);
-
         this.tableService = new TableService();
 
         this.state = {
@@ -36,25 +35,26 @@ export default class ReservationList extends React.Component<IReservationListPro
 
     public componentDidMount() {     
         const loggedIn = localStorage.getItem("Customer ID") ? true : false;
+        console.log("LoggedIn: " + loggedIn);
 
         if (loggedIn) {
             this.setState({
-                showSpinner: true
+                showSpinner: true,
+                customerLoggedIn: loggedIn
             }, () => {
                 this.tableService.getCustomerReservations()
                 .then ((data) => {
-                    
-        
                     this.setState({
                         reservationList: data,
-                        customerLoggedIn: loggedIn,
+                        showSpinner: false
                     });
                 })
             });
         }
         else if (!loggedIn) {
             this.setState({
-                showSpinner: false
+                showSpinner: false,
+                customerLoggedIn: loggedIn
             });
         }        
     }
@@ -170,6 +170,17 @@ export default class ReservationList extends React.Component<IReservationListPro
                         </div>
             );
         }
+        else if (this.state.showSpinner && this.state.customerLoggedIn && this.state.reservationList.length === 0) {
+            return (
+                <div className="text-center">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                    <br />
+                    <br />
+                </div>
+            );
+        }
         else if (!this.state.showSpinner && !this.state.customerLoggedIn) {
             return (
                 <div className="text-center">
@@ -178,20 +189,6 @@ export default class ReservationList extends React.Component<IReservationListPro
                     <span>
                         <button className="btn btn-outline-danger"onClick={() => this.setState({redirectToLogin: true})} >{"Login"}</button> &nbsp;
                     </span>
-                    <br />
-                </div>
-            );
-        }
-        else if (this.state.showSpinner && !this.state.customerLoggedIn) {
-            console.log("showSpinner: " + this.state.showSpinner);
-            console.log("customerLoggedIn: " + this.state.customerLoggedIn);
-
-            return (
-                <div className="text-center">
-                    <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                    <br />
                     <br />
                 </div>
             );

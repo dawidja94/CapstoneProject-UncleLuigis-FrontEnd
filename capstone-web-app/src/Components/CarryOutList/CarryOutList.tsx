@@ -31,14 +31,12 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             currentPage: 1,
             ordersPerPage: 8,
             showSpinner: true,
-            activeIndex: 1
-            
+            activeIndex: 1 
         };
-        
     }
 
     public componentDidMount() {
-        this.customerLoggedIn = localStorage.getItem("Customer ID") ? true : false; 
+        const loggedIn = localStorage.getItem("Customer ID") ? true : false;        
         let customerIdFromLS = localStorage.getItem("Customer ID");
         let customerId: number = 0;
     
@@ -46,27 +44,25 @@ export default class CarryOutList extends React.Component<ICarryOutListProps, IC
             customerId = parseInt(customerIdFromLS.toString());
         }
         
-        if (this.customerLoggedIn) {
+        if (loggedIn) {
             this.setState({
-                showSpinner: true
+                showSpinner: true,
+                customerLoggedIn: loggedIn
             }, () => {
                 this.menuService.getAllCarryOutsForCustomer(customerId)
                 .then ((data) => {
-                    const loggedIn = localStorage.getItem("Customer ID") ? true : false;
-
                     this.setState({
                         orderList: data,
-                        customerLoggedIn: loggedIn,
                         orderNumber: data.bundleId,
                         showSpinner: false
                     });
                 })
             })
         }
-        else if (!this.customerLoggedIn) {
+        else if (!loggedIn) {
             this.setState({
                 showSpinner: false,
-                customerLoggedIn: false
+                customerLoggedIn: loggedIn
             });
         }
     }
