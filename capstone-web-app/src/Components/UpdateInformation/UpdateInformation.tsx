@@ -30,6 +30,14 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
     }
 
     public componentDidMount() {
+        const loggedIn = localStorage.getItem("Customer ID") ? true : false;        
+
+        if (!loggedIn) {
+            this.setState({
+                navigateToHome: true
+            });
+        }
+
       let email: string = localStorage.getItem("Email") !== null ? localStorage.getItem("Email") as string : "";
       let phoneNumber: string = localStorage.getItem("Phone number") ? localStorage.getItem("Phone number") as string: "";
       

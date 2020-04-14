@@ -26,7 +26,13 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
     }
 
     public componentDidMount() {
-    
+        const loggedIn = localStorage.getItem("Customer ID") ? true : false;        
+
+        if (loggedIn) {
+            this.setState({
+                redirectToHome: true
+            });
+        }
     }
 
     public render() {

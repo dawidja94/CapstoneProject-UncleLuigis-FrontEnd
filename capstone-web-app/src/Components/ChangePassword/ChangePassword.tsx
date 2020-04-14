@@ -14,7 +14,6 @@ export default class ChangePassword extends React.Component<IChangePasswordProps
         super(props);
         document.title = "Uncle Luigi's Bistro - Change Password";
         this.state = {
-
             userName: "",
             password: "",
             confirmPassword: "",
@@ -37,7 +36,13 @@ export default class ChangePassword extends React.Component<IChangePasswordProps
     }
 
     public componentDidMount() {
-        
+        const loggedIn = localStorage.getItem("Customer ID") ? true : false;        
+
+        if (!loggedIn) {
+            this.setState({
+                navigateToHome: true
+            });
+        }
     }
 
     public render() {
