@@ -58,11 +58,11 @@ export default class ForgetPassword extends React.Component<IForgetPasswordProps
                             <div className="col-1"></div>
                             <div className="col-10">
                                 <div className="card login-custom">
-                                    <h3 className="card-header text-center font-weight-bold"  >Forget Password</h3>
+                                    <h3 className="card-header text-center font-weight-bold">Forget Password</h3>
                                     <div className="card-margin">
                                         <div className="form-group required">
                                             <label className="font-weight-bold">Username:</label>
-                                            <input type="text" className="form-control" placeholder="User Name" id="name"value={this.state.userName}onChange={(e) => this.userNameOnChange(e)}></input>
+                                            <input type="text" className="form-control" placeholder="Username" id="name"value={this.state.userName}onChange={(e) => this.userNameOnChange(e)}></input>
                                         </div>
                                         <div className="form-group required">
                                             <label className="font-weight-bold">Phone:</label>
