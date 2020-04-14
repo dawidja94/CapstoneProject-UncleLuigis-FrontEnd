@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 import UserService from "../../Services/UserService";
 import IUpdateInformationState from "./IUpdateInformationState";
 import IUpdateInformationProps from "./IUpdateInformationProps";
+import { faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 
 export default class UpdateInformation extends React.Component<IUpdateInformationProps, IUpdateInformationState> {
@@ -23,6 +24,10 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
             id: 0,
             email: "",
             phoneNumber: "",
+            firstName: "string",
+            lastName: "string",
+            showSuccessfulModal: false,
+            navigateToHome: false,
         };
         this.customerLoggedIn = false;
         this.userService = new UserService();
@@ -76,9 +81,19 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
                     <br />
                     <br />
                 </div>
+                {!this.state.showSuccessfulModal ? <div></div> : <CustomModal {...this.props} showLoginButton={false} title={"Success"} body={"Your information has been updated successfully!"} buttontitle={"Home"} show={this.state.showSuccessfulModal} onCloseModal={this.closeSuccessModal} useListOption={false} listMessages={[]} />}
+                {this.state.navigateToHome ? <Redirect push to={{pathname: `/`}}/> : <div></div>}
                 <Footer />
             </div>
         )
+    }
+
+    private closeSuccessModal = () => {
+
+        this.setState({
+            showSuccessfulModal: false,
+            navigateToHome: true,
+        })
     }
 
     private emailOnChange (event: any): void {
@@ -106,10 +121,20 @@ export default class UpdateInformation extends React.Component<IUpdateInformatio
                 id: customerId,
                 email: this.state.email,
                 phoneNumber: this.state.phoneNumber,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                memberSince: null,
+                dateOfBirth: null,
             }
-
+            console.log(requestBody);
             this.userService.updateInformation(requestBody)
             .then(response => {
+                console.log(response);
+                if (response){
+                    this.setState({
+                        showSuccessfulModal: true
+                    })
+                }
             })
             .catch(reason => {
             })

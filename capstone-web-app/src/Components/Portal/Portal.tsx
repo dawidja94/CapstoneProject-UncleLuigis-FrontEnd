@@ -14,7 +14,8 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
             redirectToHome: false,
             redirectToChangePassword: false,
             redirectToOrderList: false,
-            redirectToReservationList: false
+            redirectToReservationList: false,
+            redirectToUpdateInformation: false,
         };
     }
 
@@ -42,7 +43,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                                         <img className="card-img-top" src={`/Images/Other/Customer.jpg`} alt="Customer"></img>
                                         <div className="options-container">
                                             <button className="btn btn-danger" onClick={() => this.changePassword()}>Change Password</button>
-                                            <button className="btn btn-danger">Update Information</button>
+                                            <button className="btn btn-danger" onClick={() => this.updateInformation()}>Update Information</button>
                                             <button className="btn btn-danger" onClick={() => this.logOut()}>Log Out</button>
                                         </div>
                                         <br />
@@ -89,6 +90,7 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
                 {this.state.redirectToChangePassword ? <Redirect push to="/ChangePassword"/>: <div></div>}
                 {this.state.redirectToOrderList ? <Redirect push to="/CarryOutList"/>: <div></div>}
                 {this.state.redirectToReservationList ? <Redirect push to="/ReservationList"/>: <div></div>}
+                {this.state.redirectToUpdateInformation ? <Redirect push to="/UpdateInformation"/>: <div></div>}
             </div>
         )
     }
@@ -109,6 +111,12 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
         this.setState({
             redirectToReservationList: true
         });
+    }
+    
+    private updateInformation = () => {
+        this.setState({
+            redirectToUpdateInformation: true,
+        })
     }
 
     private logOut = () => {

@@ -4,4 +4,8 @@ export default interface IUpdateInformationState {
     email: string;
     phoneNumber: string;
     id: number;
+    firstName: string;
+    lastName: string;
+    showSuccessfulModal: boolean;
+    navigateToHome: boolean;
 }

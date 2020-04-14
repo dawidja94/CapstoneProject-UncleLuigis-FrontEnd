@@ -3,4 +3,5 @@ export default interface IPortalState {
     redirectToChangePassword: boolean;
     redirectToOrderList: boolean;
     redirectToReservationList: boolean;
+    redirectToUpdateInformation: boolean;
 }
