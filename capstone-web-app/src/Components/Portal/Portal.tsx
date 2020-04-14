@@ -20,7 +20,13 @@ export default class Portal extends React.Component<IPortalProps, IPortalState> 
     }
 
     public componentDidMount() {
-    
+        const loggedIn = localStorage.getItem("Customer ID") ? true : false;        
+
+        if (!loggedIn) {
+            this.setState({
+                redirectToHome: true
+            });
+        }
     }
 
     public render() {

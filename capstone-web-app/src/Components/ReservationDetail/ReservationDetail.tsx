@@ -15,6 +15,7 @@ export default class ReservationDetail extends React.Component<any, IReservation
     
     public constructor(props: any) {
         super(props);
+        document.title = "Uncle Luigi's Bistro - Reservation";
         this.tableService = new TableService();
 
         this.customerId = 0;

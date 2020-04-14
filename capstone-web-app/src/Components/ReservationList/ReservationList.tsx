@@ -12,6 +12,7 @@ export default class ReservationList extends React.Component<IReservationListPro
 
     public constructor(props: any) {
         super(props);
+        document.title = "Uncle Luigi's Bistro - Reservation List";
         this.tableService = new TableService();
 
         this.state = {
@@ -136,7 +137,7 @@ export default class ReservationList extends React.Component<IReservationListPro
                         <thead className="text-left">
                             <tr>
                                 <th className="font-weight-normal"></th> 
-                                <th>Reservation Id</th>
+                                <th>Reservation ID</th>
                                 <th>Table</th>
                                 <th>Group Size</th>
                                 <th>Time Slot</th>
