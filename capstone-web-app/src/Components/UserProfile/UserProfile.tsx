@@ -211,6 +211,7 @@ export default class UserProfile extends React.Component<any, IUserProfileState>
                                         firstName: data.authenticatedModel.customer.firstName,
                                         lastName: data.authenticatedModel.customer.lastName,
                                         phoneNumber: data.authenticatedModel.customer.phoneNumber,
+                                        email: data.authenticatedModel.customer.email,
                                         customerId: data.authenticatedModel.customer.id,
                                         username: data.username
                                     };

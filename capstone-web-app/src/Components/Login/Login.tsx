@@ -132,7 +132,6 @@ export default class Login extends React.Component<ILoginProps, ILoginState> {
             }
         })
         .then(data => {
-            console.log(data);
             let tokenService = new TokenService();
             let phoneNumber = data.authenticatedModel.customer.phoneNumber;
             let email = data.authenticatedModel.customer.email;
