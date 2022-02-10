@@ -55,7 +55,7 @@
   "devDependencies": {
     "@types/moment-timezone": "^0.5.13",
     "@types/react-js-pagination": "^3.0.3",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "sass-loader": "^8.0.2"
   }
 }
